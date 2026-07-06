@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Verifications Decision Engine — Executive Briefing</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img,svg{max-width:100%;height:auto}
+button,input{font:inherit}
+h1,h2,h3,h4,p,figure,blockquote,dl,dd,ul,ol{margin:0}
+ul,ol{padding:0}
+a{color:inherit}
+
+</style>
+</head>
+<body>
+<style>
+  :root{
+    --ivory:#FAF9F5;
+    --oat:#F0EEE6;
+    --oat-deep:#E9E4D6;
+    --hairline:#E2DCCE;
+    --ink:#141413;
+    --warm:#6E6A5F;
+    --warm-light:#8A8578;
+    --clay:#C4633E;
+    --clay-soft:#CC785C;
+    --clay-tint:#F6E7DE;
+    --moss:#5F7A4A;
+    --moss-tint:#EAEFE2;
+    --rust:#9A4B38;
+    --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+    --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
+  }
+  body{
+    background:var(--ivory);color:var(--ink);
+    font-family:var(--serif);font-size:1.1875rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1000px;margin:0 auto;padding:0 28px}
+  .topbar{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    padding:26px 0 22px;border-bottom:1px solid var(--hairline);
+    font-family:var(--sans);font-size:.8125rem;color:var(--warm);
+  }
+  .wordmark{font-weight:600;color:var(--ink);letter-spacing:.02em}
+  .wordmark .dot{color:var(--clay)}
+  .masthead{max-width:800px;margin:0 auto;padding:64px 0 8px}
+  @media (prefers-reduced-motion:no-preference){
+    .masthead{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  }
+  .eyebrow{font-family:var(--sans);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--clay)}
+  h1{
+    font-family:var(--sans);font-weight:600;font-size:clamp(2.1rem,5vw,3.1rem);
+    line-height:1.12;letter-spacing:-.018em;text-wrap:balance;margin-top:18px;
+  }
+  .dek{margin-top:24px;font-size:1.375rem;line-height:1.55;color:#3E3A31;text-wrap:pretty}
+  .byline{
+    margin-top:28px;padding-top:18px;border-top:1px solid var(--hairline);
+    font-family:var(--sans);font-size:.8125rem;color:var(--warm);display:flex;gap:22px;flex-wrap:wrap;
+  }
+  .byline b{color:var(--ink);font-weight:600}
+  .prose{max-width:700px;margin:0 auto;padding:30px 0 0}
+  .prose>*+*{margin-block-start:1.4em}
+  .prose h2{
+    font-family:var(--sans);font-weight:600;font-size:1.5625rem;letter-spacing:-.012em;
+    line-height:1.25;text-wrap:balance;margin-block-start:2.7em;
+  }
+  .prose a{color:var(--clay);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:focus-visible{outline:2px solid var(--clay);outline-offset:2px;border-radius:2px}
+  .prose ul{padding-left:1.35em}
+  .prose li{margin-block-start:.55em}
+  .prose li::marker{color:var(--clay-soft)}
+  code{
+    font-family:var(--mono);font-size:.82em;background:var(--oat);
+    border:1px solid var(--hairline);padding:.08em .35em;border-radius:3px;white-space:nowrap;
+  }
+  figure{max-width:880px;margin:52px auto;padding:0}
+  figure svg{width:100%;height:auto;display:block}
+  figcaption{
+    font-family:var(--sans);font-size:.8125rem;line-height:1.6;color:var(--warm);
+    max-width:700px;margin:14px auto 0;
+  }
+  .figno{color:var(--clay);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;margin-right:.5em}
+  .panel{background:#FDFCFA;border:1px solid var(--hairline);border-radius:4px;padding:26px 22px 20px}
+  .s-title{font-family:var(--sans);font-weight:600;font-size:14.5px;fill:var(--ink)}
+  .s-small{font-family:var(--sans);font-weight:600;font-size:12.5px;fill:var(--ink)}
+  .s-sub{font-family:var(--sans);font-size:11.5px;fill:var(--warm)}
+  .s-tag{font-family:var(--sans);font-weight:600;font-size:10px;letter-spacing:.1em}
+  .s-num{font-family:var(--sans);font-weight:600;font-size:16px;fill:var(--ink)}
+  .s-mono{font-family:var(--mono);font-size:11px;fill:var(--warm)}
+  /* ------- hero stat band ------- */
+  .statband{
+    max-width:880px;margin:56px auto 0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;
+  }
+  .stat{
+    border:1px solid var(--hairline);border-top:3px solid var(--clay);
+    background:#FDFCFA;border-radius:4px;padding:20px 20px 18px;font-family:var(--sans);
+  }
+  .stat .n{
+    font-size:clamp(2rem,4vw,2.75rem);font-weight:600;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.05;
+  }
+  .stat .n small{font-size:.5em;font-weight:600;color:var(--warm)}
+  .stat .l{font-size:.875rem;font-weight:600;margin-top:10px;line-height:1.4}
+  .stat .s{font-size:.78125rem;color:var(--warm);margin-top:6px;line-height:1.5}
+  .evidence{
+    max-width:880px;margin:14px auto 0;font-family:var(--sans);font-size:.8125rem;
+    line-height:1.6;color:var(--warm);text-align:center;
+  }
+  /* ------- three asks ------- */
+  .asks3{max-width:880px;margin:44px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;font-family:var(--sans)}
+  .ask{border:1px solid var(--hairline);border-radius:4px;background:var(--ivory);padding:20px 20px 18px}
+  .ask .no{font-family:var(--mono);font-size:.75rem;color:var(--warm)}
+  .ask h3{font-size:1rem;font-weight:600;margin-top:8px;line-height:1.4}
+  .ask p{font-size:.84375rem;color:#3E3A31;line-height:1.6;margin-top:8px}
+  .chip{
+    display:inline-block;font-family:var(--sans);font-size:.6875rem;font-weight:600;
+    letter-spacing:.05em;padding:3px 10px;border-radius:99px;margin-top:14px;
+  }
+  .chip.done{background:var(--moss);color:#fff}
+  .chip.now{background:var(--clay);color:#fff}
+  .chip.next{background:var(--oat-deep);color:#57534A}
+  /* ------- value grid ------- */
+  .valgrid{max-width:880px;margin:44px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;font-family:var(--sans)}
+  .val{border:1px solid var(--hairline);border-radius:4px;background:#FDFCFA;padding:22px}
+  .val h3{font-size:1rem;font-weight:600;line-height:1.4}
+  .val p{font-size:.84375rem;color:#3E3A31;line-height:1.65;margin-top:9px}
+  .val .big{font-size:1.75rem;font-weight:600;color:var(--clay);letter-spacing:-.01em}
+  .dots{display:flex;gap:7px;margin:12px 0 2px}
+  .dots i{width:17px;height:17px;border-radius:50%;background:var(--oat-deep);border:1.5px solid var(--warm-light)}
+  .dots i.hit{background:var(--clay);border-color:var(--clay)}
+  /* ------- state bar ------- */
+  .statebar{display:flex;height:34px;border-radius:3px;overflow:hidden;border:1px solid var(--hairline)}
+  .statebar .seg{min-width:2px;border-right:2px solid var(--ivory);position:relative}
+  .statebar .seg:last-child{border-right:none}
+  .seg span{
+    position:absolute;inset:0;display:flex;align-items:center;padding-left:10px;
+    font-family:var(--sans);font-size:.75rem;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;
+  }
+  .legend{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+    gap:8px 22px;margin-top:16px;font-family:var(--sans);font-size:.8125rem;color:#3E3A31;
+  }
+  .legend .k{display:flex;align-items:baseline;gap:9px}
+  .legend .sw{width:10px;height:10px;border-radius:2px;flex:none;transform:translateY(1px)}
+  .legend .v{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--warm)}
+  /* ------- pull + note ------- */
+  .pull{
+    max-width:580px;margin:3em auto;text-align:center;
+    font-size:1.4375rem;line-height:1.5;font-style:italic;color:#2E2B24;text-wrap:balance;
+  }
+  .pull::before,.pull::after{content:"";display:block;width:44px;height:2px;background:var(--clay-soft);margin:0 auto}
+  .pull::before{margin-bottom:26px}
+  .pull::after{margin-top:26px}
+  .note{
+    background:var(--oat);border:1px solid var(--hairline);border-radius:4px;
+    max-width:700px;margin:52px auto;padding:26px 28px;
+  }
+  .note .kicker{
+    font-family:var(--sans);font-size:.6875rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:.12em;color:var(--clay);display:block;margin-bottom:10px;
+  }
+  .note p{font-size:1.0313rem;line-height:1.68}
+  .note p+p{margin-top:.9em}
+  .note ul{padding-left:1.25em;margin-top:4px}
+  .note li{font-size:1.0313rem;line-height:1.66}
+  .note li+li{margin-top:.7em}
+  .note li::marker{color:var(--clay-soft)}
+  .prose .q{font-family:var(--sans);font-weight:600;font-size:1.0625rem;line-height:1.5;margin-block-start:2em}
+  .prose .q::before{content:"Q · ";color:var(--clay)}
+  .endmark{color:var(--clay);font-size:1.1em}
+  footer.colophon{
+    border-top:1px solid var(--hairline);margin-top:88px;padding:34px 0 60px;
+    font-family:var(--sans);font-size:.8125rem;line-height:1.7;color:var(--warm);
+  }
+  footer.colophon p+p{margin-top:.8em}
+  footer.colophon a{color:var(--clay)}
+  @media print{
+    body{font-size:11.5pt}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .masthead{animation:none;padding-top:20px}
+    figure,.panel,.stat,.ask,.val,.note,.statebar,.legend{break-inside:avoid;page-break-inside:avoid}
+    h2{break-after:avoid}
+    .statband,.asks3,.valgrid{gap:10px}
+    footer.colophon a{color:var(--warm)}
+  }
+</style>
+
+<div class="shell">
+  <div class="topbar">
+    <span class="wordmark">UBS Verifications<span class="dot"> ·</span> Decision Engine</span>
+    <span>Executive briefing · July 2026</span>
+  </div>
+
+  <header class="masthead">
+    <div class="eyebrow">Executive briefing</div>
+    <h1>Every open case, read every morning. Every next move, recommended by evidence</h1>
+    <p class="dek">What the verifications decision engine does, how it works, and what it’s worth — in plain language, with the scores to back it. Nothing here auto-sends: the system advises, rules protect, people decide.</p>
+    <div class="byline">
+      <span><b>Status</b> built &amp; backtested on 2.75M real case-days</span>
+      <span><b>Not yet</b> live pilot — that is one of today’s decisions</span>
+    </div>
+  </header>
+
+  <aside class="note" style="margin-top:48px">
+    <span class="kicker">The 60-second version</span>
+    <ul>
+      <li><strong>What it is:</strong> a system that reads every open case every morning, flags which ones will never verify (71% ranking power today, ~81% at day 0), and recommends the next move — while hard rules make an improper contact structurally impossible. Nothing auto-sends.</li>
+      <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
+      <li><strong>What we’re asking:</strong> adopt the achievable-UTV scoreboard, approve the human-in-loop pilot with outcome logging, and — once the evidence flows — choose the first learning target.</li>
+    </ul>
+  </aside>
+
+  <article class="prose">
+    <p>One in five verification cases that we work ends <strong>“unable to verify.”</strong> That headline number has a hidden flaw: it mixes cases that were never going to verify — the employer is gone, the contact is dead — with cases that were winnable and slipped. Today we can’t tell those apart, so we can’t tell how much of the 20% is actually recoverable, or who is doing a good job against the hand they were dealt.</p>
+
+    <p>The system in this briefing fixes that — and it started with your words, not ours. Three asks came from the business:</p>
+
+    <div class="asks3">
+      <div class="ask">
+        <span class="no">ASK 1</span>
+        <h3>“Decide when to email, fax, or call — and get smarter over time.”</h3>
+        <p>A recommendation engine now proposes the next sensible move on every open case, every day, ranked by evidence and fenced by hard safety rules.</p>
+        <span class="chip now">BUILT — READY TO PILOT</span>
+      </div>
+      <div class="ask">
+        <span class="no">ASK 2</span>
+        <h3>“Predict early which cases will never verify — so UTV is measured against what’s achievable.”</h3>
+        <p>Delivered and backtested. The engine reads case difficulty at intake and every day after, making a fair “achievable UTV” target possible for the first time.</p>
+        <span class="chip done">DELIVERED &amp; BACKTESTED</span>
+      </div>
+      <div class="ask">
+        <span class="no">ASK 3</span>
+        <h3>“Learn which message to send, on which day, to maximise response.”</h3>
+        <p>Deliberately sequenced last. The end state: a small language model drafts the outreach itself — emails, faxes, notes, and call scripts — learning from past communication which draft to send next. It requires the outcome logging the pilot will create; we will not claim a message “works” until that’s measured, not guessed.</p>
+        <span class="chip next">NEXT — UNLOCKED BY THE PILOT</span>
+      </div>
+    </div>
+
+    <p>Everything below is the evidence. Four numbers carry the story:</p>
+  </article>
+
+  <div class="statband">
+    <div class="stat">
+      <div class="n">71<small>%</small></div>
+      <div class="l">How well it spots the cases that will never verify</div>
+      <div class="s">Rises to ~81% at day 0 — before any work has been done on the case.</div>
+    </div>
+    <div class="stat">
+      <div class="n">48<small>%</small> <span style="font-size:.45em;color:var(--warm)">vs</span> 3<small>%</small></div>
+      <div class="l">Failure rate: hardest tenth vs easiest tenth of cases</div>
+      <div class="s">Same teams, same process — a 16× spread the old metric couldn’t see.</div>
+    </div>
+    <div class="stat">
+      <div class="n">1 <small>in</small> 7</div>
+      <div class="l">Case-days where the person had already replied</div>
+      <div class="s">The current flow would contact them again. The engine catches it first.</div>
+    </div>
+    <div class="stat">
+      <div class="n">0</div>
+      <div class="l">Policy or do-not-contact violations</div>
+      <div class="s">Across all 2.75 million historical case-days replayed. By design, not by luck.</div>
+    </div>
+  </div>
+  <p class="evidence">Evidence base: 876,246 real cases (June 2025 – May 2026), replayed as 2,751,900 daily snapshots; 16.5 million candidate moves evaluated; every prediction checked against the outcome that actually followed.</p>
+
+  <article class="prose">
+    <h2>How to read the scores — sixty seconds, no math</h2>
+
+    <p>Every prediction score below works the same way. Imagine handing the system two cases — one that eventually verified, one that never did — without telling it which is which. <strong>The score is how often it puts them in the right order.</strong> 50 is a coin flip. 100 is a crystal ball. Around 70 is genuinely useful — roughly the sorting power a credit score has for lending risk, and banks run on those.</p>
+
+    <figure>
+      <div class="panel">
+      <svg viewBox="0 0 880 320" role="img" aria-label="Horizontal bar chart of prediction scores on a scale from 50 (coin flip) to 100 (perfect): never-verify 71, at day zero 81, verify within 2 days 75, verify within 5 days 72, early warning 78 marked preliminary. A dashed reference line at 70 marks credit-score sorting power.">
+        <!-- grid -->
+        <g stroke="#E2DCCE" stroke-width="1">
+          <line x1="240" y1="44" x2="240" y2="252"/>
+          <line x1="358" y1="44" x2="358" y2="252"/>
+          <line x1="476" y1="44" x2="476" y2="252"/>
+          <line x1="594" y1="44" x2="594" y2="252"/>
+          <line x1="712" y1="44" x2="712" y2="252"/>
+          <line x1="830" y1="44" x2="830" y2="252"/>
+        </g>
+        <g class="s-sub" text-anchor="middle">
+          <text x="240" y="276">50</text><text x="358" y="276">60</text>
+          <text x="476" y="276">70</text><text x="594" y="276">80</text>
+          <text x="712" y="276">90</text><text x="830" y="276">100</text>
+        </g>
+        <text x="240" y="296" class="s-sub" text-anchor="middle">coin flip</text>
+        <text x="830" y="296" class="s-sub" text-anchor="middle">perfect</text>
+        <!-- credit score line -->
+        <line x1="476" y1="30" x2="476" y2="256" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="476" y="22" class="s-tag" fill="#8A8578" text-anchor="middle">≈ CREDIT-SCORE SORTING POWER</text>
+        <!-- bars: x=240 + (score-50)*11.8 -->
+        <g>
+          <text x="228" y="72" class="s-small" text-anchor="end">Never-verify — the hero</text>
+          <rect x="240" y="58" width="247.8" height="19" rx="2" fill="#C4633E"/>
+          <text x="496" y="73" class="s-num">71</text>
+
+          <text x="228" y="112" class="s-small" text-anchor="end">Same call at day 0, before any work</text>
+          <rect x="240" y="98" width="365.8" height="19" rx="2" fill="#141413"/>
+          <text x="614" y="113" class="s-num">~81</text>
+
+          <text x="228" y="152" class="s-small" text-anchor="end">Verifies within 2 days</text>
+          <rect x="240" y="138" width="295" height="19" rx="2" fill="#CC785C"/>
+          <text x="543" y="153" class="s-num">75</text>
+
+          <text x="228" y="192" class="s-small" text-anchor="end">Verifies within 5 days</text>
+          <rect x="240" y="178" width="259.6" height="19" rx="2" fill="#CC785C"/>
+          <text x="508" y="193" class="s-num">72</text>
+
+          <text x="228" y="232" class="s-small" text-anchor="end">Early warning: will strand by day 20</text>
+          <rect x="240" y="218" width="330.4" height="19" rx="2" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="578" y="233" class="s-num">78</text>
+          <text x="640" y="233" class="s-tag" fill="#8A8578">PRELIMINARY</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Chart 1</span>All scores measured by replaying history the honest way: for each day of each case, the models were shown only what was knowable that morning, then judged against what really happened. The two success models were upgraded this month — the improvement was re-proven on a month the models had never seen before promotion. “Preliminary” means exactly that: one month of evidence, still being validated, not yet load-bearing.</figcaption>
+    </figure>
+
+    <p>The 81 deserves a beat. That is the system reading a case <em>at the moment it arrives</em> — no attempts, no history, nothing but intake facts — and already sorting “will come back” from “never will” at better-than-credit-score power. That was ask&nbsp;2, verbatim: <em>know upfront</em>.</p>
+
+    <h2>The spread is the strategy</h2>
+
+    <p>Scores on individual cases are interesting. What changes how the operation is run is the population view: sort all cases by predicted difficulty and look at the two ends.</p>
+
+    <figure>
+      <div class="panel">
+      <svg viewBox="0 0 880 330" role="img" aria-label="Two-bar chart of actual unable-to-verify rates. Easiest predicted tenth of cases: 3.0 percent. Hardest predicted tenth: 48.2 percent. A dashed line at 20.3 percent marks today's blended average.">
+        <!-- axis -->
+        <line x1="120" y1="270" x2="820" y2="270" stroke="#141413" stroke-width="1.25"/>
+        <g class="s-sub" text-anchor="end">
+          <text x="108" y="274">0%</text>
+          <text x="108" y="190">20%</text>
+          <text x="108" y="106">40%</text>
+          <line x1="112" y1="186" x2="820" y2="186" stroke="#E2DCCE" stroke-width="1"/>
+          <line x1="112" y1="102" x2="820" y2="102" stroke="#E2DCCE" stroke-width="1"/>
+        </g>
+        <!-- base rate -->
+        <line x1="120" y1="184.7" x2="820" y2="184.7" stroke="#141413" stroke-width="1.5" stroke-dasharray="6 5"/>
+        <text x="820" y="176" class="s-small" text-anchor="end">today’s blended average · 20.3%</text>
+        <text x="330" y="118" class="s-sub" font-style="italic" text-anchor="middle">the middle eight bands sit in between —</text>
+        <text x="330" y="136" class="s-sub" font-style="italic" text-anchor="middle">this is where effort changes outcomes</text>
+        <!-- easiest -->
+        <rect x="240" y="257.4" width="150" height="12.6" rx="2" fill="#5F7A4A"/>
+        <text x="315" y="243" class="s-num" text-anchor="middle" style="font-size:22px">3.0%</text>
+        <text x="315" y="294" class="s-small" text-anchor="middle">easiest predicted tenth</text>
+        <text x="315" y="312" class="s-sub" text-anchor="middle">almost always verifies — needs light touch</text>
+        <!-- hardest -->
+        <rect x="530" y="67.6" width="150" height="202.4" rx="2" fill="#C4633E"/>
+        <text x="605" y="53" class="s-num" text-anchor="middle" style="font-size:22px">48.2%</text>
+        <text x="605" y="294" class="s-small" text-anchor="middle">hardest predicted tenth</text>
+        <text x="605" y="312" class="s-sub" text-anchor="middle">half will never verify — triage &amp; escalate early</text>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Chart 2</span>Actual never-verify rates by predicted band (May 2026 holdout). The blended 20% average hides a 16× spread. Once you can see it, “unable to verify” stops being one number and becomes a strategy: protect the easy, fight for the middle, stop over-investing in the structurally dead — and measure teams against what was genuinely winnable.</figcaption>
+    </figure>
+
+    <blockquote class="pull">The model doesn’t just predict the future. It makes the UTV number <em>fair</em> — misses measured against what was actually possible.</blockquote>
+
+    <h2>How it works — without the math</h2>
+
+    <p>Inside, there are two very different machines, and the design rule that separates them is the single most important sentence in this briefing:</p>
+
+    <figure>
+      <div class="panel">
+      <svg viewBox="0 0 880 300" role="img" aria-label="Three boxes: the advisor (AI) reads every case and suggests the next move; the rulebook (deterministic) decides what is allowed and can veto anything; your people make the final call with every step recorded. A struck-out dashed arrow from the advisor directly to action is labeled: this path does not exist — nothing auto-sends.">
+        <defs>
+          <marker id="arE" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
+          </marker>
+          <marker id="arR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#9A4B38"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
+          <line x1="298" y1="120" x2="330" y2="120" marker-end="url(#arE)"/>
+          <line x1="582" y1="120" x2="614" y2="120" marker-end="url(#arE)"/>
+        </g>
+        <g>
+          <rect x="36" y="64" width="262" height="112" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <text x="54" y="94" class="s-tag" fill="#C4633E">THE ADVISOR — AI</text>
+          <text x="54" y="118" class="s-title">Reads every case, every day</text>
+          <text x="54" y="140" class="s-sub">scores difficulty · suggests the next move</text>
+          <text x="54" y="158" class="s-sub">it can be wrong cheaply — order, not action</text>
+        </g>
+        <g>
+          <rect x="330" y="64" width="252" height="112" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="348" y="94" class="s-tag" fill="#141413">THE RULEBOOK — NOT AI</text>
+          <text x="348" y="118" class="s-title">Decides what’s allowed</text>
+          <text x="348" y="140" class="s-sub">do-not-contact · client policy · timing ·</text>
+          <text x="348" y="158" class="s-sub">“they already replied” — vetoes anything</text>
+        </g>
+        <g>
+          <rect x="614" y="64" width="230" height="112" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="632" y="94" class="s-tag" fill="#5F7A4A">YOUR PEOPLE</text>
+          <text x="632" y="118" class="s-title">Make the call</text>
+          <text x="632" y="140" class="s-sub">take it or override it —</text>
+          <text x="632" y="158" class="s-sub">every step recorded</text>
+        </g>
+        <!-- forbidden -->
+        <path d="M167 176 C 200 250, 560 250, 720 186" fill="none" stroke="#9A4B38" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arR)"/>
+        <circle cx="444" cy="232" r="15" fill="#FAF9F5" stroke="#9A4B38" stroke-width="1.5"/>
+        <line x1="434" y1="222" x2="454" y2="242" stroke="#9A4B38" stroke-width="1.5"/>
+        <line x1="454" y1="222" x2="434" y2="242" stroke="#9A4B38" stroke-width="1.5"/>
+        <text x="444" y="278" text-anchor="middle" class="s-tag" fill="#9A4B38">THIS PATH DOES NOT EXIST — NOTHING AUTO-SENDS</text>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Chart 3</span>The two-machine design. The AI is confined to the failure mode we can afford (a suboptimal suggestion); the rulebook owns the failure mode we can’t (an improper contact) and is deterministic — same inputs, same answer, auditable line by line. That’s why the violation count across 2.75M replayed case-days is zero: the AI never gets the chance.</figcaption>
+    </figure>
+
+    <p>One more idea, and it’s the reason the scores can be trusted. When the models were tested, each case was scored using <strong>only what was known that specific morning</strong> — as if the rest of the file hadn’t happened yet. Early in the project a model scored a spectacular 93 by accidentally peeking at information from after the outcome. We caught it, retracted the number in writing, rebuilt with a strict “no peeking” audit, and the honest score is the 71 you saw above. <em>The 71 is real. The 93 was flattery.</em> Any vendor can show you a 93; the discipline to publish the 71 is what makes the rest of this deck believable.</p>
+
+    <p>The same discipline applies to upgrades: a new model version replaces the old one only if it wins on every criterion — including on a month of data it has never seen. That gate has rejected three of our own “improvements” this year because they would have weakened the top of the worklist, the part your teams actually touch. The system says no to us in writing. That’s a feature.</p>
+
+    <h2>What the operation gets on day one</h2>
+
+    <p>Every case-day is sorted into a named state with a next step — nothing waits silently in a queue with no reason attached:</p>
+
+    <figure>
+      <div class="statebar" role="img" aria-label="Distribution of 2.75 million case-days across engine states: ready for outreach 34.1%, scheduled re-check 24.4%, reply waiting for review 20.2%, policy check needed 12.7%, contact prohibited 4.9%, cooling down 3.7%, escalation lane 0.2%.">
+        <div class="seg" style="flex-basis:34.1%;background:#C4744F"><span>Ready for outreach · 34.1%</span></div>
+        <div class="seg" style="flex-basis:24.4%;background:#DAB08C"><span style="color:#57432E">Re-check scheduled · 24.4%</span></div>
+        <div class="seg" style="flex-basis:20.2%;background:#8A8578"><span>Reply to review · 20.2%</span></div>
+        <div class="seg" style="flex-basis:12.7%;background:#C2BBAA"><span style="color:#57534A">Policy check · 12.7%</span></div>
+        <div class="seg" style="flex-basis:4.9%;background:#3E3A33"></div>
+        <div class="seg" style="flex-basis:3.7%;background:#E5DFD1"></div>
+        <div class="seg" style="flex-basis:0.2%;background:#6E6A5F"></div>
+      </div>
+      <div class="legend">
+        <div class="k"><span class="sw" style="background:#C4744F"></span>Ready for outreach — ranked move attached<span class="v">34.1%</span></div>
+        <div class="k"><span class="sw" style="background:#DAB08C"></span>Scheduled re-check, with a reason<span class="v">24.4%</span></div>
+        <div class="k"><span class="sw" style="background:#8A8578"></span>A reply is waiting — review before contacting<span class="v">20.2%</span></div>
+        <div class="k"><span class="sw" style="background:#C2BBAA"></span>Policy / do-not-contact needs human judgment<span class="v">12.7%</span></div>
+        <div class="k"><span class="sw" style="background:#3E3A33"></span>Contact prohibited — fully blocked<span class="v">4.9%</span></div>
+        <div class="k"><span class="sw" style="background:#E5DFD1"></span>Cooling down after a recent attempt<span class="v">3.7%</span></div>
+        <div class="k"><span class="sw" style="background:#6E6A5F"></span>Escalation lane — normal paths exhausted<span class="v">0.2%</span></div>
+      </div>
+      <figcaption style="margin-top:18px"><span class="figno">Chart 4</span>Where all 2.75M case-days actually sit. A third of the book is workable <em>today</em> with a ranked move attached; a fifth has a reply sitting unread by the current flow. This chart is, in effect, tomorrow morning’s org-wide to-do list.</figcaption>
+    </figure>
+
+    <div class="valgrid">
+      <div class="val">
+        <h3>A fair scoreboard</h3>
+        <p>UTV measured against what was achievable, not a blended average. Targets by difficulty band; credit for saves in the hard middle; no penalty for the structurally dead.</p>
+      </div>
+      <div class="val">
+        <h3>Sharper worklists</h3>
+        <p>The riskiest tenth of the book is <span style="font-weight:600">2.4×</span> denser in true never-verifies than average — effort goes where it changes outcomes, from day 0.</p>
+      </div>
+      <div class="val">
+        <h3>Stop re-contacting people who answered</h3>
+        <div class="dots" aria-hidden="true"><i class="hit"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p><span class="big">1 in 7</span> case-days had a reply already on record that the flow would have talked past — roughly 400,000 in the year replayed. Caught, every time, by a rule.</p>
+      </div>
+      <div class="val">
+        <h3>The foundation to learn what works</h3>
+        <p>Every recommendation, override, send, reply, and outcome gets logged. That record is what lets us <em>prove</em> which channel and message drive responses — ask 3 — instead of guessing.</p>
+      </div>
+    </div>
+
+    <h2>We already know what automation without this layer looks like</h2>
+
+    <p>This isn’t hypothetical. Our current verification bot — Murphy Brown, run by SNH-AI — works cases with no triage gate, no machine-readable handoff, and no closure lock. The ops deep-dive measured what that costs: <strong>55.5% of the 26,663 cases it touched last quarter flowed back to people</strong> as note-only handoffs (64,362 downstream human attempt rows); reopen-after-result on its closures climbed from ~3–4% in February to <strong>~42–44% by June</strong>; and its EDUV handbacks wait <strong>+30.6 hours</strong> longer than fresh work. The deep-dive’s own fix list — structured handoff state, closure lock, score-gated eligibility, handback re-ranking, outcome instrumentation — is, item for item, the system in this briefing. The full story, held to its own strict claim discipline, is in <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+
+    <h2>The road from here</h2>
+
+    <p>Three stages, each unlocked by the one before it. No stage auto-sends; a person is in the loop at every step of this plan.</p>
+
+    <figure>
+      <div class="panel">
+      <svg viewBox="0 0 880 250" role="img" aria-label="Three-stage roadmap. Stage 1, done: predict and protect — difficulty scores, safety rules, backtested on 2.75 million case-days. Stage 2, the current decision: human-in-loop pilot — recommendations on live cases, operators decide, outcomes logged. Stage 3, next: the learned playbook — learns from past outreach what works; a small language model drafts the emails, faxes, notes, and call scripts. Gates between stages: your approval starts the pilot; pilot evidence unlocks the playbook.">
+        <defs>
+          <marker id="arF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
+          <line x1="286" y1="110" x2="318" y2="110" marker-end="url(#arF)"/>
+          <line x1="562" y1="110" x2="594" y2="110" marker-end="url(#arF)"/>
+        </g>
+        <g>
+          <rect x="24" y="48" width="262" height="124" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="42" y="76" class="s-tag" fill="#5F7A4A">STAGE 1 — DONE, BACKTESTED</text>
+          <text x="42" y="100" class="s-title">Predict &amp; protect</text>
+          <text x="42" y="122" class="s-sub">difficulty scores on every case ·</text>
+          <text x="42" y="140" class="s-sub">safety rules that can’t be overridden ·</text>
+          <text x="42" y="158" class="s-sub">proven on 2.75M real case-days</text>
+        </g>
+        <g>
+          <rect x="318" y="48" width="244" height="124" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <text x="336" y="76" class="s-tag" fill="#C4633E">STAGE 2 — TODAY’S DECISION</text>
+          <text x="336" y="100" class="s-title">Human-in-loop pilot</text>
+          <text x="336" y="122" class="s-sub">recommendations on live cases ·</text>
+          <text x="336" y="140" class="s-sub">operators take or override ·</text>
+          <text x="336" y="158" class="s-sub">every outcome logged</text>
+        </g>
+        <g>
+          <rect x="594" y="48" width="262" height="124" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <text x="612" y="76" class="s-tag" fill="#8A8578">STAGE 3 — EARNED NEXT</text>
+          <text x="612" y="100" class="s-title">The learned playbook</text>
+          <text x="612" y="122" class="s-sub">learns from past outreach what works;</text>
+          <text x="612" y="140" class="s-sub">a small language model drafts the</text>
+          <text x="612" y="158" class="s-sub">emails, faxes, notes, and call scripts</text>
+        </g>
+        <text x="302" y="206" text-anchor="middle" class="s-mono">gate: this room’s approval</text>
+        <text x="578" y="206" text-anchor="middle" class="s-mono">gate: logged pilot evidence</text>
+        <text x="440" y="236" text-anchor="middle" class="s-sub" font-style="italic">at no stage does the system send anything on its own</text>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Chart 5</span>The roadmap. Stage 1 is finished and measured. Stage 2 needs a decision from this room. Stage 3 — the part every vendor promises on day one — is deliberately last here, because we intend to prove it rather than claim it.</figcaption>
+    </figure>
+
+    <h2>Three questions worth asking us</h2>
+
+    <p class="q">“So an AI decides who gets contacted?”</p>
+    <p>No. The AI only <em>orders</em> options that a deterministic rulebook has already declared legal — and a person executes. It cannot add an option, skip the rulebook, or send anything. That separation is why the replay shows zero violations: the AI never gets the chance to cause one.</p>
+
+    <p class="q">“What happens when the model is wrong?”</p>
+    <p>Someone works a less-urgent case first. That is the entire blast radius — model error can cost efficiency, never compliance, because legality is not the model’s call. The scores are also calibrated: when the system says 30%, it happens about 30% of the time, so error is budgeted rather than hidden.</p>
+
+    <p class="q">“Vendors promise message optimization on day one. Why is it last here?”</p>
+    <p>Because proving a message <em>causes</em> replies requires evidence that does not exist yet anywhere: the full logged chain from recommendation to outcome. Reading it off historical logs confuses correlation with cause — teams emailed the easy cases, so email “looks” magical. The pilot creates the real evidence; then we learn it properly. It is also a useful question to put to any vendor.</p>
+
+    <p class="q">“Haven’t we already tried automation here?”</p>
+    <p>Yes — and it proves the point. Murphy Brown has real wins (it fully contains ~44.5% of what it touches within a day or two), but it runs without a state contract, a closure lock, or a triage gate — so more than half of its cases flow back to people with a note, and its closures now reopen at roughly ten times the winter rate. The bot isn’t the problem; the missing operating layer is. Under this system, the bot becomes a governed channel: gated by the scores, contained by the rules, measured by the log.</p>
+
+    <h2>Decisions we’re asking for today</h2>
+
+    <ul>
+      <li><strong>Approve the fair “achievable UTV” target</strong> and track it against a three-month forward test — turning Chart 2 into the operation’s scoreboard.</li>
+      <li><strong>Greenlight the human-in-loop pilot with outcome logging</strong> — live recommendations, operators in control, every event recorded. This is the key that unlocks Stage 3.</li>
+      <li><strong>Pick the first Stage-3 target</strong> once pilot data flows: best-channel learning, or the language layer — a small language model that drafts the emails, faxes, notes, and call scripts from what past communication proves works.</li>
+    </ul>
+
+    <div class="note">
+      <span class="kicker">The one-sentence version to take out of the room</span>
+      <p>We built a system that reads every open case every morning, tells us which ones are winnable and what to try next, is structurally incapable of breaking contact rules — and it earned those claims by being replayed against 2.75 million real case-days and publishing the honest score, including the one time it flattered itself. <span class="endmark">◆</span></p>
+    </div>
+  </article>
+
+  <footer class="colophon">
+    <div style="max-width:700px;margin:0 auto">
+      <p><strong style="color:var(--ink)">The fine print, kept honest.</strong> All results are backtested (historical replay, as-of); no live-pilot results are claimed. Score “71” = ROC-AUC 0.706, “~81” = day-0 walk-forward check (0.80–0.82 across three forward months), “75/72” = this month’s upgraded success models (0.747/0.717, re-proven on never-seen June data), “78” = early-warning model, preliminary. Historical channel patterns are observational — no channel or message is claimed to <em>cause</em> outcomes until the pilot measures it. Action-facing models strip direct agent identifiers. Decision support only: nothing auto-sends, no automated final decisions.</p>
+      <p>Deeper reading: <a href="murphy-brown.html">the Murphy Brown field report</a> (the problem this system closes) · <a href="illustrated.html">the illustrated walkthrough</a> (follow one case through the machine) · <a href="engineering.html">the engineering deep dive</a> · <a href="philosophy.html">the design philosophy</a>.</p>
+      <p>UBS Verifications · Decision Engine · Executive briefing · July 2026</p>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

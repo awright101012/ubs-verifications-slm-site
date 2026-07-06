@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Murphy Brown problem</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img,svg{max-width:100%;height:auto}
+button,input{font:inherit}
+h1,h2,h3,h4,p,figure,blockquote,dl,dd,ul,ol{margin:0}
+ul,ol{padding:0}
+a{color:inherit}
+
+</style>
+</head>
+<body>
+<style>
+  :root{
+    --ivory:#FAF9F5;
+    --oat:#F0EEE6;
+    --oat-deep:#E9E4D6;
+    --hairline:#E2DCCE;
+    --ink:#141413;
+    --warm:#6E6A5F;
+    --warm-light:#8A8578;
+    --clay:#C4633E;
+    --clay-soft:#CC785C;
+    --clay-tint:#F6E7DE;
+    --moss:#5F7A4A;
+    --moss-tint:#EAEFE2;
+    --rust:#9A4B38;
+    --rust-tint:#F3E2DB;
+    --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+    --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
+  }
+  body{
+    background:var(--ivory);color:var(--ink);
+    font-family:var(--serif);font-size:1.1875rem;line-height:1.72;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:1000px;margin:0 auto;padding:0 28px}
+  .topbar{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    padding:26px 0 22px;border-bottom:1px solid var(--hairline);
+    font-family:var(--sans);font-size:.8125rem;color:var(--warm);
+  }
+  .wordmark{font-weight:600;color:var(--ink);letter-spacing:.02em}
+  .wordmark .dot{color:var(--clay)}
+  .masthead{max-width:780px;margin:0 auto;padding:68px 0 8px}
+  @media (prefers-reduced-motion:no-preference){
+    .masthead{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  }
+  .eyebrow{font-family:var(--sans);font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--clay)}
+  h1{
+    font-family:var(--sans);font-weight:600;font-size:clamp(2.1rem,5.2vw,3.25rem);
+    line-height:1.12;letter-spacing:-.018em;text-wrap:balance;margin-top:18px;
+  }
+  .dek{margin-top:26px;font-size:1.375rem;line-height:1.55;color:#3E3A31;text-wrap:pretty}
+  .byline{
+    margin-top:30px;padding-top:18px;border-top:1px solid var(--hairline);
+    font-family:var(--sans);font-size:.8125rem;color:var(--warm);display:flex;gap:22px;flex-wrap:wrap;
+  }
+  .byline b{color:var(--ink);font-weight:600}
+  .prose{max-width:672px;margin:0 auto;padding:36px 0 0}
+  .prose>*+*{margin-block-start:1.45em}
+  .prose h2{
+    font-family:var(--sans);font-weight:600;font-size:1.625rem;letter-spacing:-.012em;
+    line-height:1.25;text-wrap:balance;margin-block-start:2.6em;
+  }
+  .prose a{color:var(--clay);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  .prose a:hover{color:var(--rust)}
+  a:focus-visible{outline:2px solid var(--clay);outline-offset:2px;border-radius:2px}
+  .prose strong{font-weight:700}
+  .prose ul,.prose ol{padding-left:1.35em}
+  .prose li{margin-block-start:.55em}
+  .prose li::marker{color:var(--clay-soft)}
+  code{
+    font-family:var(--mono);font-size:.82em;background:var(--oat);
+    border:1px solid var(--hairline);padding:.08em .35em;border-radius:3px;white-space:nowrap;
+  }
+  .pull{
+    max-width:580px;margin:3em auto;text-align:center;
+    font-size:1.4375rem;line-height:1.5;font-style:italic;color:#2E2B24;text-wrap:balance;
+  }
+  .pull::before,.pull::after{content:"";display:block;width:44px;height:2px;background:var(--clay-soft);margin:0 auto}
+  .pull::before{margin-bottom:26px}
+  .pull::after{margin-top:26px}
+  figure{max-width:880px;margin:56px auto;padding:0}
+  figure svg{width:100%;height:auto;display:block}
+  figcaption{
+    font-family:var(--sans);font-size:.8125rem;line-height:1.6;color:var(--warm);
+    max-width:672px;margin:14px auto 0;
+  }
+  .figno{color:var(--clay);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;margin-right:.5em}
+  .panel{background:#FDFCFA;border:1px solid var(--hairline);border-radius:4px;padding:26px 22px 20px}
+  .s-title{font-family:var(--sans);font-weight:600;font-size:14.5px;fill:var(--ink)}
+  .s-small{font-family:var(--sans);font-weight:600;font-size:12.5px;fill:var(--ink)}
+  .s-sub{font-family:var(--sans);font-size:11.5px;fill:var(--warm)}
+  .s-tag{font-family:var(--sans);font-weight:600;font-size:10px;letter-spacing:.1em}
+  .s-num{font-family:var(--sans);font-weight:600;font-size:16px;fill:var(--ink)}
+  .s-mono{font-family:var(--mono);font-size:11px;fill:var(--warm)}
+  /* stat band */
+  .statband{
+    max-width:880px;margin:52px auto 0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;
+  }
+  .stat{
+    border:1px solid var(--hairline);border-top:3px solid var(--rust);
+    background:#FDFCFA;border-radius:4px;padding:20px 20px 18px;font-family:var(--sans);
+  }
+  .stat .n{
+    font-size:clamp(1.9rem,3.8vw,2.6rem);font-weight:600;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.05;
+  }
+  .stat .n small{font-size:.5em;font-weight:600;color:var(--warm)}
+  .stat .l{font-size:.875rem;font-weight:600;margin-top:10px;line-height:1.4}
+  .stat .s{font-size:.78125rem;color:var(--warm);margin-top:6px;line-height:1.5}
+  .evidence{
+    max-width:880px;margin:14px auto 0;font-family:var(--sans);font-size:.8125rem;
+    line-height:1.6;color:var(--warm);text-align:center;
+  }
+  /* note vs payload */
+  .handoff{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;max-width:880px;margin:0 auto;font-family:var(--sans);align-items:start}
+  @media (max-width:640px){.handoff{grid-template-columns:1fr}}
+  .sticky{
+    background:#F7EFD8;border:1px solid #E3D5AE;border-radius:2px;padding:24px 22px;
+    transform:rotate(-1.2deg);box-shadow:2px 3px 0 rgba(20,20,19,.06);
+  }
+  .sticky h4{font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--warm);margin-bottom:14px}
+  .sticky p{font-family:var(--serif);font-style:italic;font-size:1.125rem;line-height:1.6;color:#4A4438}
+  .sticky .meta{font-family:var(--mono);font-size:.71875rem;color:var(--warm-light);margin-top:16px;font-style:normal}
+  .paycard{border:1.5px solid var(--ink);border-radius:4px;background:#FDFCFA;padding:22px 24px}
+  .paycard h4{font-size:.6875rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--moss);margin-bottom:12px}
+  .paycard dl{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:.8125rem;line-height:1.5;margin:0}
+  .paycard dt{font-family:var(--mono);color:var(--ink);white-space:nowrap}
+  .paycard dd{color:var(--warm);margin:0}
+  /* mapping */
+  .map{max-width:880px;margin:0 auto;border-top:2px solid var(--ink);font-family:var(--sans)}
+  .map .row{
+    display:grid;grid-template-columns:1fr 24px 1fr auto;gap:12px 16px;align-items:center;
+    padding:14px 6px;border-bottom:1px solid var(--hairline);font-size:.84375rem;line-height:1.5;
+  }
+  @media (max-width:680px){.map .row{grid-template-columns:1fr;gap:6px}.map .arrow{display:none}}
+  .map .gap b{display:block;color:var(--rust);font-weight:600}
+  .map .gap span{color:var(--warm);font-size:.78125rem}
+  .map .arrow{color:var(--warm-light);text-align:center}
+  .map .fix b{display:block;font-weight:600}
+  .map .fix span{font-family:var(--mono);font-size:.71875rem;color:var(--warm)}
+  .chip{
+    display:inline-block;font-family:var(--sans);font-size:.65625rem;font-weight:600;
+    letter-spacing:.05em;padding:3px 10px;border-radius:99px;white-space:nowrap;
+  }
+  .chip.built{background:var(--moss);color:#fff}
+  .chip.ask{background:var(--oat-deep);color:#57534A}
+  .chip.pilot{background:var(--clay);color:#fff}
+  .note{
+    background:var(--oat);border:1px solid var(--hairline);border-radius:4px;
+    max-width:672px;margin:52px auto;padding:26px 28px;
+  }
+  .note .kicker{
+    font-family:var(--sans);font-size:.6875rem;font-weight:600;text-transform:uppercase;
+    letter-spacing:.12em;color:var(--clay);display:block;margin-bottom:10px;
+  }
+  .note p{font-size:1.0313rem;line-height:1.68}
+  .note p+p{margin-top:.9em}
+  .fightle{max-width:880px;margin:0 auto 16px;font-family:var(--sans);border-bottom:1px solid var(--hairline);padding-bottom:14px}
+  .fightle h3{font-size:1.0625rem;font-weight:600;letter-spacing:-.008em;line-height:1.35;text-wrap:balance}
+  .fightle p{font-size:.78125rem;color:var(--warm);margin-top:4px;line-height:1.5}
+  .map .head{
+    display:grid;grid-template-columns:1fr 24px 1fr auto;gap:12px 16px;padding:12px 6px 9px;
+    border-bottom:1px solid var(--hairline);
+    font-size:.65625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--warm);
+  }
+  @media (max-width:680px){.map .head{display:none}}
+  .note ul{padding-left:1.25em;margin-top:4px}
+  .note li{font-size:1.0313rem;line-height:1.66}
+  .note li+li{margin-top:.7em}
+  .note li::marker{color:var(--clay-soft)}
+  .endmark{color:var(--clay);font-size:1.1em}
+  footer.colophon{
+    border-top:1px solid var(--hairline);margin-top:88px;padding:34px 0 60px;
+    font-family:var(--sans);font-size:.8125rem;line-height:1.7;color:var(--warm);
+  }
+  footer.colophon p+p{margin-top:.8em}
+  footer.colophon a{color:var(--clay)}
+  @media print{
+    body{font-size:11.5pt}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .masthead{animation:none;padding-top:20px}
+    figure,.panel,.stat,.note,.handoff,.map .row{break-inside:avoid;page-break-inside:avoid}
+    h2{break-after:avoid}
+    .statband{gap:10px}
+    footer.colophon a{color:var(--warm)}
+  }
+</style>
+
+<div class="shell">
+  <div class="topbar">
+    <span class="wordmark">UBS Verifications<span class="dot"> ·</span> Decision Engine</span>
+    <span>Companion to the decision-engine series · July 2026</span>
+  </div>
+
+  <header class="masthead">
+    <div class="eyebrow">Field report</div>
+    <h1>The Murphy Brown problem</h1>
+    <p class="dek">Our verification bot touched 26,663 cases last quarter, handed more than half back to people with nothing but a note, and its closures are reopening at ten times the winter rate. What the ops deep-dive actually found — and why every fix on its list is a component the decision engine already has.</p>
+    <div class="byline">
+      <span><b>Evidence window</b> Mar 1 – Jun 30, 2026 (live warehouse refresh)</span>
+      <span><b>Claim posture</b> association language only — see the fine print</span>
+    </div>
+  </header>
+
+  <aside class="note" style="margin-top:48px">
+    <span class="kicker">The 60-second version</span>
+    <ul>
+      <li><strong>What’s wrong:</strong> the bot runs without an operating layer. More than half of what it touches flows back to people as note-only handoffs; the closures it does make are reopening at ten-plus times the winter rate; and its handbacks queue behind fresh work (EDUV +30.6h).</li>
+      <li><strong>Why it happens:</strong> nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing records enough to prove any of it — so humans became the control layer.</li>
+      <li><strong>What to do:</strong> five asks — closure lock, triage gate, handback re-rank, one holdout config rule (the causal number lands ~July 15 either way), and the structured payload. The decision engine already implements this layer; the bot becomes a governed channel inside it.</li>
+    </ul>
+  </aside>
+
+  <article class="prose">
+    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. This report is not an argument against it — MB has real wins, and the deep-dive is careful to say so. It is an argument about what MB is missing, because the pattern of its failures turns out to be the single best evidence for the operating layer described in the rest of this series.</p>
+
+    <p>Four numbers tell the story:</p>
+  </article>
+
+  <div class="statband">
+    <div class="stat">
+      <div class="n">55.5<small>%</small></div>
+      <div class="l">Of bot-touched cases flow back to people</div>
+      <div class="s">14,787 of 26,663 — producing 64,362 downstream human attempt rows.</div>
+    </div>
+    <div class="stat">
+      <div class="n">~43<small>%</small></div>
+      <div class="l">Of the bot’s closures now reopen after the result is sent</div>
+      <div class="s">Up from ~3–4% in February. June figures are floors, not finals.</div>
+    </div>
+    <div class="stat">
+      <div class="n">+30.6<small>h</small></div>
+      <div class="l">Extra wait for an EDUV handback vs. fresh work</div>
+      <div class="s">Not a parking defect — 99.98% are agent-assigned. A queue-ranking problem.</div>
+    </div>
+    <div class="stat">
+      <div class="n">1.7<small>%</small></div>
+      <div class="l">Containment in the worst tenth of what it picks up</div>
+      <div class="s">Its wins were predictable before pickup (score 0.773) — nobody was gating the door.</div>
+    </div>
+  </div>
+  <p class="evidence">Source: the consolidated MB/SNH-AI findings (2026-06-30) and the July 2–3 forensics one-pager, read-only warehouse analysis. All figures are the current numbers of record for their stated windows.</p>
+
+  <article class="prose">
+    <h2>A two-speed workflow</h2>
+
+    <p>When MB touches a case, one of two things happens. About 44.5% of the time it fully contains the case — closed in one or two days, no human ever needed, genuinely fast. The other 55.5% of the time the case flows back to a person. That split, not any single defect, is the operating reality:</p>
+
+    <figure>
+      <div class="panel">
+      <div class="fightle">
+        <h3>The two-speed workflow</h3>
+        <p>What happened to the 26,663 cases the bot touched · EMPV + EDUV · March–June 2026 · live warehouse refresh</p>
+      </div>
+      <svg viewBox="0 0 880 448" role="img" aria-label="Flow diagram: 26,663 bot-touched cases fork into two lanes. Contained lane: 11,876 cases, 44.5 percent, closed in one to two days with no later human — but flagged that these closures are increasingly reopening. Handback lane: 14,787 cases, 55.5 percent, flowing into 64,362 downstream human attempt rows. A comparator strip notes the clean human-only lane worked 111,895 cases in the same window.">
+        <defs>
+          <marker id="arM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
+          <path d="M224 118 H280 V87 H332" marker-end="url(#arM)"/>
+          <path d="M224 158 H280 V197 H332" marker-end="url(#arM)"/>
+          <line x1="617" y1="197" x2="652" y2="197" marker-end="url(#arM)"/>
+        </g>
+        <g>
+          <rect x="24" y="88" width="200" height="100" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="40" y="120" class="s-title">26,663 cases</text>
+          <text x="40" y="142" class="s-sub">touched by the bot</text>
+          <text x="40" y="160" class="s-sub">EMPV + EDUV, Mar–Jun 2026</text>
+        </g>
+        <g>
+          <rect x="332" y="60" width="222" height="54" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="348" y="83" class="s-small">Contained · 11,876 (44.5%)</text>
+          <text x="348" y="101" class="s-sub">closed in 1–2 days, no later human</text>
+          <text x="332" y="140" class="s-tag" fill="#9A4B38">…BUT SEE FIGURE 2: THESE CLOSURES ARE REOPENING</text>
+        </g>
+        <g>
+          <rect x="332" y="170" width="285" height="54" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <text x="348" y="193" class="s-small">Handed back · 14,787 (55.5%)</text>
+          <text x="348" y="211" class="s-sub">flows back to people, note-only handoff</text>
+        </g>
+        <g>
+          <rect x="652" y="160" width="204" height="74" rx="4" fill="#F3E2DB" stroke="#9A4B38" stroke-width="1.5"/>
+          <text x="668" y="188" class="s-small">People finish the job</text>
+          <text x="668" y="208" class="s-sub">64,362 downstream human</text>
+          <text x="668" y="224" class="s-sub">attempt rows after the bot</text>
+        </g>
+        <line x1="24" y1="278" x2="856" y2="278" stroke="#E2DCCE" stroke-width="1"/>
+        <text x="24" y="302" class="s-tag" fill="#8A8578">FOR SCALE — EVERY WORKED LANE IN THE WINDOW</text>
+        <rect x="24" y="312" width="671" height="26" fill="#F0EEE6" stroke="#8A8578" stroke-width="1"/>
+        <rect x="695" y="312" width="71" height="26" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1"/>
+        <rect x="766" y="312" width="90" height="26" fill="#F6E7DE" stroke="#C4633E" stroke-width="1"/>
+        <text x="36" y="329" class="s-small">human-only · 111,895 cases</text>
+        <text x="856" y="360" class="s-sub" text-anchor="end" style="fill:#5F7A4A">bot-contained · 11,876</text>
+        <text x="856" y="376" class="s-sub" text-anchor="end" style="fill:#C4633E">bot + handback · 14,787</text>
+        <text x="24" y="366" class="s-sub">Netting out bot attempts, the handback lane needs about the same human</text>
+        <text x="24" y="384" class="s-sub">effort per case as clean human-only work (≈4.4 non-bot attempts/search in both).</text>
+        <text x="24" y="424" class="s-mono">handback wait is queue latency, not parking: 99.98% agent-assigned · EMPV +6.0h · EDUV +30.6h vs matched fresh work</text>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Figure 1</span>The two-speed workflow. The matched comparison is honest here: handback cases don’t take clearly <em>more</em> human effort than comparable human-only cases — the durable finding is that the bot leaves a large residual queue with weak fast-closeout performance and no machine-readable handoff, so people must rediscover each case before continuing it.</figcaption>
+    </figure>
+
+    <p>And the contained lane — the bot’s success story — has a quality problem growing inside it:</p>
+
+    <figure>
+      <div class="panel">
+      <div class="fightle">
+        <h3>Reopens are exploding in the bot’s “success” lane</h3>
+        <p>Share of bot-contained closures reopened after the result was sent · February vs June 2026 · June figures are floors, still maturing</p>
+      </div>
+      <svg viewBox="0 0 880 330" role="img" aria-label="Grouped bar chart of reopen-after-result-sent rates for bot-contained closures, February versus June 2026. EMPV: 4.4 percent in February rising 9.5 times to 41.6 percent in June. EDUV: 2.7 percent rising 16 times to 43.8 percent. June figures are floors, not finals.">
+        <defs>
+          <marker id="arRust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#9A4B38"/>
+          </marker>
+        </defs>
+        <line x1="120" y1="270" x2="820" y2="270" stroke="#141413" stroke-width="1.25"/>
+        <g class="s-sub" text-anchor="end">
+          <text x="108" y="274">0%</text>
+          <text x="108" y="190">20%</text>
+          <text x="108" y="106">40%</text>
+          <line x1="112" y1="186" x2="820" y2="186" stroke="#E2DCCE" stroke-width="1"/>
+          <line x1="112" y1="102" x2="820" y2="102" stroke="#E2DCCE" stroke-width="1"/>
+        </g>
+        <!-- EMPV -->
+        <rect x="190" y="251.5" width="90" height="18.5" rx="2" fill="#E9E4D6" stroke="#8A8578" stroke-width="1"/>
+        <text x="235" y="240" class="s-num" text-anchor="middle" style="font-size:14px">4.4%</text>
+        <text x="235" y="292" class="s-sub" text-anchor="middle">February</text>
+        <rect x="300" y="95.3" width="90" height="174.7" rx="2" fill="#9A4B38"/>
+        <text x="345" y="82" class="s-num" text-anchor="middle">41.6%</text>
+        <text x="345" y="292" class="s-sub" text-anchor="middle">June</text>
+        <text x="290" y="318" class="s-small" text-anchor="middle">EMPV — employment</text>
+        <!-- EDUV -->
+        <rect x="520" y="258.7" width="90" height="11.3" rx="2" fill="#E9E4D6" stroke="#8A8578" stroke-width="1"/>
+        <text x="565" y="247" class="s-num" text-anchor="middle" style="font-size:14px">2.7%</text>
+        <text x="565" y="292" class="s-sub" text-anchor="middle">February</text>
+        <rect x="630" y="86" width="90" height="184" rx="2" fill="#9A4B38"/>
+        <text x="675" y="73" class="s-num" text-anchor="middle">43.8%</text>
+        <text x="675" y="292" class="s-sub" text-anchor="middle">June</text>
+        <text x="620" y="318" class="s-small" text-anchor="middle">EDUV — education</text>
+        <path d="M 272 244 C 294 168, 310 126, 334 102" fill="none" stroke="#9A4B38" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
+        <text x="246" y="150" class="s-num" style="fill:#9A4B38">×9.5</text>
+        <path d="M 602 250 C 624 166, 640 122, 664 90" fill="none" stroke="#9A4B38" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
+        <text x="582" y="148" class="s-num" style="fill:#9A4B38">×16</text>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Figure 2</span>Reopen-after-result-sent on bot-contained closures, February vs. June 2026. June postdates are still maturing, so these are floors. The rise is within-lane and concentrated in bot-only closures — which is why the deep-dive’s first ask is a closure lock with reopen-reason instrumentation, and why “grow containment” without one would scale a quality problem. The narrow June eForm defect (300 strict cases where the bot emailed <em>after</em> a closeout state, 1,119 manual touch rows) is the same missing lock in miniature.</figcaption>
+    </figure>
+
+    <h2>What the bot leaves behind</h2>
+
+    <p>Underneath the volumes sits one mechanism, and the deep-dive names it precisely: <em>every strict MB touch in the diagnostic packet is note-only.</em> The bot does work and leaves an annotation — not a state. So the person who picks the case up must reconstruct what happened, whether evidence is complete, and what should happen next. The handoff itself creates work:</p>
+
+    <figure>
+      <div class="fightle">
+        <h3>The handoff, as-is versus required</h3>
+        <p>The deep-dive’s core finding on the left; its required fix — the state contract — on the right</p>
+      </div>
+      <div class="handoff">
+        <div class="sticky">
+          <h4>What the bot leaves today</h4>
+          <p>“Emailed the employer contact. Will follow up.”</p>
+          <p class="meta">note only · no outcome state · no next action · no owner · no retry date</p>
+        </div>
+        <div class="paycard">
+          <h4>What a handoff must carry (the state contract)</h4>
+          <dl>
+            <dt>outcome_state</dt><dd>completed · failed · waiting · needs-human · policy-blocked</dd>
+            <dt>evidence_state</dt><dd>is the case closeable right now?</dd>
+            <dt>selected_contact</dt><dd>which path it used — no rediscovery</dd>
+            <dt>confidence</dt><dd>route low-confidence work differently</dd>
+            <dt>next_action</dt><dd>prevents the “what now?” pickup</dd>
+            <dt>owner</dt><dd>who holds the case after the touch</dd>
+            <dt>retry_due / cooldown</dt><dd>stops same-day duplicate outreach</dd>
+            <dt>pickup_reason</dt><dd>separates valid continuation from rediscovery</dd>
+          </dl>
+        </div>
+      </div>
+      <figcaption style="margin-top:16px"><span class="figno">Figure 3</span>The note versus the payload. The left side is the deep-dive’s finding; the right side is its required fix — and it is, field for field, the shape of the decision engine’s evidence-state and logging contracts.</figcaption>
+    </figure>
+
+    <p>The rest of the issue list follows from the same missing layer. Cases with weak source or contact data bounce back at 57.6%; fax-heavy and multi-path contact routes bounce at 80.8%; CALL-first retry loops run to 35% unable-to-verify with 2% two-day success; policy exceptions can’t be told apart from avoidable work because the rule was never encoded. And the whole thing is hard to even <em>measure</em>: an avoidability-labeling exercise failed outright (independent labelers agreed at chance, κ ≈ 0) — not because the labelers were bad, but because 43% of events don’t carry enough evidence to judge. The system can’t explain itself.</p>
+
+    <blockquote class="pull">Murphy Brown isn’t a bad worker. It’s a worker with no supervisor, no dispatcher, and no flight recorder.</blockquote>
+
+    <h2>Why this is the decision engine’s story to finish</h2>
+
+    <p>Here is the part that makes this report worth writing: the deep-dive’s fix list and the decision engine’s component list are the same list. Not thematically similar — item for item:</p>
+
+    <figure>
+      <div class="fightle">
+        <h3>Their fix list is our component list</h3>
+        <p>Each measured gap from the deep-dive, mapped to the decision-engine component that closes it</p>
+      </div>
+      <div class="map">
+        <div class="head"><span>The deep-dive found</span><span></span><span>The engine has</span><span>Status</span></div>
+        <div class="row">
+          <div class="gap"><b>Note-only handoffs</b><span>55.5% flow back; humans rediscover each case</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Evidence-state resolver + decision contract</b><span>13 states · movement card · owner, reason, next move on every case-day</span></div>
+          <span class="chip built">BUILT · BACKTESTED</span>
+        </div>
+        <div class="row">
+          <div class="gap"><b>Reopen explosion / eForm collision</b><span>~43% reopen; bot emails after closeout states</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Closure lock: terminal states + inbound-first rule</b><span>resolved cases stop generating work · already-responded catch (1 in 7)</span></div>
+          <span class="chip built">BUILT · BACKTESTED</span>
+        </div>
+        <div class="row">
+          <div class="gap"><b>No triage gate at pickup</b><span>worst decile contains 1.7%; wins predictable at 0.773</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Difficulty models gate the door</b><span>day-0 never-verify ~0.81 · score-gated eligibility routing</span></div>
+          <span class="chip built">BUILT · BACKTESTED</span>
+        </div>
+        <div class="row">
+          <div class="gap"><b>EDUV handbacks wait +30.6h</b><span>queue-ranking, not parking</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Calibrated priority queue</b><span>handbacks ranked by risk + urgency · review-due states carry triggers</span></div>
+          <span class="chip pilot">PILOT PROVES TAT</span>
+        </div>
+        <div class="row">
+          <div class="gap"><b>CALL loops, fax complexity, stale contacts</b><span>repeat-call lanes at 35% UTV, 2% 48h success</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Cadence + eligibility controls</b><span>call_escalation_ladder_v1 · wait_policy_v1 · action_eligibility_v1</span></div>
+          <span class="chip built">BUILT · BACKTESTED</span>
+        </div>
+        <div class="row">
+          <div class="gap"><b>Unmeasurable — labeling failed (κ ≈ 0)</b><span>43% of events carry too little evidence to judge</span></div>
+          <div class="arrow">→</div>
+          <div class="fix"><b>Flight recorder + holdout design</b><span>recommendation → action/override → delivery → outcome, logged</span></div>
+          <span class="chip ask">NEEDS THE PILOT + ONE CONFIG RULE</span>
+        </div>
+      </div>
+      <figcaption style="margin-top:16px"><span class="figno">Figure 4</span>The deep-dive’s asks mapped to the decision engine. Two items on the bot’s side remain genuine asks to SNH-AI — the structured action payload and reopen-reason codes — because our layer can define the contract but the bot must write into it.</figcaption>
+    </figure>
+
+    <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes a channel inside the decision engine.</strong> The resolver decides <em>when</em> the bot may touch a case; the difficulty scores decide <em>whether it should</em> (fax-primary and thin-contact cases skip it — the deep-dive’s own modeling says gating to the top ~60–70% keeps 83–91% of the bot’s wins while halving the handback lane); terminal states and the inbound-first rule <em>lock what’s closed</em>; the priority queue re-ranks what comes back; and the flight recorder finally makes the bot’s value a measured number instead of a debate.</p>
+
+    <h2>What we’re careful not to claim</h2>
+
+    <ul>
+      <li><strong>Association, not causation.</strong> The bot is <em>associated with</em> a large downstream queue. The matched comparison does not prove it makes comparable cases worse on effort or time — the proven finding is the residual queue, the weak fast-closeout, and the missing handoff state.</li>
+      <li><strong>No savings claims.</strong> The handback lane’s labor premium is small (≈$3/search). The money case is turnaround time and closure quality — 103,581 EDUV wait-hours in the window, and reopen churn that is real but unpriced. Attempt rows are not labor minutes, FTEs, or ROI.</li>
+      <li><strong>No avoidable-percentage.</strong> Labeling did not converge; until the 80-assignment ops spot-check adjudicates why, no avoidability number is quoted. The causal number comes from a two-week 50/50 holdout — one configuration rule on the bot’s side, fully reversible — with a difference-in-differences fallback running ~July 15 regardless.</li>
+      <li><strong>Modeled is labeled modeled.</strong> The separate missed-pickup lane (all-or-nothing API routing; 50,332 exposed searches, ~7.2–8.6k modeled manual searches/month) still needs effective-dated configuration history to be proof-grade.</li>
+    </ul>
+
+    <h2>The asks, in one place</h2>
+
+    <ol>
+      <li><strong>Closure lock + reopen-reason instrumentation</strong> — adjudicates the reopen explosion before anyone scales containment.</li>
+      <li><strong>Triage gate at pickup</strong> — score- or rule-based eligibility, re-tuned on a fresh window before any config change.</li>
+      <li><strong>EDUV handback re-rank / SLA</strong> — a worklist rule; kills the +30.6h penalty with zero bot work.</li>
+      <li><strong>The holdout config rule</strong> — two weeks, reversible, powered; the only path to the causal dollar-and-TAT number.</li>
+      <li><strong>Structured action payload + inbound capture</strong> — the state contract of Figure 3, written by the bot, read by the engine.</li>
+    </ol>
+
+    <div class="note">
+      <span class="kicker">The one-sentence version</span>
+      <p>Our automation didn’t fail for lack of intelligence — it failed for lack of an operating layer: nothing gated what it picked up, nothing owned the state it left behind, nothing locked what it closed, and nothing recorded enough to prove any of it. That layer is exactly what the decision engine is — which makes Murphy Brown, honestly told, the strongest argument we have for shipping it. <span class="endmark">◆</span></p>
+    </div>
+  </article>
+
+  <footer class="colophon">
+    <div style="max-width:672px;margin:0 auto">
+      <p><strong style="color:var(--ink)">The series.</strong> This field report is the companion piece. The system it argues for: <a href="exec-briefing.html">the executive briefing</a> · <a href="engineering.html">the engineering deep dive</a> · <a href="philosophy.html">the design philosophy</a> · <a href="illustrated.html">the illustrated walkthrough</a>.</p>
+      <p>Sources of record in the ops deep-dive workspace: <code>MB_MURPHY_BROWN_ALL_FINDINGS_CONSOLIDATED_20260630.md</code> and <code>outputs/exec_packet_20260702/MB_ONE_PAGER_20260702.md</code> (which supersedes earlier summaries; retired numbers per its <code>RETIRED_NUMBERS.md</code> are not cited here). All analysis read-only; windows as stated per figure; no client names, personnel names, or case identifiers appear in this report.</p>
+      <p>UBS Verifications · Decision Engine · Field report · July 2026</p>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
