@@ -261,13 +261,13 @@ a{color:inherit}
           <rect x="368" y="46" width="152" height="80" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
           <text x="444" y="76" text-anchor="middle" class="s-small">The checklist</text>
           <text x="444" y="96" text-anchor="middle" class="s-sub">decides what state the</text>
-          <text x="444" y="111" text-anchor="middle" class="s-sub">case is in — and what’s legal</text>
+          <text x="444" y="111" text-anchor="middle" class="s-sub">case is in — and what’s allowed</text>
           <text x="444" y="152" text-anchor="middle" class="s-sub" font-style="italic">state resolver · rules</text>
         </g>
         <g>
           <rect x="540" y="46" width="152" height="80" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
           <text x="616" y="76" text-anchor="middle" class="s-small">The dispatcher</text>
-          <text x="616" y="96" text-anchor="middle" class="s-sub">ranks the legal moves</text>
+          <text x="616" y="96" text-anchor="middle" class="s-sub">ranks the allowed moves</text>
           <text x="616" y="111" text-anchor="middle" class="s-sub">by the triage scores</text>
           <text x="616" y="152" text-anchor="middle" class="s-sub" font-style="italic">action scorer</text>
         </g>
@@ -361,7 +361,7 @@ a{color:inherit}
             <span class="statechip ready" id="stateChip">RESOLVER STATE: OUTREACH READY</span>
           </div>
         </div>
-        <div class="lesson" id="lesson"><b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the legal moves, and email #2 goes out later today.</div>
+        <div class="lesson" id="lesson"><b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the allowed moves, and email #2 goes out later today.</div>
       </div>
       <figcaption><span class="figno">Figure 2</span>The as-of curtain, interactively. Probabilities are illustrative. This curtain is also the moral of our leakage story: an early model scored 0.93 because post-outcome fields let it peek right of the line. Rebuilt with strict as-of discipline, the honest number is 0.71 — and an automated audit now checks the curtain on every new training matrix.</figcaption>
     </figure>
@@ -503,7 +503,7 @@ a{color:inherit}
         </div>
         <div class="card">
           <h4>WAIT <span class="rk">rank 4</span></h4>
-          <p class="why">Always a legal move — sometimes the right one.</p>
+          <p class="why">Always an allowed move — sometimes the right one.</p>
           <div class="prio"><i style="width:22%"></i></div>
         </div>
         <div class="card blocked">
@@ -520,7 +520,7 @@ a{color:inherit}
       <figcaption style="margin-top:16px"><span class="figno">Figure 5</span>Case 4127’s hand on day 3. Priority bars are illustrative; ranking reflects what historically moved similar cases under current policy — an observational signal, deliberately not a claim that any channel <em>causes</em> better outcomes. Blocked cards never reach the ranker: eligibility is a filter, not a penalty.</figcaption>
     </figure>
 
-    <p>The dispatcher’s output for the day is exactly one line: <em>recommended next move: EMAIL, rank 1 of 4 legal.</em> In the full backtest, every single case-group ended with an available move — zero “rank-1 but blocked” contradictions, zero empty hands.</p>
+    <p>The dispatcher’s output for the day is exactly one line: <em>recommended next move: EMAIL, rank 1 of 4 allowed.</em> In the full backtest, every single case-group ended with an available move — zero “rank-1 but blocked” contradictions, zero empty hands.</p>
 
     <h2><span class="stepno">5</span>The flight recorder: a person decides, everything is written down</h2>
 
@@ -529,7 +529,7 @@ a{color:inherit}
     <figure>
       <div class="panel">
         <div class="ledger">
-          <div class="row"><span class="t">day 3 · 09:12</span><span class="e"><b>RECOMMENDED</b> <span>EMAIL — rank 1 of 4 legal moves, shown to operator</span></span></div>
+          <div class="row"><span class="t">day 3 · 09:12</span><span class="e"><b>RECOMMENDED</b> <span>EMAIL — rank 1 of 4 allowed moves, shown to operator</span></span></div>
           <div class="row"><span class="t">day 3 · 09:14</span><span class="e"><b>ACTION</b> <span>EMAIL sent, no override · template family <code>follow_up</code> v3</span></span></div>
           <div class="row"><span class="t">day 4 · 07:40</span><span class="e"><b>DELIVERY</b> <span>delivered — no bounce</span></span></div>
           <div class="row"><span class="t">day 6 · 15:03</span><span class="e"><b>REPLY</b> <span>inbound response recorded → resolver flips to INBOUND REVIEW</span></span></div>
@@ -597,7 +597,7 @@ a{color:inherit}
 
     <div class="note">
       <span class="kicker">Why two lanes and not one big model?</span>
-      <p>Because the two lanes fail differently. If triage is wrong, an operator works cases in a slightly worse order — cheap, recoverable, invisible. If “what’s legal” is wrong, someone gets contacted who must never be contacted — an incident with a name on it. Splitting the lanes means the expensive failure mode is handled by the component you can audit line by line, and the learning component is confined to the failure mode you can afford. A single end-to-end model would blend both failure modes into one — and price everything at the expensive one.</p>
+      <p>Because the two lanes fail differently. If triage is wrong, an operator works cases in a slightly worse order — cheap, recoverable, invisible. If “what’s allowed” is wrong, someone gets contacted who must never be contacted — an incident with a name on it. Splitting the lanes means the expensive failure mode is handled by the component you can audit line by line, and the learning component is confined to the failure mode you can afford. A single end-to-end model would blend both failure modes into one — and price everything at the expensive one.</p>
     </div>
 
     <h2>The whole machine on one page</h2>
@@ -629,7 +629,7 @@ a{color:inherit}
           <rect x="300" y="48" width="252" height="118" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
           <text x="316" y="76" class="s-tag" fill="#C4633E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Triage: difficulty models</text>
-          <text x="316" y="122" class="s-sub">verifies ≤2d · ≤5d · never —</text>
+          <text x="316" y="122" class="s-sub">six models · 147 signals per case-day</text>
           <text x="316" y="140" class="s-sub">calibrated so 30% means 30%</text>
         </g>
         <g>
@@ -691,11 +691,11 @@ a{color:inherit}
     {att:"1",last:"email #1 (day 0)",since:"2",inb:"no",note:"—",p2:22,p5:45,pn:28,state:"REVIEW DUE",cls:"wait",
      lesson:"<b>Day 2.</b> A scheduled re-check with a reason attached. Nothing waits silently: every idle day has a named state and a trigger."},
     {att:"1",last:"email #1 (day 0)",since:"3",inb:"no",note:"—",p2:19,p5:43,pn:30,state:"OUTREACH READY",cls:"ready",
-     lesson:"<b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the legal moves, and email #2 goes out later today."},
+     lesson:"<b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the allowed moves, and email #2 goes out later today."},
     {att:"2",last:"email #2 (day 3)",since:"1",inb:"no",note:"—",p2:26,p5:49,pn:26,state:"COOLDOWN ACTIVE",cls:"wait",
      lesson:"<b>Day 4.</b> Same rhythm: act, then hands off while the timer runs. The cadence is a policy, not a model output."},
     {att:"2",last:"email #2 (day 3)",since:"2",inb:"no",note:"—",p2:21,p5:44,pn:29,state:"OUTREACH READY",cls:"ready",
-     lesson:"<b>Day 5.</b> Two emails, no reply — the ranking shifts and a call now tops the legal list. An operator dials and reaches voicemail."},
+     lesson:"<b>Day 5.</b> Two emails, no reply — the ranking shifts and a call now tops the allowed list. An operator dials and reaches voicemail."},
     {att:"3",last:"call → voicemail (day 5)",since:"1",inb:"no",note:"left_voicemail ✓",p2:20,p5:41,pn:33,state:"COOLDOWN ACTIVE",cls:"wait",
      lesson:"<b>Day 6.</b> The operator’s note said “left a voicemail.” The text layer keeps the <em>signal</em> — an 11-class flag computed in flight — and throws the note away. Raw text never lands in any artifact."},
     {att:"3",last:"call → voicemail (day 5)",since:"2",inb:"YES — reply (day 6)",note:"left_voicemail ✓",p2:62,p5:84,pn:9,state:"INBOUND REVIEW REQUIRED",cls:"inbound",

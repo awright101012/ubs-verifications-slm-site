@@ -30,7 +30,10 @@ h1{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,5vw,3rem);line-h
 .card .t{display:block;font-family:var(--sans);font-weight:600;font-size:1.0625rem;color:var(--ink);text-decoration:none}
 .card .t:hover{color:var(--clay)}
 .card .d{display:block;font-family:var(--sans);font-size:.84375rem;color:var(--warm);margin-top:6px;line-height:1.55}
-.card .pdf{display:inline-block;font-family:var(--sans);font-size:.78125rem;color:var(--clay);margin-top:10px}
+.card .read{display:inline-block;font-family:var(--sans);font-size:.78125rem;color:var(--clay);margin-top:10px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none}
+.download{border:1px solid var(--hairline);border-radius:4px;background:#FDFCFA;margin-top:22px;padding:18px 24px;font-family:var(--sans);display:flex;justify-content:space-between;gap:18px;align-items:center}
+.download span{color:var(--warm);font-size:.84375rem;line-height:1.45}
+.download a{color:var(--clay);font-size:.8125rem;font-weight:600;text-decoration:none;white-space:nowrap}
 .foot{border-top:1px solid var(--hairline);margin-top:72px;padding:30px 0 56px;font-family:var(--sans);font-size:.8125rem;color:var(--warm)}
 </style>
 </head>
@@ -40,15 +43,16 @@ h1{font-family:var(--sans);font-weight:600;font-size:clamp(2rem,5vw,3rem);line-h
     <header class="masthead">
       <div class="eyebrow">The series</div>
       <h1>The Verifications Decision Engine</h1>
-      <p class="dek">Five pieces, one system: what it does, how it works, why it is built this way, and the problem it closes. All figures are backtested and as-of; no causal channel or template claims; decision support only &mdash; nothing auto-sends.</p>
+      <p class="dek">Five pieces, one system: what it does, how it works, why it is built this way, and the problem it closes. The public version is HTML-first; the combined PDF remains available as a fixed packet.</p>
     </header>
     <nav class="cards">
-      <div class="card"><a class="t" href="exec-briefing.html">Executive briefing</a><span class="d">What the decision engine does, how it works, and what it's worth - in plain language, with the scores to back it.</span><a class="pdf" href="pdf/exec-briefing.pdf">Download as PDF</a></div>
-      <div class="card"><a class="t" href="illustrated.html">How one case moves through the machine</a><span class="d">The illustrated, intuition-first walkthrough - follow one case through every layer (interactive).</span><a class="pdf" href="pdf/illustrated.pdf">Download as PDF</a></div>
-      <div class="card"><a class="t" href="engineering.html">Building a decision engine for verification casework</a><span class="d">The engineering deep dive: difficulty models, the 13-state resolver, promotion gates, and the text layer.</span><a class="pdf" href="pdf/engineering.pdf">Download as PDF</a></div>
-      <div class="card"><a class="t" href="philosophy.html">Earned autonomy</a><span class="d">The design philosophy: rules own what's legal, models own what's likely, and autonomy is earned with evidence.</span><a class="pdf" href="pdf/philosophy.pdf">Download as PDF</a></div>
-      <div class="card"><a class="t" href="murphy-brown.html">The Murphy Brown problem</a><span class="d">Field report: what's actually wrong with the verification bot, and how the decision engine closes each gap.</span><a class="pdf" href="pdf/murphy-brown.pdf">Download as PDF</a></div>
+      <div class="card"><a class="t" href="exec-briefing.html">Inside the UTV number</a><span class="d">What we found in 2.75M case-days - three problems in one number - and the engine built to fix it, with the scores.</span><a class="read" href="exec-briefing.html">Read HTML</a></div>
+      <div class="card"><a class="t" href="illustrated.html">How one case moves through the machine</a><span class="d">The illustrated, intuition-first walkthrough - follow one case through every layer (interactive).</span><a class="read" href="illustrated.html">Read HTML</a></div>
+      <div class="card"><a class="t" href="engineering.html">Building a decision engine for verification casework</a><span class="d">The engineering deep dive: difficulty models, the 13-state resolver, promotion gates, and the text layer.</span><a class="read" href="engineering.html">Read HTML</a></div>
+      <div class="card"><a class="t" href="philosophy.html">Earned autonomy</a><span class="d">The design philosophy: rules own what's allowed, models own what's likely, and autonomy is earned with evidence.</span><a class="read" href="philosophy.html">Read HTML</a></div>
+      <div class="card"><a class="t" href="murphy-brown.html">The Murphy Brown problem</a><span class="d">Field report: what's actually wrong with the verification bot, and how the decision engine closes each gap.</span><a class="read" href="murphy-brown.html">Read HTML</a></div>
     </nav>
+    <aside class="download"><span>Need a fixed packet? The combined series remains available as one PDF.</span><a href="pdf/decision-engine-series.pdf">Download combined PDF</a></aside>
     <footer class="foot">UBS Verifications &middot; Decision Engine &middot; July 2026 &middot; internal material &mdash; do not index</footer>
   </div>
 </body>

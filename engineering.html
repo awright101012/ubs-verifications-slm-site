@@ -207,7 +207,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of our own improvements. How the system works — and why the “SLM” doesn’t contain a language model yet.</p>
+    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of our own improvements. How the system works — and how it’s built to take on a small language model for client messaging in the next phase.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Status</b> backtest evidence; pilot not yet claimed</span>
@@ -220,7 +220,7 @@ a{color:inherit}
 
     <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the three places we got burned or told ourselves no.</p>
 
-    <p>One naming confession up front. The repo is called a verifications <em>SLM</em>, and the language-model layer in the system design (P7) is scaffolded — but deliberately unbuilt. What ships today is calibrated tabular models plus a deterministic policy layer. The language layer comes later, if and when the pilot instrumentation can support it honestly. More on that at the end.</p>
+    <p>One roadmap note up front. What ships today is calibrated tabular models plus a deterministic policy layer. The next phase adds a <strong>small language model for client messaging</strong> — drafting the emails, faxes, notes, and call scripts, and learning from past communication to draft the best next action. It is deliberately sequenced behind the pilot’s instrumentation, so its value can be measured rather than asserted. More on that at the end.</p>
 
     <h2>The shape of the system</h2>
 
@@ -228,7 +228,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds difficulty models (ML, predicts) and an evidence-state resolver (deterministic, permits); both feed an orchestration scorer that ranks legal actions; recommendations flow to a pilot queue with human review, and logged outcomes feed back to the models as a build-out learning loop.">
+      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds difficulty models (ML, predicts) and an evidence-state resolver (deterministic, permits); both feed an orchestration scorer that ranks allowed actions; recommendations flow to a pilot queue with human review, and logged outcomes feed back to the models as a build-out learning loop.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -289,12 +289,12 @@ a{color:inherit}
         <text x="380" y="452" class="s-sub" font-style="italic">outcomes feed back — learning loop (build-out)</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The decision path. Models and rules both read the same as-of evidence, but only the resolver decides what is legal. The scorer ranks within legal moves; a human works the queue. The dashed loop — learning channel, cadence, and message from logged outcomes — is the build-out, not the current system.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The decision path. Models and rules both read the same as-of evidence, but only the resolver decides what is allowed. The scorer ranks within allowed moves; a human works the queue. The dashed loop — learning channel, cadence, and message from logged outcomes — is the build-out, not the current system.</figcaption>
     </figure>
 
     <p>The load-bearing design rule is the one in the middle:</p>
 
-    <blockquote class="pull">Deterministic rules decide what is legal and blocking. Models only prioritize within legal moves — a model never authorizes an action it cannot justify.</blockquote>
+    <blockquote class="pull">Deterministic rules decide what is allowed and what is blocking. Models only prioritize within allowed moves — a model never authorizes an action it cannot justify.</blockquote>
 
     <p>Do-not-contact, client policy constraints, third-party exclusions, cooldown timers, and “this person already replied” are all resolved by rules, independent of the models, before any score is consulted. A hard eligibility violation is a filter, not a score penalty a confident model could outvote. In the full 2,751,900-snapshot backtest the resolver produced <strong>zero DNC violations and zero hard-policy violations</strong>, which is only an interesting number because the models never got a chance to create one.</p>
 
@@ -344,7 +344,7 @@ a{color:inherit}
       </table>
     </div>
 
-    <p>Two readings of that table matter more than the decimals. First, at day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>ROC-AUC ≈ 0.81</strong> across three forward folds (0.823 / 0.800 / 0.812). Knowing on intake which cases probably won’t come back is the single most useful thing the system does. Second, the pooled model spreads the population hard enough to be operationally meaningful:</p>
+    <p>Two readings of that table matter more than the decimals. First, at day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>ROC-AUC ≈ 0.81</strong> across three forward folds (0.823 / 0.800 / 0.812). Knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 0.81 and the pooled 0.706 is survivorship, not decay: fresh cases differ enormously and are comparatively easy to tell apart, while the pool of still-open cases grows more homogeneous as the easy ones resolve out — ranking the survivors is intrinsically harder. (Methodology differs too: the day-0 figure is the walk-forward, identity-safe variant on the first-snapshot slice.) Second, the pooled model spreads the population hard enough to be operationally meaningful:</p>
 
     <figure>
       <div class="panel">
@@ -378,7 +378,32 @@ a{color:inherit}
 
     <p>That 16× spread is also the business story. Today’s UTV rate silently blames operators for cases that were structurally dead on arrival. Score-conditioned targets flip that: the easy decile is expected to verify almost always, the hard decile almost never, and management attention goes to the winnable middle.</p>
 
-    <h2>Rules decide what’s legal; models decide what’s next</h2>
+    <p>The three champions are also just the tip of the fleet. Six learned models run in this system’s production posture, each with its own validation story:</p>
+
+    <div class="tablewrap">
+      <table>
+        <caption>Table 2. The model fleet. All are gradient-boosted trees with isotonic calibration, trained under the same as-of matrix discipline; every model passes the leakage audit, and champions additionally clear the promotion gate.</caption>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Predicts</th>
+            <th class="num">ROC-AUC</th>
+            <th>Validation</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Never-verify champion</td><td>will the case ever verify</td><td class="num">0.706</td><td>May holdout + June OOT</td><td><span class="chip hold">champion — bounded</span></td></tr>
+          <tr><td>Verify within 2 days</td><td>resolves ≤2d of snapshot</td><td class="num">0.747</td><td>May holdout + June OOT</td><td><span class="chip pass">champion — text features</span></td></tr>
+          <tr><td>Verify within 5 days</td><td>resolves ≤5d of snapshot</td><td class="num">0.717</td><td>May holdout + June OOT</td><td><span class="chip pass">champion — text, identity-safe</span></td></tr>
+          <tr><td>Day-0 intake read</td><td>never-verify, at arrival</td><td class="num">~0.81</td><td>walk-forward, 3 forward months</td><td><span class="chip pass">identity-safe variant</span></td></tr>
+          <tr><td>Day-1/2 re-score</td><td>re-reads aging cases</td><td class="num">0.73 / 0.70</td><td>holdout</td><td><span class="chip pass">lifts aging EMPV read 0.62 → 0.71</span></td></tr>
+          <tr><td>Early warning</td><td>will strand by day 20</td><td class="num">0.776</td><td>single-month holdout</td><td><span class="chip hold">preliminary</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Rules decide what’s allowed; models decide what’s next</h2>
 
     <p>The deterministic half is an evidence-state resolver that classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and derives the set of admissible actions from the state, never from a score. Here is where the 2.75M snapshots actually sit:</p>
 
@@ -581,15 +606,15 @@ a{color:inherit}
     <ul>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
       <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing models exclude direct agent and team IDs behind a drift gate, but behavioral agent attributes remain. Identity-bearing champions stay <code>provisional</code> for action-facing use, and the resolver applies no-direct-identity fallbacks automatically until that gate approves.</li>
-      <li><strong>Decision support only.</strong> No auto-send, no automated final decisions, exploration disabled by default. The router is shadow-review metadata, not an autonomous policy — and we won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
-      <li><strong>No language model yet.</strong> The endgame — a small language model that drafts the emails, faxes, notes, and call scripts, learning from past communication to draft the best next action — is sequenced last on purpose, because without the causal instrumentation above we couldn’t tell whether it works.</li>
+      <li><strong>Decision support today — automation is earned, not assumed.</strong> Nothing auto-sends yet and no decision is finalized by a machine; the wiring for automation exists, and each step toward it — exploration, auto-drafts, then gated auto-send — unlocks on pilot evidence, with exploration shipping disabled by default. The router is shadow-review metadata, not an autonomous policy — and we won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
+      <li><strong>The language layer is next-phase, on purpose.</strong> The endgame — a small language model that drafts the emails, faxes, notes, and call scripts, learning from past communication to draft the best next action — is sequenced last because without the causal instrumentation above we couldn’t tell whether it works.</li>
     </ul>
 
     <h2>What’s next</h2>
 
     <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not ours to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from propensity-logged pilot data — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
 
-    <p>And after the play engine, the layer this repo is named for. The final step is a <strong>small language model that writes the communications themselves</strong> — the emails, the faxes, the case notes, and the scripts our call operators work from — learning from the logged record of past communication and its outcomes to draft the best next action for every case. It is sequenced last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
+    <p>And after the play engine comes the final step: a <strong>small language model that writes the communications themselves</strong> — the emails, the faxes, the case notes, and the scripts our call operators work from — learning from the logged record of past communication and its outcomes to draft the best next action for every case. It is sequenced last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
 
     <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things we refuse to say. Every flashier layer gets built on top of that — or not at all. <span class="endmark">◆</span></p>
   </article>

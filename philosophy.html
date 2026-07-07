@@ -151,7 +151,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Perspectives</div>
     <h1>Earned autonomy: a pattern for machine learning in high-stakes casework</h1>
-    <p class="dek">Underneath our verifications decision engine is a design that has nothing to do with verifications: rules own what’s legal, models own what’s likely, and every increase in the system’s authority is purchased with evidence. Notes on the pattern, one level above the pipeline.</p>
+    <p class="dek">Underneath our verifications decision engine is a design that has nothing to do with verifications: rules own what’s allowed, models own what’s likely, and every increase in the system’s authority is purchased with evidence. Notes on the pattern, one level above the pipeline.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Companion</b> the engineering deep dive covers the pipeline itself</span>
@@ -171,7 +171,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 440" role="img" aria-label="Concept diagram: case evidence forks into two lanes — a probabilistic models lane answering what is likely, and a deterministic rules lane answering what is legal. Both feed the decision: the highest-priority legal move. A dashed arrow from the models lane to the rules lane is struck out and labeled never: models cannot change what is legal.">
+      <svg viewBox="0 0 880 440" role="img" aria-label="Concept diagram: case evidence forks into two lanes — a probabilistic models lane answering what is likely, and a deterministic rules lane answering what is allowed. Both feed the decision: the highest-priority allowed move. A dashed arrow from the models lane to the rules lane is struck out and labeled never: models cannot change what is allowed.">
         <defs>
           <marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -193,7 +193,7 @@ a{color:inherit}
           <line x1="427" y1="218" x2="445" y2="236" stroke="#9A4B38" stroke-width="1.5"/>
           <line x1="445" y1="218" x2="427" y2="236" stroke="#9A4B38" stroke-width="1.5"/>
           <text x="436" y="266" text-anchor="middle" class="s-tag" fill="#9A4B38">NEVER: A SCORE CANNOT</text>
-          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#9A4B38">CHANGE WHAT IS LEGAL</text>
+          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#9A4B38">CHANGE WHAT IS ALLOWED</text>
         </g>
         <!-- evidence -->
         <g>
@@ -208,12 +208,12 @@ a{color:inherit}
           <text x="100" y="204" class="s-title">Probabilistic, calibrated</text>
           <text x="100" y="228" class="s-sub">difficulty · time-to-resolve · early warning</text>
           <text x="100" y="246" class="s-sub">wrong = wasted effort</text>
-          <text x="100" y="272" class="s-mono">output: a priority for every legal move</text>
+          <text x="100" y="272" class="s-mono">output: a priority for every allowed move</text>
         </g>
         <!-- rules lane -->
         <g>
           <rect x="508" y="148" width="292" height="158" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="528" y="178" class="s-tag" fill="#141413">WHAT’S LEGAL — RULES</text>
+          <text x="528" y="178" class="s-tag" fill="#141413">WHAT’S ALLOWED — RULES</text>
           <text x="528" y="204" class="s-title">Deterministic, auditable</text>
           <text x="528" y="228" class="s-sub">policy · do-not-contact · cooldowns ·</text>
           <text x="528" y="246" class="s-sub">already-responded — wrong = incident</text>
@@ -223,7 +223,7 @@ a{color:inherit}
         <g>
           <rect x="286" y="330" width="308" height="56" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
           <text x="440" y="354" text-anchor="middle" class="s-title">Next move</text>
-          <text x="440" y="374" text-anchor="middle" class="s-sub">the highest-priority move among the legal ones</text>
+          <text x="440" y="374" text-anchor="middle" class="s-sub">the highest-priority move among the allowed ones</text>
         </g>
         <text x="440" y="420" text-anchor="middle" class="s-sub" font-style="italic">eligibility is a filter, not a score penalty — no confidence level outvotes a rule</text>
       </svg>
@@ -273,6 +273,8 @@ a{color:inherit}
     </figure>
 
     <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on. Our early never-verify model scored 0.93 AUC and was a lie — post-outcome fields had leaked into the features. The rebuilt, strictly as-of version scores 0.71, and the retraction is checked into the repo as a permanent record. If the first product had been an acting agent instead of a forecast, that lesson would have arrived as behavior, not as a number.</p>
+
+    <p>Restraint, to be clear, is not absence. Inside this pattern run six learned models over a 147-signal read of every case-day, retrained monthly under audit. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
 
     <h2>3. Price every claim</h2>
 
@@ -386,7 +388,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage exists to generate the evidence the next stage needs: the pilot logs overrides, overrides calibrate trust, exploration produces propensities, propensities make a learned policy honest. Skipping a rung doesn’t accelerate the system — it caps how far it can ever be trusted to go.</figcaption>
     </figure>
 
-    <p>This is why our system carries a small irony in its name: it is called an SLM, and the language model is the one component that doesn’t exist. That’s the ladder working as intended. The destination is explicit, though: the final layer is a small language model that writes the outreach itself — the emails, faxes, case notes, and the scripts the call team works from — learning from the logged record of past communication and its outcomes to draft the best next action. Message generation is the most capable layer and the least verifiable one — its evidence requirements sit at the very top — so it is sequenced last, behind causal instrumentation that today exists as schemas and validators rather than collected data. The name describes the destination; the discipline decides the pace.</p>
+    <p>This is why the system’s most capable component is the one that doesn’t exist yet — and that’s the ladder working as intended. The destination is explicit: the final layer is a small language model that writes the outreach itself — the emails, faxes, case notes, and the scripts the call team works from — learning from the logged record of past communication and its outcomes to draft the best next action. Message generation is the most capable layer and the least verifiable one — its evidence requirements sit at the very top — so it is sequenced last, behind causal instrumentation that today exists as schemas and validators rather than collected data. The roadmap names the destination; the discipline decides the pace.</p>
 
     <h2>What restraint buys</h2>
 
@@ -414,7 +416,7 @@ a{color:inherit}
 
     <aside class="note">
       <span class="kicker">When not to use this pattern</span>
-      <p>The full apparatus is overkill where its costs buy nothing: actions that are cheap and reversible, no compliance surface, outcomes observable within minutes, no human in the loop to protect. Ranking a newsletter’s subject lines needs an A/B test, not an evidence-state resolver. The pattern earns its weight precisely where mistakes are expensive, constraints are legal rather than aesthetic, and trust — of operators and regulators — is the scarce resource.</p>
+      <p>The full apparatus is overkill where its costs buy nothing: actions that are cheap and reversible, no compliance surface, outcomes observable within minutes, no human in the loop to protect. Ranking a newsletter’s subject lines needs an A/B test, not an evidence-state resolver. The pattern earns its weight precisely where mistakes are expensive, constraints are regulatory rather than aesthetic, and trust — of operators and regulators — is the scarce resource.</p>
     </aside>
 
     <h2>The boring version, on purpose</h2>
