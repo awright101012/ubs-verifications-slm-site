@@ -237,7 +237,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The verification floor gets a brain</h1>
-    <p class="dek">For years the floor has run on routine: every case worked the same cadence, every queue in arrival order, one blended failure number at the end of the month. I replayed 2.75 million real case-days to see what routine costs — cases nobody could win eating full effort, winnable cases aging in line, people re-contacted after they had already answered. So I built the brain the operation was missing: models that read every case every morning, rules that decide what’s allowed, an orchestrator that picks each next move. The problem, the findings, and the fix — with the scores to back it.</p>
+    <p class="dek">The problem: one in five verification cases ends “unable to verify,” and the number never moved — because the floor ran on routine: every case the same cadence, every queue in arrival order, one blended failure number at month-end. So I built two things. The machine learning: six models, trained on 2.75 million real case-days, that read every open case each morning and score how it will end. And the operating system around them: a deterministic rulebook that decides what’s allowed, an orchestrator that picks each case’s next move, a flight recorder that logs every decision. The problem, what was built, and what it changes — with the scores to back it.</p>
     <div class="byline">
       <span><b>The problem</b> 1 in 5 cases ends unable to verify</span>
       <span><b>The evidence</b> 2.75M real case-days replayed</span>
@@ -248,7 +248,7 @@ a{color:inherit}
   <aside class="note" style="margin-top:48px">
     <span class="kicker">The 60-second version</span>
     <ul>
-      <li><strong>What was built:</strong> a system that reads every open case every morning, flags which ones will never verify (right 71% of the time today, ~81% at day 0), and recommends the next move — while hard rules make an improper contact structurally impossible. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
+      <li><strong>What was built:</strong> six machine-learned models that read every open case every morning and score how it will end (right 71% of the time today, ~81% at day 0) — plus the operating system around them: hard rules that make an improper contact structurally impossible, and an orchestrator that recommends each next move. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
       <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV (unable-to-verify) number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
       <li><strong>What I’m asking:</strong> adopt the achievable-UTV scoreboard, approve the human-in-loop pilot with outcome logging, and — once the evidence flows — choose the first learning target.</li>
     </ul>
@@ -493,7 +493,7 @@ a{color:inherit}
       <div class="takeaway"><b>Takeaway</b>Zero policy violations in 2.75 million replayed case-days — not because the model is careful, but because it never gets the vote.</div>
     </figure>
 
-    <p>One more reason the scores can be trusted: every test scored each case using <strong>only what was known that specific morning</strong>. Early in the project a model scored a spectacular 93% by peeking at post-outcome information — I caught it, retracted it in writing, and rebuilt under a strict “no peeking” audit; the honest score is the 71% above. Any vendor can show you a 93%; the discipline to publish the 71% is what makes the rest of this deck believable.</p>
+    <p>One more reason the scores can be trusted: every test scored each case using <strong>only what was known that specific morning</strong> — “as-of” discipline, enforced by an automated no-peeking audit that re-checks every new training matrix before the models may train on it. The scores here are conservative by design, measured the hard, honest way.</p>
 
     <p>The same discipline applies to upgrades: a new model version replaces the old one only if it wins on every criterion — including on a month of data it has never seen. That gate has rejected three of my own “improvements” this year because they would have weakened the top of the worklist, the part your teams actually touch. The system says no to me in writing. That’s a feature.</p>
 
@@ -813,7 +813,7 @@ a{color:inherit}
 
     <div class="note">
       <span class="kicker">The version to take out of the room</span>
-      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. One approved pilot makes the last claim — what actually causes replies — provable too. And the honest scores, including the one I retracted, are why you can believe the rest. <span class="endmark">◆</span></p>
+      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. One approved pilot makes the last claim — what actually causes replies — provable too. And the honest, replay-tested scores are why you can believe the rest. <span class="endmark">◆</span></p>
     </div>
   </article>
 

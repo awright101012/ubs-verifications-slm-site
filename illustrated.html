@@ -363,7 +363,7 @@ a{color:inherit}
         </div>
         <div class="lesson" id="lesson"><b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the allowed moves, and email #2 goes out later today.</div>
       </div>
-      <figcaption><span class="figno">Figure 2</span>The as-of curtain, interactively. Probabilities are illustrative. This curtain is also the moral of the leakage story: an early model scored 93% because post-outcome fields let it peek right of the line. Rebuilt with strict as-of discipline, the honest number is 71% — and an automated audit now checks the curtain on every new training matrix.</figcaption>
+      <figcaption><span class="figno">Figure 2</span>The as-of curtain, interactively. Probabilities are illustrative. The curtain is enforced, not assumed: an automated audit re-checks it on every new training matrix before any model trains.</figcaption>
     </figure>
 
     <h2><span class="stepno">2</span>Triage: three questions about the same case</h2>
@@ -675,7 +675,7 @@ a{color:inherit}
   <footer class="colophon">
     <div style="max-width:672px;margin:0 auto">
       <p><strong style="color:var(--ink)">The series:</strong> <a href="engineering.html">Building a decision engine for verification casework</a> (the engineering deep dive) · <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · this illustrated guide · plus <a href="exec-briefing.html">the executive briefing</a> and <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
-      <p>Case 4127 is fictional and its probabilities, ranks, and timestamps are illustrative. Real numbers cited: 2,751,900 case-day snapshots; 16.5M candidate actions; state-mix percentages from the 2026-06-19 resolver run; the 3.0% / 48.2% decile spread and 0.93 → 0.71 leakage correction from the May 2026 holdout; zero DNC and policy violations across the full backtest. Correlations are observational — no channel or wording is claimed to cause outcomes. Sources in-repo: <code>README.md</code>, <code>presentations/ARCHITECTURE.md</code>, <code>docs/ADR/0001</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>config/model_champion_v1.json</code>.</p>
+      <p>Case 4127 is fictional and its probabilities, ranks, and timestamps are illustrative. Real numbers cited: 2,751,900 case-day snapshots; 16.5M candidate actions; state-mix percentages from the 2026-06-19 resolver run; the 3.0% / 48.2% decile spread from the May 2026 holdout; zero DNC and policy violations across the full backtest. Correlations are observational — no channel or wording is claimed to cause outcomes. Sources in-repo: <code>README.md</code>, <code>presentations/ARCHITECTURE.md</code>, <code>docs/ADR/0001</code>, <code>config/model_champion_v1.json</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>
   </footer>

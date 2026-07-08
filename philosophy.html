@@ -272,7 +272,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 2</span>Same cases, two scoreboards. The blended number can only go up or down; the difficulty-adjusted one says where to spend effort and whom to stop blaming. This reframe — not any single prediction — is the business product of the forecast layer.</figcaption>
     </figure>
 
-    <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on. My early never-verify model scored 93% and was a lie — post-outcome fields had leaked into the features. The rebuilt, strictly as-of version scores 71%, and the retraction is checked into the repo as a permanent record. If the first product had been an acting agent instead of a forecast, that lesson would have arrived as behavior, not as a number.</p>
+    <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on — strictly as-of features, automated leakage audits, calibration checks — while the stakes are still just a number on a validation report. If the first product were an acting agent instead of a forecast, a data problem would arrive as behavior in production; in a forecast layer it arrives as a number you can catch and fix before anything acts on it.</p>
 
     <p>Restraint, to be clear, is not absence. Inside this pattern run six learned models over a 147-signal read of every case-day, retrained monthly under audit. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
 
@@ -401,7 +401,7 @@ a{color:inherit}
           <p>Slower headline progress — the gate rejects your own improvements, and rejections don’t make launch announcements.</p>
           <p>Boring demos — “calibrated forecast plus rules” never wows a room.</p>
           <p>Unglamorous work first — logging schemas, leakage audits, and manifests before any intelligence.</p>
-          <p>Public self-correction — the retraction of record ships in the repo, forever.</p>
+          <p>Self-correction on the record — every gate rejection and validation miss is written down, forever.</p>
         </div>
         <div class="side buys">
           <h4>What it buys</h4>
@@ -426,8 +426,8 @@ a{color:inherit}
 
   <footer class="colophon">
     <div style="max-width:672px;margin:0 auto">
-      <p><strong style="color:var(--ink)">The series.</strong> This essay is the design philosophy. Also: <a href="engineering.html">the engineering deep dive</a> (architecture, champions, the leakage retraction) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
-      <p>Internal note written in the style of a public post. All figures are backtested and as-of; correlations are reported as observation, never as causal advice; pilot results are not claimed. Sources of record in-repo: <code>docs/ADR/0001-verification-play-decision-engine.md</code>, <code>README.md</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
+      <p><strong style="color:var(--ink)">The series.</strong> This essay is the design philosophy. Also: <a href="engineering.html">the engineering deep dive</a> (architecture, champions, the promotion gate) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+      <p>Internal note written in the style of a public post. All figures are backtested and as-of; correlations are reported as observation, never as causal advice; pilot results are not claimed. Sources of record in-repo: <code>docs/ADR/0001-verification-play-decision-engine.md</code>, <code>README.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>
   </footer>

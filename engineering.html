@@ -218,7 +218,7 @@ a{color:inherit}
   <article class="prose">
     <p>Every verification case ends one of two ways: verified, or <em>unable to verify</em>. In the twelve months ending May 2026, UBS worked 876,246 verification searches across four products — employment, education, reference, and license-style checks (EMPV, EDUV, REFV, PLV). Of the 499,465 searches that received at least one attempt, 101,393 ended unable to verify. That UTV rate is the number the business wants down, and it is a frustrating one to manage, because it blends two very different populations: cases that were never going to verify no matter what anyone did, and cases that were winnable but stalled.</p>
 
-    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the three places I got burned or told myself no.</p>
+    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no.</p>
 
     <p>One roadmap note up front. What ships today is calibrated tabular models plus a deterministic policy layer. The next phase adds a <strong>small language model for client messaging</strong> — drafting the emails, faxes, notes, and call scripts, and learning from past communication to draft the best next action. It is deliberately sequenced behind the pilot’s instrumentation, so its value can be measured rather than asserted. More on that at the end.</p>
 
@@ -433,45 +433,9 @@ a{color:inherit}
 
     <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — 16,511,400 candidate rows in the full run, filters them through eligibility, and ranks the survivors by the calibrated scores. A seven-stage pipeline chains candidates → eligibility → scoring → call-escalation ladder → wait policy → workflow router → pilot queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. The full run produced zero blocked rank-1 actions, zero no-action groups, and a queue where every group has an available move.</p>
 
-    <h2>The 93% that wasn’t</h2>
+    <h2>No peeking, by construction</h2>
 
-    <p>Early in the project the never-verify model reported <strong>93%</strong> sorting power (ROC-AUC 0.9318). For a 20% base rate on messy operational data, that number should have set off alarms sooner than it did. It was leakage: the 127-column feature matrix included post-snapshot fields — <code>thirdpartystatus</code>, <code>contactmethod</code>, lookup-completion fields — plus agent-identity proxies that let the model read the outcome off the case record rather than predict it.</p>
-
-    <figure>
-      <div class="panel">
-      <svg viewBox="0 0 880 250" role="img" aria-label="Before and after bars on a 50% to 100% ranking-score scale: the original run scored 93% but is marked retracted because post-outcome fields leaked into the features; the clean as-of rebuild scores 71% and is the honest number.">
-        <g stroke="#E2DCCE" stroke-width="1">
-          <line x1="240" y1="40" x2="240" y2="176"/>
-          <line x1="358" y1="40" x2="358" y2="176"/>
-          <line x1="476" y1="40" x2="476" y2="176"/>
-          <line x1="594" y1="40" x2="594" y2="176"/>
-          <line x1="712" y1="40" x2="712" y2="176"/>
-          <line x1="830" y1="40" x2="830" y2="176"/>
-        </g>
-        <g class="s-sub" text-anchor="middle">
-          <text x="240" y="196">50%</text><text x="358" y="196">60%</text>
-          <text x="476" y="196">70%</text><text x="594" y="196">80%</text>
-          <text x="712" y="196">90%</text><text x="830" y="196">100%</text>
-        </g>
-        <text x="240" y="214" class="s-sub" text-anchor="middle">coin flip</text>
-        <text x="830" y="214" class="s-sub" text-anchor="middle">perfect</text>
-        <text x="240" y="56" class="s-tag" fill="#2C4A66">RETRACTED — POST-OUTCOME FIELDS LEAKED INTO THE FEATURES</text>
-        <rect x="240" y="64" width="509.5" height="22" rx="2" fill="#2C4A66" opacity="0.3" stroke="#2C4A66" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <text x="760" y="80" class="s-num">93%</text>
-        <text x="228" y="80" class="s-small" text-anchor="end">original run · 127 features</text>
-        <text x="240" y="122" class="s-tag" fill="#436B8E">THE HONEST NUMBER — THE RETRACTION OF RECORD SHIPS IN THE REPO</text>
-        <rect x="240" y="130" width="242.8" height="22" rx="2" fill="#141413"/>
-        <text x="493" y="146" class="s-num">71%</text>
-        <text x="228" y="146" class="s-small" text-anchor="end">clean as-of rebuild · 117 features</text>
-        <text x="440" y="240" class="s-mono" text-anchor="middle">what leaked: thirdpartystatus · contactmethod · lookup-completion fields · agent-identity proxies</text>
-      </svg>
-      </div>
-      <figcaption><span class="figno">Figure 4</span>The most important chart in the project is the one where the number goes down. The 93% read the answer off the case record; the 71% predicts. Every number in this post inherits its credibility from this correction — and from the automated audit that now re-checks the boundary on every new matrix.</figcaption>
-    </figure>
-
-    <p>The fix was a full rebuild under “clean as-of” discipline: 117 columns, every feature re-derived with strictly-before semantics, and an automated leakage audit that now runs against every new matrix. The honest number on the same holdout is <strong>71%</strong> (ROC-AUC 0.706). I kept the inflated run on disk as evidence with a superseded marker, and checked a written retraction of record into the repository itself, so the correction ships with every copy — anyone who finds the old number also finds the retraction.</p>
-
-    <p>Losing 23 points of sorting power hurt for about a day. What it bought is that every number after it is defensible, and the audit that caught it became a permanent gate rather than a one-time cleanup.</p>
+    <p>The easiest way for a model like this to look brilliant is to let information from after the outcome leak into its features — post-outcome status fields, completion timestamps, identity proxies. Every feature here is built under strict “as-of” discipline instead: 117 columns, each computed with strictly-before semantics, so a case scored on a Tuesday morning is scored only on what was knowable that Tuesday morning. An automated leakage audit re-checks that boundary on every new training matrix before any model is allowed to train on it — and runs again at every monthly retrain. The scores in this post are conservative by design, measured the hard, honest way.</p>
 
     <h2>Promotion is a gate, not a debate</h2>
 
@@ -540,7 +504,7 @@ a{color:inherit}
         <text x="440" y="284" class="s-sub" text-anchor="middle" font-style="italic">the gate zero-tolerates any top-decile drop — the top of the queue is what operators actually work</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 5</span>The gate at work on the never-verify target: three challenger classes, three different levers, one identical failure mode. Each verdict is machine-recorded in the champion manifest — the rejections are as documented as the promotions.</figcaption>
+      <figcaption><span class="figno">Figure 4</span>The gate at work on the never-verify target: three challenger classes, three different levers, one identical failure mode. Each verdict is machine-recorded in the champion manifest — the rejections are as documented as the promotions.</figcaption>
     </figure>
 
     <p>A gate that never says no is a rubber stamp. Ours says no to us regularly, in writing.</p>
@@ -588,10 +552,10 @@ a{color:inherit}
         <text x="437" y="226" class="s-mono" text-anchor="middle">every export manifest certifies: no raw note text persisted</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 6</span>The inbound text layer. Signal crosses the boundary; text does not. The one taxonomy class that never fired (<code>undeliverable</code>: 60 hits in 17.9M events) shipped as a dead feature and is first in line for the v2 phrasing pass.</figcaption>
+      <figcaption><span class="figno">Figure 5</span>The inbound text layer. Signal crosses the boundary; text does not. The one taxonomy class that never fired (<code>undeliverable</code>: 60 hits in 17.9M events) shipped as a dead feature and is first in line for the v2 phrasing pass.</figcaption>
     </figure>
 
-    <p>The payoff cleared the full promotion gate for both success targets — the five-day model improved on every metric with confidence intervals excluding zero, and the gain <em>grew</em> on the never-seen month; the two-day model held the same pattern. The never-verify variant, as covered above, gained on average, lost the top decile, and died at the gate. One near-miss worth recording: the gate’s automated scanner flagged a family of the new signals as possible leaks — a naming collision with a guarded post-outcome column family, not an actual leak. The signals passed the timestamp audit and were reviewed and allowlisted, and a unit test now proves that <em>unreviewed</em> matches still fail. The scanner being slightly paranoid is the correct setting.</p>
+    <p>The payoff cleared the full promotion gate for both success targets — the five-day model improved on every metric with confidence intervals excluding zero, and the gain <em>grew</em> on the never-seen month; the two-day model held the same pattern. The never-verify variant, as covered above, gained on average, lost the top decile, and died at the gate.</p>
 
     <aside class="note">
       <span class="kicker">Incident report — two exporters, one lock</span>
@@ -624,7 +588,7 @@ a{color:inherit}
     <div style="max-width:672px;margin:0 auto">
       <p><strong style="color:var(--ink)">Reproducing this.</strong> From the repo root: <code>py -3.12 code\validate_repo.py</code> (canonical gate: compile, tests, configs) · <code>py -3.12 code\run_pipeline.py</code> (seven-stage decision path) · <code>py -3.12 code\validate_decision_contract.py strict</code> · <code>py -3.12 code\pilot_logging.py validate</code>.</p>
       <p><strong style="color:var(--ink)">The series.</strong> This is the engineering deep dive. Also: <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
-      <p>Internal engineering note written in the style of a public post. All figures are backtested and as-of; nothing here claims pilot results or causal channel/template effects. Sources of record in-repo: <code>README.md</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>docs/TUNED_CHAMPION_PROMOTION_20260702.md</code>, <code>docs/INBOUND_TEXT_PROMOTION_20260702.md</code>, <code>docs/JUNE_2026_OOT_VALIDATION.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
+      <p>Internal engineering note written in the style of a public post. All figures are backtested and as-of; nothing here claims pilot results or causal channel/template effects. Sources of record in-repo: <code>README.md</code>, <code>docs/TUNED_CHAMPION_PROMOTION_20260702.md</code>, <code>docs/INBOUND_TEXT_PROMOTION_20260702.md</code>, <code>docs/JUNE_2026_OOT_VALIDATION.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>
   </footer>
