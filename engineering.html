@@ -27,11 +27,11 @@ a{color:inherit}
     --ink:#141413;
     --warm:#6E6A5F;
     --warm-light:#8A8578;
-    --clay:#C4633E;
-    --clay-soft:#CC785C;
-    --clay-tint:#F6E7DE;
+    --clay:#436B8E;
+    --clay-soft:#6B93B5;
+    --clay-tint:#E4EDF4;
     --moss:#5F7A4A;
-    --rust:#9A4B38;
+    --rust:#2C4A66;
     --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
     --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
@@ -150,7 +150,7 @@ a{color:inherit}
     padding:2px 8px;border-radius:99px;white-space:nowrap;
   }
   .chip.pass{background:#EAEFE2;color:var(--moss)}
-  .chip.reject{background:#F3E2DB;color:var(--rust)}
+  .chip.reject{background:#DDE8F0;color:var(--rust)}
   .chip.hold{background:var(--oat-deep);color:var(--warm)}
   /* ---------- state bar ---------- */
   .statebar{display:flex;height:34px;border-radius:3px;overflow:hidden;border:1px solid var(--hairline)}
@@ -207,7 +207,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of our own improvements. How the system works — and how it’s built to take on a small language model for client messaging in the next phase.</p>
+    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of my own improvements. How the system works — and how it’s built to take on a small language model for client messaging in the next phase.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Status</b> backtest evidence; pilot not yet claimed</span>
@@ -218,7 +218,7 @@ a{color:inherit}
   <article class="prose">
     <p>Every verification case ends one of two ways: verified, or <em>unable to verify</em>. In the twelve months ending May 2026, UBS worked 876,246 verification searches across four products — employment, education, reference, and license-style checks (EMPV, EDUV, REFV, PLV). Of the 499,465 searches that received at least one attempt, 101,393 ended unable to verify. That UTV rate is the number the business wants down, and it is a frustrating one to manage, because it blends two very different populations: cases that were never going to verify no matter what anyone did, and cases that were winnable but stalled.</p>
 
-    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the three places we got burned or told ourselves no.</p>
+    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the three places I got burned or told myself no.</p>
 
     <p>One roadmap note up front. What ships today is calibrated tabular models plus a deterministic policy layer. The next phase adds a <strong>small language model for client messaging</strong> — drafting the emails, faxes, notes, and call scripts, and learning from past communication to draft the best next action. It is deliberately sequenced behind the pilot’s instrumentation, so its value can be measured rather than asserted. More on that at the end.</p>
 
@@ -254,8 +254,8 @@ a{color:inherit}
         </g>
         <!-- difficulty models -->
         <g>
-          <rect x="300" y="48" width="252" height="118" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="316" y="76" class="s-tag" fill="#C4633E">ML — PREDICTS</text>
+          <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Difficulty models</text>
           <text x="316" y="122" class="s-sub">P(verify ≤2d) · P(verify ≤5d) · P(never)</text>
           <text x="316" y="140" class="s-sub">gradient-boosted trees, isotonic-calibrated</text>
@@ -300,7 +300,7 @@ a{color:inherit}
 
     <h2>Three questions, one matrix</h2>
 
-    <p>The modeling layer asks three versions of “how hard is this case?” — will it verify within two days, within five days, and will it <em>ever</em> verify. All three are trained from a single matrix of case-day snapshots: one row per <code>(searchid, snapshot_day)</code>, 2,751,900 rows over the twelve-month window, each row restricted to what was knowable at that moment. The models are scikit-learn <code>HistGradientBoostingClassifier</code>s with isotonic calibration on top, because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
+    <p>Three machine-learned models each take one version of “how hard is this case?” — will it verify within two days, within five days, and will it <em>ever</em> verify. All three are trained from a single matrix of case-day snapshots: one row per <code>(searchid, snapshot_day)</code>, 2,751,900 rows over the twelve-month window, each row restricted to what was knowable at that moment. The models themselves are gradient-boosted decision trees (the HistGradientBoosting family): an ensemble method that builds hundreds of small decision trees, each one trained to correct the mistakes of the trees before it. I chose that family deliberately over deep-learning alternatives — on structured operational data like this it is still the accuracy benchmark to beat; it natively handles the mix of counts, categories, and missing values that case history actually is; it retrains in minutes, which is what makes a monthly self-improvement cycle cheap; and its decisions can be interrogated feature by feature. On top of each model sits a calibration layer that turns raw scores into honest probabilities — when the system says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
 
     <div class="tablewrap">
       <table>
@@ -344,7 +344,7 @@ a{color:inherit}
       </table>
     </div>
 
-    <p>Two readings of that table matter more than the decimals. First, at day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>ROC-AUC ≈ 0.81</strong> across three forward folds (0.823 / 0.800 / 0.812). Knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 0.81 and the pooled 0.706 is survivorship, not decay: fresh cases differ enormously and are comparatively easy to tell apart, while the pool of still-open cases grows more homogeneous as the easy ones resolve out — ranking the survivors is intrinsically harder. (Methodology differs too: the day-0 figure is the walk-forward, identity-safe variant on the first-snapshot slice.) Second, the pooled model spreads the population hard enough to be operationally meaningful:</p>
+    <p>In plain terms: hand the never-verify model any two open cases — one that eventually verified, one that never did — and it puts them in the right order <strong>71% of the time</strong>, where a coin flip manages 50% (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day models sort at 75% and 72%. At day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>≈81%</strong> across three forward folds (82% / 80% / 81%); knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 81% and the pooled 71% is survivorship, not decay: fresh cases differ enormously and are easy to tell apart, while the pool of still-open cases grows more alike as the easy ones resolve out — ranking the survivors is intrinsically harder. And the three champions are not alone: <strong>six learned models run in orchestration</strong> — these three forecasts, the day-0 intake read, day-1/2 re-scores for aging cases, and an early-warning model — all reading the same morning snapshot, all feeding one daily decision pass. What that buys operationally is the spread: the tenth of cases the model ranks riskiest actually fails <strong>48% of the time against a floor-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
 
     <figure>
       <div class="panel">
@@ -368,7 +368,7 @@ a{color:inherit}
         <text x="115.6" y="88" class="s-num" text-anchor="middle">3.0%</text>
         <text x="115.6" y="166" class="s-sub" text-anchor="middle">easiest predicted decile</text>
         <!-- hardest -->
-        <circle cx="802.6" cy="118" r="9" fill="#C4633E"/>
+        <circle cx="802.6" cy="118" r="9" fill="#436B8E"/>
         <text x="802.6" y="88" class="s-num" text-anchor="middle">48.2%</text>
         <text x="802.6" y="166" class="s-sub" text-anchor="middle">hardest predicted decile</text>
       </svg>
@@ -409,8 +409,8 @@ a{color:inherit}
 
     <figure>
       <div class="statebar" role="img" aria-label="Distribution of 2.75 million case snapshots across resolver states: outreach ready 34.1%, review due 24.4%, inbound review required 20.2%, policy review 12.7%, outreach prohibited 4.9%, cooldown 3.7%, paths exhausted 0.2%.">
-        <div class="seg" style="flex-basis:34.1%;background:#C4744F"><span>Outreach ready · 34.1%</span></div>
-        <div class="seg" style="flex-basis:24.4%;background:#DAB08C"><span style="color:#57432E">Review due · 24.4%</span></div>
+        <div class="seg" style="flex-basis:34.1%;background:#5580A3"><span>Outreach ready · 34.1%</span></div>
+        <div class="seg" style="flex-basis:24.4%;background:#9DBBD4"><span style="color:#1B3045">Review due · 24.4%</span></div>
         <div class="seg" style="flex-basis:20.2%;background:#8A8578"><span>Inbound review · 20.2%</span></div>
         <div class="seg" style="flex-basis:12.7%;background:#C2BBAA"><span style="color:#57534A">Policy · 12.7%</span></div>
         <div class="seg" style="flex-basis:4.9%;background:#3E3A33"></div>
@@ -418,8 +418,8 @@ a{color:inherit}
         <div class="seg" style="flex-basis:0.2%;background:#6E6A5F"></div>
       </div>
       <div class="legend">
-        <div class="k"><span class="sw" style="background:#C4744F"></span>Outreach execution ready<span class="v">34.1%</span></div>
-        <div class="k"><span class="sw" style="background:#DAB08C"></span>Review due (scheduled re-check)<span class="v">24.4%</span></div>
+        <div class="k"><span class="sw" style="background:#5580A3"></span>Outreach execution ready<span class="v">34.1%</span></div>
+        <div class="k"><span class="sw" style="background:#9DBBD4"></span>Review due (scheduled re-check)<span class="v">24.4%</span></div>
         <div class="k"><span class="sw" style="background:#8A8578"></span>Inbound review required<span class="v">20.2%</span></div>
         <div class="k"><span class="sw" style="background:#C2BBAA"></span>Policy / DNC review required<span class="v">12.7%</span></div>
         <div class="k"><span class="sw" style="background:#3E3A33"></span>Outreach prohibited<span class="v">4.9%</span></div>
@@ -431,15 +431,15 @@ a{color:inherit}
 
     <p>That third segment hides the most immediately bankable finding in the project. On roughly <strong>401,000 case-days — about one in seven</strong> — a vendor-channel response had already been received, yet the process as practiced would have actively re-contacted the party. The resolver routes every one of them to review-first instead. No model was needed for this; it fell out of writing down, deterministically, what “already responded” means. (The signal is a vendor receipt, not parsed reply content, and it doesn’t exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
 
-    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — 16,511,400 candidate rows in the full run, filters them through eligibility, and ranks the survivors by the calibrated scores. A seven-stage pipeline (<code>run_pipeline.py</code>) chains candidates → eligibility → scoring → call-escalation ladder → wait policy → workflow router → pilot queue, each stage a subprocess that fails fast on a falsey <code>passed</code> in its summary, with a strict contract validator at the end. The full run produced zero blocked rank-1 actions, zero no-action groups, and a queue where every group has an available move.</p>
+    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — 16,511,400 candidate rows in the full run, filters them through eligibility, and ranks the survivors by the calibrated scores. A seven-stage pipeline chains candidates → eligibility → scoring → call-escalation ladder → wait policy → workflow router → pilot queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. The full run produced zero blocked rank-1 actions, zero no-action groups, and a queue where every group has an available move.</p>
 
-    <h2>The 0.93 that wasn’t</h2>
+    <h2>The 93% that wasn’t</h2>
 
-    <p>Early in the project the never-verify model reported ROC-AUC <strong>0.9318</strong>. For a base rate of 0.20 on messy operational data, that number should have set off alarms sooner than it did. It was leakage: the 127-column feature matrix included post-snapshot fields — <code>thirdpartystatus</code>, <code>contactmethod</code>, lookup-completion fields — plus agent-identity proxies that let the model read the outcome off the case record rather than predict it.</p>
+    <p>Early in the project the never-verify model reported <strong>93%</strong> sorting power (ROC-AUC 0.9318). For a 20% base rate on messy operational data, that number should have set off alarms sooner than it did. It was leakage: the 127-column feature matrix included post-snapshot fields — <code>thirdpartystatus</code>, <code>contactmethod</code>, lookup-completion fields — plus agent-identity proxies that let the model read the outcome off the case record rather than predict it.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 250" role="img" aria-label="Before and after bars on a 0.5 to 1.0 ranking-score scale: the original run scored 0.9318 but is marked retracted because post-outcome fields leaked into the features; the clean as-of rebuild scores 0.7058 and is the honest number.">
+      <svg viewBox="0 0 880 250" role="img" aria-label="Before and after bars on a 50% to 100% ranking-score scale: the original run scored 93% but is marked retracted because post-outcome fields leaked into the features; the clean as-of rebuild scores 71% and is the honest number.">
         <g stroke="#E2DCCE" stroke-width="1">
           <line x1="240" y1="40" x2="240" y2="176"/>
           <line x1="358" y1="40" x2="358" y2="176"/>
@@ -449,33 +449,33 @@ a{color:inherit}
           <line x1="830" y1="40" x2="830" y2="176"/>
         </g>
         <g class="s-sub" text-anchor="middle">
-          <text x="240" y="196">0.50</text><text x="358" y="196">0.60</text>
-          <text x="476" y="196">0.70</text><text x="594" y="196">0.80</text>
-          <text x="712" y="196">0.90</text><text x="830" y="196">1.00</text>
+          <text x="240" y="196">50%</text><text x="358" y="196">60%</text>
+          <text x="476" y="196">70%</text><text x="594" y="196">80%</text>
+          <text x="712" y="196">90%</text><text x="830" y="196">100%</text>
         </g>
         <text x="240" y="214" class="s-sub" text-anchor="middle">coin flip</text>
         <text x="830" y="214" class="s-sub" text-anchor="middle">perfect</text>
-        <text x="240" y="56" class="s-tag" fill="#9A4B38">RETRACTED — POST-OUTCOME FIELDS LEAKED INTO THE FEATURES</text>
-        <rect x="240" y="64" width="509.5" height="22" rx="2" fill="#9A4B38" opacity="0.3" stroke="#9A4B38" stroke-width="1.5" stroke-dasharray="6 4"/>
-        <text x="760" y="80" class="s-num">0.9318</text>
+        <text x="240" y="56" class="s-tag" fill="#2C4A66">RETRACTED — POST-OUTCOME FIELDS LEAKED INTO THE FEATURES</text>
+        <rect x="240" y="64" width="509.5" height="22" rx="2" fill="#2C4A66" opacity="0.3" stroke="#2C4A66" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <text x="760" y="80" class="s-num">93%</text>
         <text x="228" y="80" class="s-small" text-anchor="end">original run · 127 features</text>
-        <text x="240" y="122" class="s-tag" fill="#C4633E">THE HONEST NUMBER — THE RETRACTION OF RECORD SHIPS IN THE REPO</text>
+        <text x="240" y="122" class="s-tag" fill="#436B8E">THE HONEST NUMBER — THE RETRACTION OF RECORD SHIPS IN THE REPO</text>
         <rect x="240" y="130" width="242.8" height="22" rx="2" fill="#141413"/>
-        <text x="493" y="146" class="s-num">0.7058</text>
+        <text x="493" y="146" class="s-num">71%</text>
         <text x="228" y="146" class="s-small" text-anchor="end">clean as-of rebuild · 117 features</text>
         <text x="440" y="240" class="s-mono" text-anchor="middle">what leaked: thirdpartystatus · contactmethod · lookup-completion fields · agent-identity proxies</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 4</span>The most important chart in the project is the one where the number goes down. The 0.93 read the answer off the case record; the 0.71 predicts. Every number in this post inherits its credibility from this correction — and from the automated audit that now re-checks the boundary on every new matrix.</figcaption>
+      <figcaption><span class="figno">Figure 4</span>The most important chart in the project is the one where the number goes down. The 93% read the answer off the case record; the 71% predicts. Every number in this post inherits its credibility from this correction — and from the automated audit that now re-checks the boundary on every new matrix.</figcaption>
     </figure>
 
-    <p>The fix was a full rebuild under “clean as-of” discipline: 117 columns, every feature re-derived with strictly-before semantics, and an automated leakage audit that now runs against every new matrix. The honest number on the same holdout is <strong>0.706</strong>. We kept the inflated run on disk as evidence with a superseded marker, and checked a retraction of record into the repo itself (<code>docs/LEAKAGE_RETRACTION.md</code>) so the correction ships with every clone — anyone who finds the old number also finds the retraction.</p>
+    <p>The fix was a full rebuild under “clean as-of” discipline: 117 columns, every feature re-derived with strictly-before semantics, and an automated leakage audit that now runs against every new matrix. The honest number on the same holdout is <strong>71%</strong> (ROC-AUC 0.706). I kept the inflated run on disk as evidence with a superseded marker, and checked a written retraction of record into the repository itself, so the correction ships with every copy — anyone who finds the old number also finds the retraction.</p>
 
-    <p>Losing 0.23 of AUC hurt for about a day. What it bought is that every number after it is defensible, and the audit that caught it became a permanent gate rather than a one-time cleanup.</p>
+    <p>Losing 23 points of sorting power hurt for about a day. What it bought is that every number after it is defensible, and the audit that caught it became a permanent gate rather than a one-time cleanup.</p>
 
     <h2>Promotion is a gate, not a debate</h2>
 
-    <p>Model improvements are promoted per target — there is no single “champion model,” there are three — and promotion is mechanical. A challenger must clear every criterion against the sitting incumbent; <code>config/model_champion_v1.json</code> is the single source of truth, and rejections are machine-recorded in the champion manifest.</p>
+    <p>Model improvements are promoted per target — there is no single “champion model,” there are three — and promotion is mechanical. A challenger must clear every criterion against the sitting incumbent; a single checked-in champion config is the source of truth, and rejections are machine-recorded in the champion manifest.</p>
 
     <div class="gates">
       <div class="g"><b>ROC-AUC</b><span>at least <em>+0.002</em> over the incumbent, with bootstrap confidence intervals excluding zero</span></div>
@@ -486,7 +486,7 @@ a{color:inherit}
       <div class="g"><b>Out-of-time replication</b><span>the win must survive a never-seen month scored with frozen bundles</span></div>
     </div>
 
-    <p>The gate earns its keep on the negative results. For the never-verify target, <strong>three consecutive challenger classes have now been rejected on the same trade-off</strong>: plain hyperparameter tuning (+0.0097 AUC, top-decile drop in all three walk-forward folds), a lift-guarded sweep (held the decile, but +0.0004 AUC missed the 0.002 floor), and this cycle’s text-feature variant (+0.0111 AUC, but top-decile lift fell 2.398 → 2.376 on the gate month — and the drop <em>replicated</em> on never-seen June, 2.610 → 2.468). Three different levers, one identical failure mode. At that point it stops looking like bad luck and starts looking structural: for this target, average ranking quality and top-decile sharpness are genuinely in tension. The next lever is better labels — June’s UTV labels mature in the July pull — and possibly reframing the target itself, not a fourth feature push.</p>
+    <p>The gate earns its keep on what it rejects. Three times this year I tried to improve the never-verify model — a settings-tuning pass, a guarded version of the same sweep, and this cycle’s note-reading variant — and the gate turned all three away <strong>for the same reason</strong>: each was slightly better on average across the whole book, and slightly worse at the very top of the ranked worklist — the first page operators actually work, where accuracy is worth the most. One rejection is bad luck; three identical ones is a message. For this target, average accuracy and top-of-list sharpness genuinely pull against each other, so the next attempt changes the training data itself — June’s outcomes finish maturing in the July pull — rather than pushing a fourth model variant.</p>
 
     <figure>
       <div class="panel">
@@ -499,9 +499,9 @@ a{color:inherit}
           <text x="40" y="136" class="s-sub">ranking (AUC)</text>
           <text x="40" y="154" class="s-small" style="fill:#5F7A4A">+0.0097 ▲</text>
           <text x="40" y="180" class="s-sub">top-decile lift</text>
-          <text x="40" y="198" class="s-small" style="fill:#9A4B38">drops — all 3 folds ▼</text>
-          <rect x="40" y="214" width="116" height="24" rx="12" fill="#F3E2DB"/>
-          <text x="53" y="230" class="s-tag" fill="#9A4B38">✕ REJECTED</text>
+          <text x="40" y="198" class="s-small" style="fill:#2C4A66">drops — all 3 folds ▼</text>
+          <rect x="40" y="214" width="116" height="24" rx="12" fill="#DDE8F0"/>
+          <text x="53" y="230" class="s-tag" fill="#2C4A66">✕ REJECTED</text>
         </g>
         <g>
           <rect x="238" y="36" width="196" height="212" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
@@ -512,8 +512,8 @@ a{color:inherit}
           <text x="254" y="154" class="s-small" style="fill:#8A8578">+0.0004 — below floor</text>
           <text x="254" y="180" class="s-sub">top-decile lift</text>
           <text x="254" y="198" class="s-small" style="fill:#5F7A4A">holds ▬</text>
-          <rect x="254" y="214" width="116" height="24" rx="12" fill="#F3E2DB"/>
-          <text x="267" y="230" class="s-tag" fill="#9A4B38">✕ REJECTED</text>
+          <rect x="254" y="214" width="116" height="24" rx="12" fill="#DDE8F0"/>
+          <text x="267" y="230" class="s-tag" fill="#2C4A66">✕ REJECTED</text>
         </g>
         <g>
           <rect x="452" y="36" width="196" height="212" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
@@ -523,9 +523,9 @@ a{color:inherit}
           <text x="468" y="136" class="s-sub">ranking (AUC)</text>
           <text x="468" y="154" class="s-small" style="fill:#5F7A4A">+0.0111 ▲</text>
           <text x="468" y="180" class="s-sub">top-decile lift</text>
-          <text x="468" y="198" class="s-small" style="fill:#9A4B38">2.398 → 2.376 ▼ (June too)</text>
-          <rect x="468" y="214" width="116" height="24" rx="12" fill="#F3E2DB"/>
-          <text x="481" y="230" class="s-tag" fill="#9A4B38">✕ REJECTED</text>
+          <text x="468" y="198" class="s-small" style="fill:#2C4A66">2.398 → 2.376 ▼ (June too)</text>
+          <rect x="468" y="214" width="116" height="24" rx="12" fill="#DDE8F0"/>
+          <text x="481" y="230" class="s-tag" fill="#2C4A66">✕ REJECTED</text>
         </g>
         <g>
           <rect x="666" y="36" width="190" height="212" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
@@ -547,13 +547,13 @@ a{color:inherit}
 
     <h2>Reading the notes without keeping them</h2>
 
-    <p>The v3 cycle’s promoted improvement came from the one data source we had been most careful to avoid: free-text operator and vendor notes on the search history. Notes are where outcome language lives (“verified via…”), so naive inclusion is a leakage machine, and they are also where the privacy risk lives, so persisting them into training artifacts was never on the table.</p>
+    <p>The biggest accuracy gain this cycle came from the data source I had been most careful to avoid: the free-text notes operators and vendors leave on case history (“left a voicemail”; “reached HR, call back Tuesday”). Notes are where the richest signal lives — and where the risk lives twice over: outcome language (“verified via…”) leaks answers into training, and raw text carries the privacy exposure, so persisting it into training artifacts was never on the table.</p>
 
-    <p>The compromise is an <strong>11-class deterministic keyword taxonomy that classifies each note in flight during export and then throws the text away</strong>. What lands on disk per event is the class flags and a SHA-256 pointer — every partition manifest records <code>raw_note_text_persisted: false</code>. From 17,896,639 classified events across 871,844 searches, the matrix gains 30 as-of features per snapshot (per-class counts, last-flags, recency, note size), computed with strictly-before semantics and boundary unit tests. About 28% of snapshots carry at least one classified text event at their as-of time.</p>
+    <p>The design that threads the needle: <strong>a deterministic reading layer classifies each note the moment it streams past — then throws the text away</strong>. Every note is sorted into eleven kinds of operational signal (contact made, voicemail left, callback promised, redirected to a third party, …), and only the signal survives: which kinds of events a case has seen, how recently, how often. Deterministic matters here — the same note always produces the same labels, so the privacy boundary has no black box in it and the whole layer can be audited and replayed. That turns 17.9 million unreadable notes into 30 new machine-usable signals per case-day for the learned models, computed under the same no-peeking time discipline as everything else; about 28% of case-days carry at least one.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 240" role="img" aria-label="Text pipeline: operator notes are classified in flight by an 11-class keyword taxonomy during export; only class flags and a SHA-256 pointer are persisted; the raw note text never lands in any artifact; downstream, 30 as-of features per snapshot.">
+      <svg viewBox="0 0 880 240" role="img" aria-label="Text pipeline: operator notes are classified in flight by an 11-class deterministic reader during export; only signal flags are persisted; the raw note text never lands in any artifact; downstream, 30 as-of features per snapshot.">
         <defs>
           <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -571,11 +571,11 @@ a{color:inherit}
           <text x="40" y="152" class="s-mono">13 monthly partitions</text>
         </g>
         <g>
-          <rect x="312" y="60" width="250" height="104" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="312" y="60" width="250" height="104" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="328" y="90" class="s-title">In-flight classifier</text>
           <text x="328" y="112" class="s-sub">11-class keyword taxonomy,</text>
           <text x="328" y="130" class="s-sub">deterministic, runs during export</text>
-          <text x="328" y="152" class="s-mono">inbound_text_taxonomy.py</text>
+          <text x="328" y="152" class="s-mono">same note → same labels, always</text>
         </g>
         <g>
           <rect x="640" y="60" width="216" height="104" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
@@ -584,50 +584,52 @@ a{color:inherit}
           <text x="656" y="130" class="s-sub">last-flags, recency, note size</text>
           <text x="656" y="152" class="s-mono">strictly-before semantics</text>
         </g>
-        <text x="437" y="204" class="s-sub" text-anchor="middle">persisted per event: class flags + SHA-256 pointer — <tspan style="text-decoration:line-through">raw note text</tspan> never lands in any artifact</text>
-        <text x="437" y="226" class="s-mono" text-anchor="middle">every partition manifest: raw_note_text_persisted: false</text>
+        <text x="437" y="204" class="s-sub" text-anchor="middle">kept per event: the signal flags only — <tspan style="text-decoration:line-through">raw note text</tspan> never lands in any artifact</text>
+        <text x="437" y="226" class="s-mono" text-anchor="middle">every export manifest certifies: no raw note text persisted</text>
       </svg>
       </div>
       <figcaption><span class="figno">Figure 6</span>The inbound text layer. Signal crosses the boundary; text does not. The one taxonomy class that never fired (<code>undeliverable</code>: 60 hits in 17.9M events) shipped as a dead feature and is first in line for the v2 phrasing pass.</figcaption>
     </figure>
 
-    <p>The features cleared the full gate for both success targets. The five-day model improved on every metric with bootstrap CIs excluding zero, and — the part we watch most closely — the gain <em>grew</em> out of time: +0.0065 AUC on the gate month, +0.0071 on never-seen June. The two-day model held the same pattern. The never-verify variant, as covered above, gained AUC, lost the top decile, and died at the gate. One near-miss worth recording: the slice gate’s name scanner flagged <code>text_redirect_to_third_party_*</code> as a possible label proxy — a pattern collision, since the guarded pattern protects post-outcome completion columns. The features passed the timestamp audit, were reviewed and allowlisted, and a unit test now proves that <em>unreviewed</em> pattern matches still fail. The scanner being slightly paranoid is the correct setting.</p>
+    <p>The payoff cleared the full promotion gate for both success targets — the five-day model improved on every metric with confidence intervals excluding zero, and the gain <em>grew</em> on the never-seen month; the two-day model held the same pattern. The never-verify variant, as covered above, gained on average, lost the top decile, and died at the gate. One near-miss worth recording: the gate’s automated scanner flagged a family of the new signals as possible leaks — a naming collision with a guarded post-outcome column family, not an actual leak. The signals passed the timestamp audit and were reviewed and allowlisted, and a unit test now proves that <em>unreviewed</em> matches still fail. The scanner being slightly paranoid is the correct setting.</p>
 
     <aside class="note">
       <span class="kicker">Incident report — two exporters, one lock</span>
       <p>During the v3 export, two <code>--skip-existing</code> relaunches raced: an exporter from before a session cutoff had survived and kept writing. Interleaved truncate/append left partitions at ~1.8× their true row count with a single header — subtly plausible files, exactly the kind that poison everything downstream.</p>
-      <p>The manifest saved us. A row-count cross-check against each partition’s manifest failed <em>before any consumer read the data</em>; all parts were wiped and re-exported under a new exclusive pidfile lock, with Windows-aware liveness checking (on Windows, <code>os.kill(pid, 0)</code> terminates the target — <code>OpenProcess</code> it is) and three regression tests. Cheap invariant checks between pipeline stages are the highest-ROI code in this repo.</p>
+      <p>The manifest caught it. A row-count cross-check against each partition’s manifest failed <em>before any consumer read the data</em>; all parts were wiped and re-exported under a new exclusive pidfile lock, with Windows-aware liveness checking (on Windows, <code>os.kill(pid, 0)</code> terminates the target — <code>OpenProcess</code> it is) and three regression tests. Cheap invariant checks between pipeline stages are the highest-ROI code in this repo.</p>
     </aside>
 
-    <h2>What we deliberately don’t claim</h2>
+    <h2>What I deliberately don’t claim</h2>
 
     <p>The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
 
     <ul>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
       <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing models exclude direct agent and team IDs behind a drift gate, but behavioral agent attributes remain. Identity-bearing champions stay <code>provisional</code> for action-facing use, and the resolver applies no-direct-identity fallbacks automatically until that gate approves.</li>
-      <li><strong>Decision support today — automation is earned, not assumed.</strong> Nothing auto-sends yet and no decision is finalized by a machine; the wiring for automation exists, and each step toward it — exploration, auto-drafts, then gated auto-send — unlocks on pilot evidence, with exploration shipping disabled by default. The router is shadow-review metadata, not an autonomous policy — and we won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
-      <li><strong>The language layer is next-phase, on purpose.</strong> The endgame — a small language model that drafts the emails, faxes, notes, and call scripts, learning from past communication to draft the best next action — is sequenced last because without the causal instrumentation above we couldn’t tell whether it works.</li>
+      <li><strong>Decision support today — automation is earned, not assumed.</strong> Nothing auto-sends yet and no decision is finalized by a machine; the wiring for automation exists, and each step toward it — exploration, auto-drafts, then gated auto-send — unlocks on pilot evidence, with exploration shipping disabled by default. The router is shadow-review metadata, not an autonomous policy — and I won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
+      <li><strong>The language layer is next-phase, on purpose.</strong> The endgame — a small language model that drafts the emails, faxes, notes, and call scripts, learning from past communication to draft the best next action — is sequenced last because without the causal instrumentation above no one could tell whether it works.</li>
+      <li><strong>No rework-savings claims — the QA loop is measured, not yet moved.</strong> A reproducible July baseline timed the quality-review loop (education + employment, Jan–Jun 2026): a returned check runs a median 11.2 days from first QA return to approval, against 5.0 days for a typical check’s entire first pass — and 85.6% of coded return reasons are process-and-judgment classes, the ones the resolver, eligibility rules and lanes exist to prevent. “Exist to prevent” is a design statement, not an effect size: the effect claim waits for the pilot, and hands-on handle time waits for work-item state logs that nothing emits today.</li>
     </ul>
 
     <h2>What’s next</h2>
 
-    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not ours to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from propensity-logged pilot data — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
+    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from propensity-logged pilot data — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
 
     <p>And after the play engine comes the final step: a <strong>small language model that writes the communications themselves</strong> — the emails, the faxes, the case notes, and the scripts our call operators work from — learning from the logged record of past communication and its outcomes to draft the best next action for every case. It is sequenced last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
 
-    <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things we refuse to say. Every flashier layer gets built on top of that — or not at all. <span class="endmark">◆</span></p>
+    <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every flashier layer gets built on top of that — or not at all. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
     <div style="max-width:672px;margin:0 auto">
       <p><strong style="color:var(--ink)">Reproducing this.</strong> From the repo root: <code>py -3.12 code\validate_repo.py</code> (canonical gate: compile, tests, configs) · <code>py -3.12 code\run_pipeline.py</code> (seven-stage decision path) · <code>py -3.12 code\validate_decision_contract.py strict</code> · <code>py -3.12 code\pilot_logging.py validate</code>.</p>
-      <p><strong style="color:var(--ink)">The series.</strong> This deep dive is part 1. Also: <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+      <p><strong style="color:var(--ink)">The series.</strong> This is the engineering deep dive. Also: <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
       <p>Internal engineering note written in the style of a public post. All figures are backtested and as-of; nothing here claims pilot results or causal channel/template effects. Sources of record in-repo: <code>README.md</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>docs/TUNED_CHAMPION_PROMOTION_20260702.md</code>, <code>docs/INBOUND_TEXT_PROMOTION_20260702.md</code>, <code>docs/JUNE_2026_OOT_VALIDATION.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>
   </footer>
 </div>
+
 
 </body>
 </html>

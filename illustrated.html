@@ -27,13 +27,13 @@ a{color:inherit}
     --ink:#141413;
     --warm:#6E6A5F;
     --warm-light:#8A8578;
-    --clay:#C4633E;
-    --clay-soft:#CC785C;
-    --clay-tint:#F6E7DE;
+    --clay:#436B8E;
+    --clay-soft:#6B93B5;
+    --clay-tint:#E4EDF4;
     --moss:#5F7A4A;
     --moss-tint:#EAEFE2;
-    --rust:#9A4B38;
-    --rust-tint:#F3E2DB;
+    --rust:#2C4A66;
+    --rust-tint:#DDE8F0;
     --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
     --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
@@ -174,7 +174,7 @@ a{color:inherit}
   .card .rk{font-family:var(--mono);font-size:.75rem;color:var(--clay)}
   .card .prio{height:9px;background:var(--oat);border-radius:5px;margin-top:12px;overflow:hidden}
   .card .prio i{display:block;height:100%;background:var(--clay-soft);border-radius:5px}
-  .card.blocked{border:1.5px dashed var(--rust);background:#FBF6F3}
+  .card.blocked{border:1.5px dashed var(--rust);background:#F5F9FC}
   .card.blocked h4{color:var(--warm-light);text-decoration:line-through}
   .card.blocked .stamp{
     display:inline-block;font-size:.6875rem;font-weight:600;letter-spacing:.08em;
@@ -211,13 +211,13 @@ a{color:inherit}
 <div class="shell">
   <div class="topbar">
     <span class="wordmark">UBS Verifications<span class="dot"> ·</span> Decision Engine</span>
-    <span>Part 3 · Internal note, written as a public post</span>
+    <span>Internal note, written as a public post</span>
   </div>
 
   <header class="masthead">
     <div class="eyebrow">Illustrated guide</div>
     <h1>How one case moves through the machine</h1>
-    <p class="dek">The first post explained what we built; the second, the philosophy behind it. This one is for intuition. Follow a single employment verification — invented for this guide — through every layer of the architecture, one picture at a time.</p>
+    <p class="dek">The engineering deep dive explained what we built; the philosophy essay, why it is built that way. This one is for intuition. Follow a single employment verification — invented for this guide — through every layer of the architecture, one picture at a time.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Case 4127</b> is fictional; probabilities shown are illustrative, not model output</span>
@@ -251,7 +251,7 @@ a{color:inherit}
           <text x="100" y="152" text-anchor="middle" class="s-sub" font-style="italic">evidence ledger</text>
         </g>
         <g>
-          <rect x="196" y="46" width="152" height="80" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="196" y="46" width="152" height="80" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="272" y="76" text-anchor="middle" class="s-small">The triage nurse</text>
           <text x="272" y="96" text-anchor="middle" class="s-sub">reads the file, scores</text>
           <text x="272" y="111" text-anchor="middle" class="s-sub">how hard the case is</text>
@@ -283,7 +283,7 @@ a{color:inherit}
       </div>
       <div class="keyrow">
         <span class="k"><span class="sw" style="background:#FAF9F5"></span>evidence &amp; decisions</span>
-        <span class="k"><span class="sw" style="background:#F6E7DE;border-color:#C4633E"></span>models — probabilistic, <em>predicts</em></span>
+        <span class="k"><span class="sw" style="background:#E4EDF4;border-color:#436B8E"></span>models — probabilistic, <em>predicts</em></span>
         <span class="k"><span class="sw" style="background:#F0EEE6"></span>rules — deterministic, <em>permits</em></span>
         <span class="k"><span class="sw" style="background:#EAEFE2;border-color:#5F7A4A"></span>humans — decide &amp; log</span>
       </div>
@@ -292,7 +292,7 @@ a{color:inherit}
 
     <h2><span class="stepno">1</span>The curtain: what the system is allowed to know</h2>
 
-    <p>The single most important idea in the architecture is not a model — it’s a rule about time. The system never looks at a case as one blob of history. It looks at the case <em>as of a specific morning</em>, and it may only use facts from <strong>before</strong> that morning. One case therefore becomes many training rows — one per day it stayed open — and our twelve months of history becomes 2,751,900 of these <code>(case, day)</code> snapshots.</p>
+    <p>The single most important idea in the architecture is not a model — it’s a rule about time. The system never looks at a case as one blob of history. It looks at the case <em>as of a specific morning</em>, and it may only use facts from <strong>before</strong> that morning. One case therefore becomes many training rows — one per day it stayed open — and our twelve months of history becomes 2.75 million of these <code>(case, day)</code> snapshots.</p>
 
     <p>Drag the day below and watch what case 4127 looks like from inside the system. Everything right of the curtain hasn’t happened yet — as far as the machine knows, it never will.</p>
 
@@ -331,8 +331,8 @@ a{color:inherit}
           </g>
           <!-- curtain -->
           <rect id="curtain" x="270" y="16" width="602" height="118" fill="#FAF9F5" opacity="0.78"/>
-          <line id="cutline" x1="270" y1="16" x2="270" y2="134" stroke="#C4633E" stroke-width="2" stroke-dasharray="6 4"/>
-          <text id="cutlabel" x="278" y="30" class="s-tag" fill="#C4633E">SNAPSHOT: MORNING OF DAY 3</text>
+          <line id="cutline" x1="270" y1="16" x2="270" y2="134" stroke="#436B8E" stroke-width="2" stroke-dasharray="6 4"/>
+          <text id="cutlabel" x="278" y="30" class="s-tag" fill="#436B8E">SNAPSHOT: MORNING OF DAY 3</text>
           <text x="36" y="154" class="s-mono">always visible — intake facts: product EMPV · contacts on file: email ✓ phone ✓ fax ✗ · client policy</text>
         </svg>
         <div class="controls">
@@ -357,13 +357,13 @@ a{color:inherit}
             <h4>What it predicts · what the rules say</h4>
             <div class="pbar"><span>verifies ≤ 2 days</span><span class="track"><span class="fill" id="bar2" style="width:19%;background:#8FAE7C"></span></span><span class="val" id="pct2">19%</span></div>
             <div class="pbar"><span>verifies ≤ 5 days</span><span class="track"><span class="fill" id="bar5" style="width:43%;background:#5F7A4A"></span></span><span class="val" id="pct5">43%</span></div>
-            <div class="pbar"><span>never verifies</span><span class="track"><span class="fill" id="barn" style="width:30%;background:#9A4B38"></span></span><span class="val" id="pctn">30%</span></div>
+            <div class="pbar"><span>never verifies</span><span class="track"><span class="fill" id="barn" style="width:30%;background:#2C4A66"></span></span><span class="val" id="pctn">30%</span></div>
             <span class="statechip ready" id="stateChip">RESOLVER STATE: OUTREACH READY</span>
           </div>
         </div>
         <div class="lesson" id="lesson"><b>Day 3.</b> Cooldown expired, still no reply. Only now do the scores matter: the dispatcher ranks the allowed moves, and email #2 goes out later today.</div>
       </div>
-      <figcaption><span class="figno">Figure 2</span>The as-of curtain, interactively. Probabilities are illustrative. This curtain is also the moral of our leakage story: an early model scored 0.93 because post-outcome fields let it peek right of the line. Rebuilt with strict as-of discipline, the honest number is 0.71 — and an automated audit now checks the curtain on every new training matrix.</figcaption>
+      <figcaption><span class="figno">Figure 2</span>The as-of curtain, interactively. Probabilities are illustrative. This curtain is also the moral of the leakage story: an early model scored 93% because post-outcome fields let it peek right of the line. Rebuilt with strict as-of discipline, the honest number is 71% — and an automated audit now checks the curtain on every new training matrix.</figcaption>
     </figure>
 
     <h2><span class="stepno">2</span>Triage: three questions about the same case</h2>
@@ -391,7 +391,7 @@ a{color:inherit}
         <circle cx="115.6" cy="118" r="9" fill="#5F7A4A"/>
         <text x="115.6" y="88" class="s-title" text-anchor="middle">3.0%</text>
         <text x="115.6" y="166" class="s-sub" text-anchor="middle">easiest predicted decile</text>
-        <circle cx="802.6" cy="118" r="9" fill="#C4633E"/>
+        <circle cx="802.6" cy="118" r="9" fill="#436B8E"/>
         <text x="802.6" y="88" class="s-title" text-anchor="middle">48.2%</text>
         <text x="802.6" y="166" class="s-sub" text-anchor="middle">hardest predicted decile</text>
       </svg>
@@ -453,7 +453,7 @@ a{color:inherit}
           <text x="56" y="366" class="s-small">5 · Is a re-check scheduled for later?</text>
           <rect x="40" y="406" width="320" height="52" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
           <text x="56" y="438" class="s-small">6 · Any channels left to try?</text>
-          <rect x="40" y="478" width="320" height="52" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="40" y="478" width="320" height="52" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="56" y="503" class="s-small">7 · Then the case is workable —</text>
           <text x="56" y="521" class="s-sub">and only here do model scores drive an action</text>
         </g>
@@ -471,10 +471,10 @@ a{color:inherit}
           <text x="492" y="365" class="s-small">REVIEW DUE — scheduled re-check · 24.4%</text>
           <rect x="470" y="410" width="386" height="44" rx="22" fill="#E9E4D6" stroke="#141413" stroke-width="1.25"/>
           <text x="492" y="437" class="s-small">PATHS EXHAUSTED — escalate lane · 0.2%</text>
-          <rect x="470" y="482" width="386" height="44" rx="22" fill="#C4633E"/>
+          <rect x="470" y="482" width="386" height="44" rx="22" fill="#436B8E"/>
           <text x="492" y="509" class="s-small" style="fill:#FAF9F5">OUTREACH READY · 34.1% → to the dispatcher</text>
         </g>
-        <text x="848" y="552" text-anchor="end" class="s-tag" fill="#C4633E">▲ CASE 4127 LANDS HERE ON DAY 3 — ONLY NOW DO SCORES PICK ITS MOVE</text>
+        <text x="848" y="552" text-anchor="end" class="s-tag" fill="#436B8E">▲ CASE 4127 LANDS HERE ON DAY 3 — ONLY NOW DO SCORES PICK ITS MOVE</text>
       </svg>
       </div>
       <figcaption><span class="figno">Figure 4</span>The resolver as a supervisor’s checklist (a seven-question simplification of the real thirteen states; percentages are each state’s share of all 2.75M case-days). Notice question 2: a fifth of all case-days already have a response on record. Answering it deterministically is what caught the ~1-in-7 cases the old flow would have re-contacted. Across all 2.75M case-days: zero do-not-contact violations, zero policy violations — by construction, since scores are never consulted until row 7.</figcaption>
@@ -541,7 +541,7 @@ a{color:inherit}
 
     <h2><span class="stepno">6</span>The heartbeat: how the machine stays honest month over month</h2>
 
-    <p>Everything above is the <em>daily</em> loop. Wrapped around it is a monthly one: new data lands, the snapshot matrix is rebuilt behind the curtain, an automated leakage audit checks the curtain held, challenger models are trained, and a mechanical gate decides — champion or challenger — with the verdict recorded either way. The gate has said no to three of our own improvements this year. That’s the feature, not the bug.</p>
+    <p>Everything above is the <em>daily</em> loop. Wrapped around it is a monthly one: new data lands, the snapshot matrix is rebuilt behind the curtain, an automated leakage audit checks the curtain held, challenger models are trained, and a mechanical gate decides — champion or challenger — with the verdict recorded either way. The gate has said no to three of my own improvements this year. That’s the feature, not the bug.</p>
 
     <figure>
       <div class="panel">
@@ -572,7 +572,7 @@ a{color:inherit}
           <text x="744" y="254" text-anchor="middle" class="s-small">③ leakage audit</text>
           <text x="744" y="274" text-anchor="middle" class="s-sub">must pass — no exceptions</text>
 
-          <rect x="440" y="338" width="176" height="58" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="440" y="338" width="176" height="58" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="528" y="362" text-anchor="middle" class="s-small">④ train challengers</text>
           <text x="528" y="382" text-anchor="middle" class="s-sub">features · tuning · text layer</text>
 
@@ -626,8 +626,8 @@ a{color:inherit}
           <text x="40" y="240" class="s-sub">the as-of curtain</text>
         </g>
         <g>
-          <rect x="300" y="48" width="252" height="118" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="316" y="76" class="s-tag" fill="#C4633E">ML — PREDICTS</text>
+          <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Triage: difficulty models</text>
           <text x="316" y="122" class="s-sub">six models · 147 signals per case-day</text>
           <text x="316" y="140" class="s-sub">calibrated so 30% means 30%</text>
@@ -657,12 +657,12 @@ a{color:inherit}
         <text x="378" y="452" class="s-sub" font-style="italic">logged outcomes feed the monthly heartbeat — retrain, audit, gate, promote or reject</text>
         <!-- journey badges -->
         <g font-family="var(--sans)">
-          <circle cx="216" cy="150" r="13" fill="#C4633E"/><text x="216" y="155" text-anchor="middle" style="fill:#fff" class="s-small">1</text>
-          <circle cx="552" cy="48" r="13" fill="#C4633E"/><text x="552" y="53" text-anchor="middle" style="fill:#fff" class="s-small">2</text>
-          <circle cx="552" cy="286" r="13" fill="#C4633E"/><text x="552" y="291" text-anchor="middle" style="fill:#fff" class="s-small">3</text>
-          <circle cx="856" cy="167" r="13" fill="#C4633E"/><text x="856" y="172" text-anchor="middle" style="fill:#fff" class="s-small">4</text>
-          <circle cx="856" cy="352" r="13" fill="#C4633E"/><text x="856" y="357" text-anchor="middle" style="fill:#fff" class="s-small">5</text>
-          <circle cx="120" cy="420" r="13" fill="#C4633E"/><text x="120" y="425" text-anchor="middle" style="fill:#fff" class="s-small">6</text>
+          <circle cx="216" cy="150" r="13" fill="#436B8E"/><text x="216" y="155" text-anchor="middle" style="fill:#fff" class="s-small">1</text>
+          <circle cx="552" cy="48" r="13" fill="#436B8E"/><text x="552" y="53" text-anchor="middle" style="fill:#fff" class="s-small">2</text>
+          <circle cx="552" cy="286" r="13" fill="#436B8E"/><text x="552" y="291" text-anchor="middle" style="fill:#fff" class="s-small">3</text>
+          <circle cx="856" cy="167" r="13" fill="#436B8E"/><text x="856" y="172" text-anchor="middle" style="fill:#fff" class="s-small">4</text>
+          <circle cx="856" cy="352" r="13" fill="#436B8E"/><text x="856" y="357" text-anchor="middle" style="fill:#fff" class="s-small">5</text>
+          <circle cx="120" cy="420" r="13" fill="#436B8E"/><text x="120" y="425" text-anchor="middle" style="fill:#fff" class="s-small">6</text>
         </g>
       </svg>
       </div>
@@ -674,7 +674,7 @@ a{color:inherit}
 
   <footer class="colophon">
     <div style="max-width:672px;margin:0 auto">
-      <p><strong style="color:var(--ink)">The series:</strong> Part 1 — <a href="engineering.html">Building a decision engine for verification casework</a> (the engineering deep dive) · Part 2 — <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · Part 3 — this illustrated guide · Plus: <a href="exec-briefing.html">the executive briefing</a> and <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+      <p><strong style="color:var(--ink)">The series:</strong> <a href="engineering.html">Building a decision engine for verification casework</a> (the engineering deep dive) · <a href="philosophy.html">Earned autonomy</a> (the design philosophy) · this illustrated guide · plus <a href="exec-briefing.html">the executive briefing</a> and <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
       <p>Case 4127 is fictional and its probabilities, ranks, and timestamps are illustrative. Real numbers cited: 2,751,900 case-day snapshots; 16.5M candidate actions; state-mix percentages from the 2026-06-19 resolver run; the 3.0% / 48.2% decile spread and 0.93 → 0.71 leakage correction from the May 2026 holdout; zero DNC and policy violations across the full backtest. Correlations are observational — no channel or wording is claimed to cause outcomes. Sources in-repo: <code>README.md</code>, <code>presentations/ARCHITECTURE.md</code>, <code>docs/ADR/0001</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>config/model_champion_v1.json</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>

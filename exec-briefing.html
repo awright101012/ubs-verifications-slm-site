@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Inside the UTV Number — What We Found, What We Built</title>
+<title>The Verification Floor Gets a Brain — Executive Briefing</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -27,12 +27,12 @@ a{color:inherit}
     --ink:#141413;
     --warm:#6E6A5F;
     --warm-light:#8A8578;
-    --clay:#C4633E;
-    --clay-soft:#CC785C;
-    --clay-tint:#F6E7DE;
+    --clay:#436B8E;
+    --clay-soft:#6B93B5;
+    --clay-tint:#E4EDF4;
     --moss:#5F7A4A;
     --moss-tint:#EAEFE2;
-    --rust:#9A4B38;
+    --rust:#2C4A66;
     --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
     --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
@@ -236,8 +236,8 @@ a{color:inherit}
 
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
-    <h1>Inside the UTV number: what we found, and what we built</h1>
-    <p class="dek">One in five worked verification cases ends “unable to verify” — and the number refuses to move. We took it apart across 2.75 million real case-days and found three different problems hiding inside it: cases nobody could win, winnable cases lost to blind routine, and people we kept contacting after they had already answered. Then we built the engine that tells them apart and picks the next move on every case, every morning. The problem, the findings, and the fix — with the scores to back it.</p>
+    <h1>The verification floor gets a brain</h1>
+    <p class="dek">For years the floor has run on routine: every case worked the same cadence, every queue in arrival order, one blended failure number at the end of the month. I replayed 2.75 million real case-days to see what routine costs — cases nobody could win eating full effort, winnable cases aging in line, people re-contacted after they had already answered. So I built the brain the operation was missing: models that read every case every morning, rules that decide what’s allowed, an orchestrator that picks each next move. The problem, the findings, and the fix — with the scores to back it.</p>
     <div class="byline">
       <span><b>The problem</b> 1 in 5 cases ends unable to verify</span>
       <span><b>The evidence</b> 2.75M real case-days replayed</span>
@@ -248,14 +248,14 @@ a{color:inherit}
   <aside class="note" style="margin-top:48px">
     <span class="kicker">The 60-second version</span>
     <ul>
-      <li><strong>What was built:</strong> a system that reads every open case every morning, flags which ones will never verify (71% ranking power today, ~81% at day 0), and recommends the next move — while hard rules make an improper contact structurally impossible. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
-      <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
-      <li><strong>What we’re asking:</strong> adopt the achievable-UTV scoreboard, approve the human-in-loop pilot with outcome logging, and — once the evidence flows — choose the first learning target.</li>
+      <li><strong>What was built:</strong> a system that reads every open case every morning, flags which ones will never verify (right 71% of the time today, ~81% at day 0), and recommends the next move — while hard rules make an improper contact structurally impossible. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
+      <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV (unable-to-verify) number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
+      <li><strong>What I’m asking:</strong> adopt the achievable-UTV scoreboard, approve the human-in-loop pilot with outcome logging, and — once the evidence flows — choose the first learning target.</li>
     </ul>
   </aside>
 
   <article class="prose">
-    <p>Start with the problem: <strong>one in five worked cases ends “unable to verify,”</strong> and for years the number could be watched but not managed. Replaying a year of casework showed why — it isn’t one number. Three different problems wear the same label:</p>
+    <p>Start with the problem: <strong>one in five worked cases ends “unable to verify,”</strong> and for years the number could be watched but not managed. Behind each one is a person waiting — on a job offer, a lease, a placement; that wait is what turnaround time measures. Replaying a year of casework showed why — it isn’t one number. Three different problems wear the same label:</p>
 
     <ul>
       <li><strong>Cases nobody could win.</strong> The hardest tenth fails 48% of the time no matter what anyone does — yet today it gets the same effort as everything else.</li>
@@ -263,7 +263,7 @@ a{color:inherit}
       <li><strong>People contacted after they already answered.</strong> On 1 case-day in 7, the reply was on record and the flow would have reached out again anyway.</li>
     </ul>
 
-    <p>None of that is visible in a blended average — and all of it is fixable with the same machinery. So we built it. Three capabilities:</p>
+    <p>None of that is visible in a blended average — and all of it is fixable with the same machinery. The operation’s asks were three: pick the next move on every case, know each case’s fate upfront, and prove which outreach actually works. So I built it — one capability per ask:</p>
 
     <div class="asks3">
       <div class="ask">
@@ -275,7 +275,7 @@ a{color:inherit}
       <div class="ask">
         <span class="no">2 — PREDICT</span>
         <h3>Each case’s fate, read at arrival</h3>
-        <p>Built and proven. The engine reads difficulty at intake — ~81 sorting power before any work is done — and every morning after, validated against 2.75 million replayed case-days. It makes a fair “achievable UTV” target possible for the first time.</p>
+        <p>Built and proven. The engine reads difficulty at intake — ~81% sorting power before any work is done — and every morning after, validated against 2.75 million replayed case-days. It makes a fair “achievable UTV” target possible for the first time.</p>
         <span class="chip done">DELIVERED &amp; BACKTESTED</span>
       </div>
       <div class="ask">
@@ -315,7 +315,7 @@ a{color:inherit}
   <div class="statband">
     <div class="stat">
       <div class="n">71<small>%</small></div>
-      <div class="l">How well it spots the cases that will never verify</div>
+      <div class="l">How often it correctly spots the cases that will never verify</div>
       <div class="s">Rises to ~81% at day 0 — before any work has been done on the case.</div>
     </div>
     <div class="stat">
@@ -334,16 +334,16 @@ a{color:inherit}
       <div class="s">Across all 2.75 million historical case-days replayed. By design, not by luck.</div>
     </div>
   </div>
-  <p class="evidence">Evidence base: 876,246 real cases (June 2025 – May 2026), replayed as 2,751,900 daily snapshots; 16.5 million candidate moves evaluated; every prediction checked against the outcome that actually followed.</p>
+  <p class="evidence">Evidence base: roughly 880,000 real cases (June 2025 – May 2026), replayed as 2.75 million daily snapshots; 16.5 million candidate moves evaluated; every prediction checked against the outcome that actually followed.</p>
 
   <article class="prose">
     <h2>How to read the scores — sixty seconds, no math</h2>
 
-    <p>Every prediction score below works the same way. Imagine handing the system two cases — one that eventually verified, one that never did — without telling it which is which. <strong>The score is how often it puts them in the right order.</strong> 50 is a coin flip. 100 is a crystal ball. Around 70 is genuinely useful — roughly the sorting power a credit score has for lending risk, and banks run on those.</p>
+    <p>Every prediction score below works the same way. Imagine handing the system two cases — one that eventually verified, one that never did — without telling it which is which. <strong>The score is how often it puts them in the right order.</strong> 50% is a coin flip. 100% is a crystal ball. Around 70% is genuinely useful — roughly the sorting power a credit score has for lending risk, and banks run on those.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 320" role="img" aria-label="Horizontal bar chart of prediction scores on a scale from 50 (coin flip) to 100 (perfect): never-verify 71, at day zero 81, verify within 2 days 75, verify within 5 days 72, early warning 78 marked preliminary. A dashed reference line at 70 marks credit-score sorting power.">
+      <svg viewBox="0 0 880 320" role="img" aria-label="Horizontal bar chart of prediction scores on a scale from 50% (coin flip) to 100% (perfect): never-verify 71%, at day zero 81%, verify within 2 days 75%, verify within 5 days 72%, early warning 78% marked preliminary. A dashed reference line at 70% marks credit-score sorting power.">
         <!-- grid -->
         <g stroke="#E2DCCE" stroke-width="1">
           <line x1="240" y1="44" x2="240" y2="252"/>
@@ -354,9 +354,9 @@ a{color:inherit}
           <line x1="830" y1="44" x2="830" y2="252"/>
         </g>
         <g class="s-sub" text-anchor="middle">
-          <text x="240" y="276">50</text><text x="358" y="276">60</text>
-          <text x="476" y="276">70</text><text x="594" y="276">80</text>
-          <text x="712" y="276">90</text><text x="830" y="276">100</text>
+          <text x="240" y="276">50%</text><text x="358" y="276">60%</text>
+          <text x="476" y="276">70%</text><text x="594" y="276">80%</text>
+          <text x="712" y="276">90%</text><text x="830" y="276">100%</text>
         </g>
         <text x="240" y="296" class="s-sub" text-anchor="middle">coin flip</text>
         <text x="830" y="296" class="s-sub" text-anchor="middle">perfect</text>
@@ -366,24 +366,24 @@ a{color:inherit}
         <!-- bars: x=240 + (score-50)*11.8 -->
         <g>
           <text x="228" y="72" class="s-small" text-anchor="end">Never-verify — the hero</text>
-          <rect x="240" y="58" width="247.8" height="19" rx="2" fill="#C4633E"/>
-          <text x="496" y="73" class="s-num">71</text>
+          <rect x="240" y="58" width="247.8" height="19" rx="2" fill="#436B8E"/>
+          <text x="496" y="73" class="s-num">71%</text>
 
           <text x="228" y="112" class="s-small" text-anchor="end">Same call at day 0, before any work</text>
           <rect x="240" y="98" width="365.8" height="19" rx="2" fill="#141413"/>
-          <text x="614" y="113" class="s-num">~81</text>
+          <text x="614" y="113" class="s-num">~81%</text>
 
           <text x="228" y="152" class="s-small" text-anchor="end">Verifies within 2 days</text>
-          <rect x="240" y="138" width="295" height="19" rx="2" fill="#CC785C"/>
-          <text x="543" y="153" class="s-num">75</text>
+          <rect x="240" y="138" width="295" height="19" rx="2" fill="#6B93B5"/>
+          <text x="543" y="153" class="s-num">75%</text>
 
           <text x="228" y="192" class="s-small" text-anchor="end">Verifies within 5 days</text>
-          <rect x="240" y="178" width="259.6" height="19" rx="2" fill="#CC785C"/>
-          <text x="508" y="193" class="s-num">72</text>
+          <rect x="240" y="178" width="259.6" height="19" rx="2" fill="#6B93B5"/>
+          <text x="508" y="193" class="s-num">72%</text>
 
           <text x="228" y="232" class="s-small" text-anchor="end">Early warning: will strand by day 20</text>
-          <rect x="240" y="218" width="330.4" height="19" rx="2" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5" stroke-dasharray="5 4"/>
-          <text x="578" y="233" class="s-num">78</text>
+          <rect x="240" y="218" width="330.4" height="19" rx="2" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5" stroke-dasharray="5 4"/>
+          <text x="578" y="233" class="s-num">78%</text>
           <text x="640" y="233" class="s-tag" fill="#8A8578">PRELIMINARY</text>
         </g>
       </svg>
@@ -392,11 +392,11 @@ a{color:inherit}
       <div class="takeaway"><b>Takeaway</b>On the day a case arrives, the engine is already 62% of the way from a coin flip to perfect — sorting power in credit-score territory, before a single attempt is spent. Today’s process has no read at all: every case enters the same queue at the same cadence.</div>
     </figure>
 
-    <p>The 81 deserves a beat. That is the system reading a case <em>at the moment it arrives</em> — no attempts, no history, nothing but intake facts — and already sorting “will come back” from “never will” at better-than-credit-score power. That was ask&nbsp;2, verbatim: <em>know upfront</em>.</p>
+    <p>The 81% deserves a beat. That is the system reading a case <em>at the moment it arrives</em> — no attempts, no history, nothing but intake facts — and already sorting “will come back” from “never will” at better-than-credit-score power. That was the second ask, verbatim: <em>know upfront</em>.</p>
 
     <div class="note">
-      <span class="kicker">Why 81 at day 0, but 71 overall?</span>
-      <p>Because the two numbers answer different questions. The 81 is the model meeting every case <em>fresh</em>, on day 0 — and fresh cases differ enormously (a university registrar with a clean contact file versus a dissolved employer with one dead phone number), so telling them apart is more tractable. The 71 is the harder, everyday question: re-scoring every still-open case every morning, including the week-old ones — and by then the obviously easy cases have already resolved and left the pool. What remains looks more alike, so ranking the survivors is genuinely harder.</p>
+      <span class="kicker">Why 81% at day 0, but 71% overall?</span>
+      <p>Because the two numbers answer different questions. The 81% is the model meeting every case <em>fresh</em>, on day 0 — and fresh cases differ enormously (a university registrar with a clean contact file versus a dissolved employer with one dead phone number), so telling them apart is more tractable. The 71% is the harder, everyday question: re-scoring every still-open case every morning, including the week-old ones — and by then the obviously easy cases have already resolved and left the pool. What remains looks more alike, so ranking the survivors is genuinely harder.</p>
       <p>The model doesn’t get worse as cases age; the question gets harder. Operationally you get both: the sharpest read exactly when routing happens, and a still-useful re-read every day after.</p>
     </div>
 
@@ -429,7 +429,7 @@ a{color:inherit}
         <text x="315" y="294" class="s-small" text-anchor="middle">easiest predicted tenth</text>
         <text x="315" y="312" class="s-sub" text-anchor="middle">almost always verifies — needs light touch</text>
         <!-- hardest -->
-        <rect x="530" y="67.6" width="150" height="202.4" rx="2" fill="#C4633E"/>
+        <rect x="530" y="67.6" width="150" height="202.4" rx="2" fill="#436B8E"/>
         <text x="605" y="53" class="s-num" text-anchor="middle" style="font-size:22px">48.2%</text>
         <text x="605" y="294" class="s-small" text-anchor="middle">hardest predicted tenth</text>
         <text x="605" y="312" class="s-sub" text-anchor="middle">half will never verify — triage &amp; escalate early</text>
@@ -453,7 +453,7 @@ a{color:inherit}
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
           </marker>
           <marker id="arR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#9A4B38"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#2C4A66"/>
           </marker>
         </defs>
         <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
@@ -461,8 +461,8 @@ a{color:inherit}
           <line x1="582" y1="120" x2="614" y2="120" marker-end="url(#arE)"/>
         </g>
         <g>
-          <rect x="36" y="64" width="262" height="112" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="54" y="94" class="s-tag" fill="#C4633E">THE ADVISOR — AI</text>
+          <rect x="36" y="64" width="262" height="112" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="54" y="94" class="s-tag" fill="#436B8E">THE ADVISOR — AI</text>
           <text x="54" y="118" class="s-title">Reads every case, every day</text>
           <text x="54" y="140" class="s-sub">six learned models · 147 signals/case-day</text>
           <text x="54" y="158" class="s-sub">wrong is cheap — it re-orders, never acts</text>
@@ -482,20 +482,20 @@ a{color:inherit}
           <text x="632" y="158" class="s-sub">every step recorded</text>
         </g>
         <!-- forbidden -->
-        <path d="M167 176 C 200 250, 560 250, 720 186" fill="none" stroke="#9A4B38" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arR)"/>
-        <circle cx="444" cy="232" r="15" fill="#FAF9F5" stroke="#9A4B38" stroke-width="1.5"/>
-        <line x1="434" y1="222" x2="454" y2="242" stroke="#9A4B38" stroke-width="1.5"/>
-        <line x1="454" y1="222" x2="434" y2="242" stroke="#9A4B38" stroke-width="1.5"/>
-        <text x="444" y="278" text-anchor="middle" class="s-tag" fill="#9A4B38">LOCKED TODAY — AUTO-SEND IS EARNED LATER, GATE BY GATE</text>
+        <path d="M167 176 C 200 250, 560 250, 720 186" fill="none" stroke="#2C4A66" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arR)"/>
+        <circle cx="444" cy="232" r="15" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
+        <line x1="434" y1="222" x2="454" y2="242" stroke="#2C4A66" stroke-width="1.5"/>
+        <line x1="454" y1="222" x2="434" y2="242" stroke="#2C4A66" stroke-width="1.5"/>
+        <text x="444" y="278" text-anchor="middle" class="s-tag" fill="#2C4A66">LOCKED TODAY — AUTO-SEND IS EARNED LATER, GATE BY GATE</text>
       </svg>
       </div>
       <figcaption><span class="figno">Chart 3</span>The two-machine design. The AI is confined to the failure mode we can afford (a suboptimal suggestion); the rulebook owns the failure mode we can’t (an improper contact) and is deterministic — same inputs, same answer, auditable line by line. That’s why the violation count across 2.75M replayed case-days is zero: the AI never gets the chance.</figcaption>
-      <div class="takeaway"><b>Takeaway</b>Zero policy violations in 2,751,900 replayed case-days — not because the model is careful, but because it never gets the vote.</div>
+      <div class="takeaway"><b>Takeaway</b>Zero policy violations in 2.75 million replayed case-days — not because the model is careful, but because it never gets the vote.</div>
     </figure>
 
-    <p>One more idea, and it’s the reason the scores can be trusted. When the models were tested, each case was scored using <strong>only what was known that specific morning</strong> — as if the rest of the file hadn’t happened yet. Early in the project a model scored a spectacular 93 by accidentally peeking at information from after the outcome. We caught it, retracted the number in writing, rebuilt with a strict “no peeking” audit, and the honest score is the 71 you saw above. <em>The 71 is real. The 93 was flattery.</em> Any vendor can show you a 93; the discipline to publish the 71 is what makes the rest of this deck believable.</p>
+    <p>One more reason the scores can be trusted: every test scored each case using <strong>only what was known that specific morning</strong>. Early in the project a model scored a spectacular 93% by peeking at post-outcome information — I caught it, retracted it in writing, and rebuilt under a strict “no peeking” audit; the honest score is the 71% above. Any vendor can show you a 93%; the discipline to publish the 71% is what makes the rest of this deck believable.</p>
 
-    <p>The same discipline applies to upgrades: a new model version replaces the old one only if it wins on every criterion — including on a month of data it has never seen. That gate has rejected three of our own “improvements” this year because they would have weakened the top of the worklist, the part your teams actually touch. The system says no to us in writing. That’s a feature.</p>
+    <p>The same discipline applies to upgrades: a new model version replaces the old one only if it wins on every criterion — including on a month of data it has never seen. That gate has rejected three of my own “improvements” this year because they would have weakened the top of the worklist, the part your teams actually touch. The system says no to me in writing. That’s a feature.</p>
 
     <h2>Where the AI is — and where the engineering is</h2>
 
@@ -506,7 +506,7 @@ a{color:inherit}
         <div class="col ai">
           <h4>The machine learning</h4>
           <div class="sub">learned from 2.75M real case-days · retrained monthly</div>
-          <p><b>Six learned models.</b> Never-verify <span class="score">71</span> · verify-in-2-days <span class="score">75</span> · verify-in-5-days <span class="score">72</span> · day-0 intake <span class="score">~81</span> · day-1/2 re-score · early warning <span class="score">78 · prelim</span></p>
+          <p><b>Six learned models.</b> Never-verify <span class="score">71%</span> · verify-in-2-days <span class="score">75%</span> · verify-in-5-days <span class="score">72%</span> · day-0 intake <span class="score">~81%</span> · day-1/2 re-score <span class="score">73%/70%</span> · early warning <span class="score">78%</span> (preliminary)</p>
           <p><b>A 147-signal read of every case, every morning</b> — history, contacts, policy context, timing, and 30 signals distilled from operator notes.</p>
           <p><b>A note-reader.</b> 17.9 million free-text notes classified in flight; the signal kept, the text never stored.</p>
           <p><b>Calibrated probabilities.</b> When it says 30%, it happens about 30% of the time — so queues and thresholds can be built on it.</p>
@@ -531,8 +531,8 @@ a{color:inherit}
 
     <figure>
       <div class="statebar" role="img" aria-label="Distribution of 2.75 million case-days across engine states: ready for outreach 34.1%, scheduled re-check 24.4%, reply waiting for review 20.2%, policy check needed 12.7%, contact prohibited 4.9%, cooling down 3.7%, escalation lane 0.2%.">
-        <div class="seg" style="flex-basis:34.1%;background:#C4744F"><span>Ready for outreach · 34.1%</span></div>
-        <div class="seg" style="flex-basis:24.4%;background:#DAB08C"><span style="color:#57432E">Re-check scheduled · 24.4%</span></div>
+        <div class="seg" style="flex-basis:34.1%;background:#5580A3"><span>Ready for outreach · 34.1%</span></div>
+        <div class="seg" style="flex-basis:24.4%;background:#9DBBD4"><span style="color:#1B3045">Re-check scheduled · 24.4%</span></div>
         <div class="seg" style="flex-basis:20.2%;background:#8A8578"><span>Reply to review · 20.2%</span></div>
         <div class="seg" style="flex-basis:12.7%;background:#C2BBAA"><span style="color:#57534A">Policy check · 12.7%</span></div>
         <div class="seg" style="flex-basis:4.9%;background:#3E3A33"></div>
@@ -540,8 +540,8 @@ a{color:inherit}
         <div class="seg" style="flex-basis:0.2%;background:#6E6A5F"></div>
       </div>
       <div class="legend">
-        <div class="k"><span class="sw" style="background:#C4744F"></span>Ready for outreach — ranked move attached<span class="v">34.1%</span></div>
-        <div class="k"><span class="sw" style="background:#DAB08C"></span>Scheduled re-check, with a reason<span class="v">24.4%</span></div>
+        <div class="k"><span class="sw" style="background:#5580A3"></span>Ready for outreach — ranked move attached<span class="v">34.1%</span></div>
+        <div class="k"><span class="sw" style="background:#9DBBD4"></span>Scheduled re-check, with a reason<span class="v">24.4%</span></div>
         <div class="k"><span class="sw" style="background:#8A8578"></span>A reply is waiting — review before contacting<span class="v">20.2%</span></div>
         <div class="k"><span class="sw" style="background:#C2BBAA"></span>Policy / do-not-contact needs human judgment<span class="v">12.7%</span></div>
         <div class="k"><span class="sw" style="background:#3E3A33"></span>Contact prohibited — fully blocked<span class="v">4.9%</span></div>
@@ -551,6 +551,8 @@ a{color:inherit}
       <figcaption style="margin-top:18px"><span class="figno">Chart 4</span>Where all 2.75M case-days actually sit. A third of the book is workable <em>today</em> with a ranked move attached; a fifth has a reply sitting unread by the current flow. This chart is, in effect, tomorrow morning’s org-wide to-do list.</figcaption>
       <div class="takeaway"><b>Takeaway</b>This works on day one, no pilot required: every case-day carries a named state, a reason, and a next step — and the 1-in-7 accidental re-contact becomes structurally impossible instead of vigilance-dependent.</div>
     </figure>
+
+    <p>For an operator, the difference is the first five minutes of the morning (illustrative): the queue opens already ranked, the top case says why it is first, and the reply that arrived overnight is flagged for review — before it can become an accidental re-contact.</p>
 
     <div class="valgrid">
       <div class="val">
@@ -568,13 +570,13 @@ a{color:inherit}
       </div>
       <div class="val">
         <h3>The foundation to learn what works</h3>
-        <p>Every recommendation, override, send, reply, and outcome gets logged. That record is what lets us <em>prove</em> which channel and message drive responses — ask 3 — instead of guessing.</p>
+        <p>Every recommendation, override, send, reply, and outcome gets logged. That record is what lets us <em>prove</em> which channel and message drive responses — the third ask — instead of guessing.</p>
       </div>
     </div>
 
     <h2>Where the hours come back</h2>
 
-    <p>We deliberately do not quote a labor-savings number — that figure belongs to the pilot, and claiming it early is how credibility dies in rooms like this one. What we can show is where the hours demonstrably are, measured in the replay, with arithmetic anyone here can redo:</p>
+    <p>I deliberately do not quote a labor-savings number — that figure belongs to the pilot, and claiming it early is how credibility dies in rooms like this one. What we can show is where the hours demonstrably are, measured in the replay, with arithmetic anyone here can redo:</p>
 
     <div class="levers">
       <div class="lever">
@@ -590,7 +592,7 @@ a{color:inherit}
         <p>The top of the ranked worklist holds 2.4× more true never-verifies than the same hour spent working in arrival order. No new headcount — the same morning, aimed better.</p>
       </div>
       <div class="lever">
-        <h4>Cut waiting, not just working<span>103,581 wait-hours</span></h4>
+        <h4>Cut waiting, not just working<span>100,000+ wait-hours</span></h4>
         <p>In one four-month window, education-verification handbacks from today’s automation sat an extra 30.6 hours each behind fresh work. A single re-ranking rule reclaims turnaround time your clients feel — at zero additional effort.</p>
       </div>
     </div>
@@ -608,7 +610,7 @@ a{color:inherit}
 
         <rect x="24" y="80" width="200" height="26" rx="13" fill="#E9E4D6"/>
         <text x="124" y="97" text-anchor="middle" class="s-tag" fill="#57534A">TODAY — ARRIVAL ORDER</text>
-        <rect x="460" y="80" width="250" height="26" rx="13" fill="#C4633E"/>
+        <rect x="460" y="80" width="250" height="26" rx="13" fill="#436B8E"/>
         <text x="585" y="97" text-anchor="middle" class="s-tag" fill="#FAF9F5">WITH THE ENGINE — RANKED WORKLIST</text>
 
         <!-- divider -->
@@ -631,12 +633,12 @@ a{color:inherit}
           <rect x="24" y="238" width="396" height="50" rx="4" fill="#F0EEE6" stroke="#E2DCCE"/>
           <circle cx="48" cy="263" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="48" y="267" text-anchor="middle" class="s-small" style="font-size:11px">C</text>
           <text x="70" y="259" class="s-small">EMPV — employment</text>
-          <text x="70" y="276" class="s-sub" style="font-size:10.5px;fill:#9A4B38">reply on record since yesterday — and nothing flags it</text>
+          <text x="70" y="276" class="s-sub" style="font-size:10.5px;fill:#2C4A66">reply on record since yesterday — and nothing flags it</text>
 
           <rect x="24" y="296" width="396" height="50" rx="4" fill="#F0EEE6" stroke="#E2DCCE"/>
           <circle cx="48" cy="321" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="48" y="325" text-anchor="middle" class="s-small" style="font-size:11px">D</text>
           <text x="70" y="317" class="s-small">REFV — reference</text>
-          <text x="70" y="334" class="s-sub" style="font-size:10.5px;fill:#9A4B38">call #3 goes out today — 69% dead lane, uncapped</text>
+          <text x="70" y="334" class="s-sub" style="font-size:10.5px;fill:#2C4A66">call #3 goes out today — 69% dead lane, uncapped</text>
 
           <rect x="24" y="354" width="396" height="50" rx="4" fill="#F0EEE6" stroke="#E2DCCE"/>
           <circle cx="48" cy="379" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="48" y="383" text-anchor="middle" class="s-small" style="font-size:11px">E</text>
@@ -671,33 +673,33 @@ a{color:inherit}
           <text x="506" y="152" class="s-small" style="fill:#FAF9F5">EMPV — outreach LOCKED before anyone dials</text>
           <text x="506" y="168" class="s-sub" style="font-size:10.5px;fill:#D9D5C9">route: read the reply · close if closeable</text>
 
-          <text x="460" y="200" class="s-tag" fill="#C4633E">WORK NOW — WINNABLE &amp; URGENT, RANKED BY RISK</text>
-          <rect x="460" y="206" width="6" height="40" fill="#C4633E"/>
+          <text x="460" y="200" class="s-tag" fill="#436B8E">WORK NOW — WINNABLE &amp; URGENT, RANKED BY RISK</text>
+          <rect x="460" y="206" width="6" height="40" fill="#436B8E"/>
           <rect x="466" y="206" width="390" height="40" rx="4" fill="#FDFCFA" stroke="#E2DCCE"/>
           <circle cx="490" cy="226" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="490" y="230" text-anchor="middle" class="s-small" style="font-size:11px">E</text>
           <text x="512" y="222" class="s-small">EDUV — EMAIL now · rank 1 of 4 allowed moves</text>
           <text x="512" y="238" class="s-sub" style="font-size:10.5px">day 0 · never-verify risk 41% · act while it’s fresh</text>
 
-          <rect x="460" y="252" width="6" height="40" fill="#C4633E"/>
+          <rect x="460" y="252" width="6" height="40" fill="#436B8E"/>
           <rect x="466" y="252" width="390" height="40" rx="4" fill="#FDFCFA" stroke="#E2DCCE"/>
           <circle cx="490" cy="272" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="490" y="276" text-anchor="middle" class="s-small" style="font-size:11px">A</text>
           <text x="512" y="268" class="s-small">EMPV — CALL · window open</text>
           <text x="512" y="284" class="s-sub" style="font-size:10.5px">day 4 · risk 38% · channel switch after no email reply</text>
 
-          <rect x="460" y="298" width="6" height="40" fill="#C4633E"/>
+          <rect x="460" y="298" width="6" height="40" fill="#436B8E"/>
           <rect x="466" y="298" width="390" height="40" rx="4" fill="#FDFCFA" stroke="#E2DCCE"/>
           <circle cx="490" cy="318" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="490" y="322" text-anchor="middle" class="s-small" style="font-size:11px">F</text>
           <text x="512" y="314" class="s-small">EMPV — EMAIL #2</text>
           <text x="512" y="330" class="s-sub" style="font-size:10.5px">day 2 · risk 33% · cooldown just cleared</text>
 
-          <text x="460" y="364" class="s-tag" fill="#9A4B38">CAPPED → ESCALATE — CADENCE LIMIT REACHED</text>
-          <rect x="460" y="370" width="6" height="40" fill="#FAF9F5" stroke="#9A4B38" stroke-width="1.5"/>
+          <text x="460" y="364" class="s-tag" fill="#2C4A66">CAPPED → ESCALATE — CADENCE LIMIT REACHED</text>
+          <rect x="460" y="370" width="6" height="40" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
           <rect x="466" y="370" width="390" height="40" rx="4" fill="#FDFCFA" stroke="#E2DCCE"/>
           <circle cx="490" cy="390" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="490" y="394" text-anchor="middle" class="s-small" style="font-size:11px">D</text>
           <text x="512" y="386" class="s-small">REFV — cap hit: switch channel or escalate</text>
           <text x="512" y="402" class="s-sub" style="font-size:10.5px">3 calls, no contact · dead-lane odds 69% · stop the ritual</text>
 
-          <rect x="460" y="416" width="6" height="40" fill="#FAF9F5" stroke="#9A4B38" stroke-width="1.5"/>
+          <rect x="460" y="416" width="6" height="40" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
           <rect x="466" y="416" width="390" height="40" rx="4" fill="#FDFCFA" stroke="#E2DCCE"/>
           <circle cx="490" cy="436" r="11" fill="#FDFCFA" stroke="#8A8578"/><text x="490" y="440" text-anchor="middle" class="s-small" style="font-size:11px">G</text>
           <text x="512" y="432" class="s-small">PLV — hardest decile · triage, not ritual</text>
@@ -728,7 +730,7 @@ a{color:inherit}
 
     <h2>We already know what automation without this layer looks like</h2>
 
-    <p>This isn’t hypothetical. Our current verification bot — Murphy Brown, run by SNH-AI — automates the motion, not the mission: it executes a touch where a contact plan already exists, but runs with no triage gate, no machine-readable handoff, and no closure lock. The ops deep-dive measured what that costs: <strong>55.5% of the 26,663 cases it touched over four months flowed back to people</strong> as note-only handoffs (64,362 downstream human attempt rows); reopen-after-result on its closures climbed from ~3–4% in February to <strong>~42–44% by June</strong>; and its EDUV handbacks wait <strong>+30.6 hours</strong> longer than fresh work. The deep-dive’s own fix list — structured handoff state, closure lock, score-gated eligibility, handback re-ranking, outcome instrumentation — is, item for item, the system in this briefing. The full story, held to its own strict claim discipline, is in <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+    <p>This isn’t hypothetical. Our current verification bot — Murphy Brown, run by SNH-AI — automates the motion, not the mission: it executes a touch where a contact plan already exists, but runs with no triage gate, no machine-readable handoff, and no closure lock. The ops deep-dive measured what that costs: <strong>55.5% of the tens of thousands of cases it touched over four months flowed back to people</strong> as note-only handoffs (64,000+ downstream human attempt rows); reopen-after-result on its closures climbed from ~3–4% in February to <strong>~42–44% by June</strong>; and its EDUV handbacks wait <strong>+30.6 hours</strong> longer than fresh work. The deep-dive’s own fix list — structured handoff state, closure lock, score-gated eligibility, handback re-ranking, outcome instrumentation — is, item for item, the system in this briefing. The full story, held to its own strict claim discipline, is in <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
 
     <h2>The road from here</h2>
 
@@ -755,8 +757,8 @@ a{color:inherit}
           <text x="42" y="158" class="s-sub">proven on 2.75M real case-days</text>
         </g>
         <g>
-          <rect x="318" y="48" width="244" height="124" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="336" y="76" class="s-tag" fill="#C4633E">STAGE 2 — TODAY’S DECISION</text>
+          <rect x="318" y="48" width="244" height="124" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="336" y="76" class="s-tag" fill="#436B8E">STAGE 2 — TODAY’S DECISION</text>
           <text x="336" y="100" class="s-title">Human-in-loop pilot</text>
           <text x="336" y="122" class="s-sub">recommendations on live cases ·</text>
           <text x="336" y="140" class="s-sub">operators take or override ·</text>
@@ -778,7 +780,7 @@ a{color:inherit}
       <figcaption><span class="figno">Chart 6</span>The roadmap. Stage 1 is finished and measured. Stage 2 needs a decision from this room. Stage 3 — the part every vendor promises on day one — is deliberately last here, because we intend to prove it rather than claim it.</figcaption>
     </figure>
 
-    <h2>Three questions worth asking us</h2>
+    <h2>Four questions worth asking</h2>
 
     <p class="q">“So an AI decides who gets contacted?”</p>
     <p>No. The AI only <em>orders</em> options that a deterministic rulebook has already approved — and today a person executes. It cannot add an option or skip the rulebook, and it does not send anything on its own — <em>yet</em>. The plumbing for automation is already built; switching it on is a later stage that pilot evidence unlocks, lane by lane, starting with the safest. That separation is why the replay shows zero violations: the AI never gets the chance to cause one.</p>
@@ -787,10 +789,19 @@ a{color:inherit}
     <p>Someone works a less-urgent case first. That is the entire blast radius — model error can cost efficiency, never compliance, because what’s allowed is never the model’s call. The scores are also calibrated: when the system says 30%, it happens about 30% of the time, so error is budgeted rather than hidden.</p>
 
     <p class="q">“Vendors promise message optimization on day one. Why is it last here?”</p>
-    <p>Because proving a message <em>causes</em> replies requires evidence that does not exist yet anywhere: the full logged chain from recommendation to outcome. Reading it off historical logs confuses correlation with cause — teams emailed the easy cases, so email “looks” magical. The pilot creates the real evidence; then we learn it properly. It is also a useful question to put to any vendor.</p>
+    <p>Because proving a message <em>causes</em> replies requires evidence that does not exist yet anywhere: the full logged chain from recommendation to outcome. Reading it off historical logs confuses correlation with cause — teams emailed the easy cases, so email “looks” magical. The pilot creates that evidence on our own floor, from our own cases — a data advantage no outside vendor can bring or buy — and the learning gets built on it properly. It is also a useful question to put to any vendor.</p>
 
     <p class="q">“Haven’t we already tried automation here?”</p>
     <p>Yes — and it proves the point. Murphy Brown has real wins (it fully contains ~44.5% of what it touches within a day or two), but it runs without a state contract, a closure lock, or a triage gate — so more than half of its cases flow back to people with a note, and its closures now reopen at roughly ten times the winter rate. The bot automates the motion, not the mission — it can send the email; it cannot run the case. Under this system it finally serves one: gated by the scores, sequenced by the rules, measured by the log. The engine runs the case; the bot becomes its fastest pair of hands.</p>
+
+    <h2>What could still go wrong — and what I’d do</h2>
+
+    <ul>
+      <li><strong>Operators ignore it.</strong> If recommendations get blanket-overridden, the value never materializes. The pilot logs every override with a reason from day one — so trust is measured on evidence, not assumed.</li>
+      <li><strong>The models age.</strong> Casework drifts, and a model trained on last year can quietly weaken. The counter is already running: monthly retraining behind a promotion gate that has rejected three of my own upgrades rather than weaken the top of the queue.</li>
+      <li><strong>The pilot proves nothing.</strong> An underpowered or half-logged pilot would leave us exactly where we started. Outcome logging is designed in before launch — it is one of today’s asks, not an afterthought.</li>
+      <li><strong>The bot’s fixes sit with a vendor.</strong> Two of the Murphy Brown asks — the structured payload and reopen-reason codes — are SNH-AI’s to build. The engine works without them, but the bot stays a black-box channel inside it until they land.</li>
+    </ul>
 
     <h2>Three decisions switch it on</h2>
 
@@ -801,19 +812,20 @@ a{color:inherit}
     </ul>
 
     <div class="note">
-      <span class="kicker">The one-sentence version to take out of the room</span>
-      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. One approved pilot makes the last claim — what actually causes replies — provable too. And the honest scores, including the one we retracted, are why you can believe the rest. <span class="endmark">◆</span></p>
+      <span class="kicker">The version to take out of the room</span>
+      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. One approved pilot makes the last claim — what actually causes replies — provable too. And the honest scores, including the one I retracted, are why you can believe the rest. <span class="endmark">◆</span></p>
     </div>
   </article>
 
   <footer class="colophon">
     <div style="max-width:700px;margin:0 auto">
-      <p><strong style="color:var(--ink)">The fine print, kept honest.</strong> All results are backtested (historical replay, as-of); no live-pilot results are claimed. Score “71” = ROC-AUC 0.706, “~81” = day-0 walk-forward check (0.80–0.82 across three forward months), “75/72” = this month’s upgraded success models (0.747/0.717, re-proven on never-seen June data), “78” = early-warning model, preliminary. Historical channel patterns are observational — no channel or message is claimed to <em>cause</em> outcomes until the pilot measures it. Action-facing models strip direct agent identifiers. Decision support today: nothing auto-sends yet and no decision is finalized by a machine — automation is designed in as a later, evidence-gated stage.</p>
+      <p><strong style="color:var(--ink)">The fine print, kept honest.</strong> All results are backtested (historical replay, as-of); no live-pilot results are claimed. Score “71%” = ROC-AUC 0.706, “~81%” = day-0 walk-forward check (0.80–0.82 across three forward months), “75%/72%” = this month’s upgraded success models (0.747/0.717, re-proven on never-seen June data), “78%” = early-warning model, preliminary. Historical channel patterns are observational — no channel or message is claimed to <em>cause</em> outcomes until the pilot measures it. Action-facing models strip direct agent identifiers. Decision support today: nothing auto-sends yet and no decision is finalized by a machine — automation is designed in as a later, evidence-gated stage.</p>
       <p>Deeper reading: <a href="murphy-brown.html">the Murphy Brown field report</a> (the problem this system closes) · <a href="illustrated.html">the illustrated walkthrough</a> (follow one case through the machine) · <a href="engineering.html">the engineering deep dive</a> · <a href="philosophy.html">the design philosophy</a>.</p>
       <p>UBS Verifications · Decision Engine · Executive briefing · July 2026</p>
     </div>
   </footer>
 </div>
+
 
 </body>
 </html>

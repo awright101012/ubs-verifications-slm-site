@@ -27,11 +27,11 @@ a{color:inherit}
     --ink:#141413;
     --warm:#6E6A5F;
     --warm-light:#8A8578;
-    --clay:#C4633E;
-    --clay-soft:#CC785C;
-    --clay-tint:#F6E7DE;
+    --clay:#436B8E;
+    --clay-soft:#6B93B5;
+    --clay-tint:#E4EDF4;
     --moss:#5F7A4A;
-    --rust:#9A4B38;
+    --rust:#2C4A66;
     --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
     --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
@@ -159,11 +159,11 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>There is a class of problem that looks made for AI and punishes naive AI harder than almost anything else. Call it <em>operational casework</em>: hundreds of thousands of open cases, each needing a next move today; hard compliance constraints — do-not-contact lists, client policy, regulated channels; human operators who own the outcomes; and labels that arrive late, noisy, and entangled with the process that produced them. Verification work is our instance — 876,246 cases in a year, a fifth of the attempted ones ending “unable to verify” — but collections, claims, case management, and outreach operations all share the shape.</p>
+    <p>There is a class of problem that looks made for AI and punishes naive AI harder than almost anything else. Call it <em>operational casework</em>: hundreds of thousands of open cases, each needing a next move today; hard compliance constraints — do-not-contact lists, client policy, regulated channels; human operators who own the outcomes; and labels that arrive late, noisy, and entangled with the process that produced them. Verification work is our instance — roughly 880,000 cases in a year, a fifth of the attempted ones ending “unable to verify” — but collections, claims, case management, and outreach operations all share the shape.</p>
 
     <p>The tempting move is the end-to-end agent: feed it the case, let it decide, act, and learn. In this problem class that design fails in a specific, predictable order. First it violates a constraint, because a model treats policy as a feature with a weight rather than a boundary — and at our volume, a 99.9%-compliant model is thousands of violations. Then it flatters itself, because historical logs reward whatever the process already did. And then it can’t be trusted with the interesting decisions, because nothing in its training data identifies what would have happened under a different action. Our own verification bot is the live case study: it runs without this operating layer, and <a href="murphy-brown.html">the field report</a> on what it leaves behind — ungated pickup, note-only handoffs, reopening closures — is this essay’s companion piece.</p>
 
-    <p>So we built the opposite of an end-to-end agent, and the interesting part isn’t the system — it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
+    <p>So I built the opposite of an end-to-end agent, and the interesting part isn’t the system — it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
 
     <h2>1. Split the decision</h2>
 
@@ -177,7 +177,7 @@ a{color:inherit}
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
           </marker>
           <marker id="arrX" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#9A4B38"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#2C4A66"/>
           </marker>
         </defs>
         <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
@@ -188,12 +188,12 @@ a{color:inherit}
         </g>
         <!-- forbidden path -->
         <g>
-          <path d="M372 227 H500" fill="none" stroke="#9A4B38" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arrX)"/>
-          <circle cx="436" cy="227" r="14" fill="#FAF9F5" stroke="#9A4B38" stroke-width="1.5"/>
-          <line x1="427" y1="218" x2="445" y2="236" stroke="#9A4B38" stroke-width="1.5"/>
-          <line x1="445" y1="218" x2="427" y2="236" stroke="#9A4B38" stroke-width="1.5"/>
-          <text x="436" y="266" text-anchor="middle" class="s-tag" fill="#9A4B38">NEVER: A SCORE CANNOT</text>
-          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#9A4B38">CHANGE WHAT IS ALLOWED</text>
+          <path d="M372 227 H500" fill="none" stroke="#2C4A66" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arrX)"/>
+          <circle cx="436" cy="227" r="14" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
+          <line x1="427" y1="218" x2="445" y2="236" stroke="#2C4A66" stroke-width="1.5"/>
+          <line x1="445" y1="218" x2="427" y2="236" stroke="#2C4A66" stroke-width="1.5"/>
+          <text x="436" y="266" text-anchor="middle" class="s-tag" fill="#2C4A66">NEVER: A SCORE CANNOT</text>
+          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#2C4A66">CHANGE WHAT IS ALLOWED</text>
         </g>
         <!-- evidence -->
         <g>
@@ -203,8 +203,8 @@ a{color:inherit}
         </g>
         <!-- models lane -->
         <g>
-          <rect x="80" y="148" width="292" height="158" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="100" y="178" class="s-tag" fill="#C4633E">WHAT’S LIKELY — MODELS</text>
+          <rect x="80" y="148" width="292" height="158" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="100" y="178" class="s-tag" fill="#436B8E">WHAT’S LIKELY — MODELS</text>
           <text x="100" y="204" class="s-title">Probabilistic, calibrated</text>
           <text x="100" y="228" class="s-sub">difficulty · time-to-resolve · early warning</text>
           <text x="100" y="246" class="s-sub">wrong = wasted effort</text>
@@ -228,16 +228,16 @@ a{color:inherit}
         <text x="440" y="420" text-anchor="middle" class="s-sub" font-style="italic">eligibility is a filter, not a score penalty — no confidence level outvotes a rule</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The split. Both lanes read the same evidence, but only the deterministic lane can say no. In our system the rules lane resolved 2.75 million case-days into thirteen work states with zero do-not-contact and zero hard-policy violations — an unremarkable number, which is the point: the models never had the opportunity to create one.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The split. Both lanes read the same evidence, but only the deterministic lane can say no. In this system the rules lane resolved 2.75 million case-days into thirteen work states with zero do-not-contact and zero hard-policy violations — an unremarkable number, which is the point: the models never had the opportunity to create one.</figcaption>
     </figure>
 
-    <p>The split also produced our cheapest large win, and it came from the <em>rules</em> lane. Writing down, deterministically, what “this person already responded” means revealed that on roughly one case-day in seven, a response was already on record while the process as practiced would have kept contacting. No model, no training run — just a definition, applied consistently at scale.</p>
+    <p>The split also produced the cheapest large win in the project, and it came from the <em>rules</em> lane. Writing down, deterministically, what “this person already responded” means revealed that on roughly one case-day in seven, a response was already on record while the process as practiced would have kept contacting. No model, no training run — just a definition, applied consistently at scale.</p>
 
     <h2>2. Forecast first, act later</h2>
 
     <p>The second rule is about sequencing: the first machine-learned product should be a <em>forecast</em>, not an action. Forecasts pay rent under zero autonomy. A calibrated estimate of “this case will never verify” is immediately useful for triage — work the winnable middle, not the doomed tail — for early warning, and for something subtler that turned out to matter most to the business: <strong>fixing the metric itself</strong>.</p>
 
-    <p>An aggregate failure rate blames operators for cases that were structurally dead on arrival. A difficulty model unblinds that: our easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
+    <p>An aggregate failure rate blames operators for cases that were structurally dead on arrival. A difficulty model unblinds that: the easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
 
     <figure>
       <div class="panel">
@@ -257,22 +257,22 @@ a{color:inherit}
           <text x="502" y="103" class="s-small">easiest tenth</text>
           <text x="832" y="103" class="s-small" text-anchor="end">expect ≈ 3%</text>
           <text x="502" y="120" class="s-sub">protect with a light touch</text>
-          <rect x="478" y="142" width="13" height="13" rx="3" fill="#DAB08C"/>
+          <rect x="478" y="142" width="13" height="13" rx="3" fill="#9DBBD4"/>
           <text x="502" y="153" class="s-small">the middle — the fight</text>
           <text x="832" y="153" class="s-small" text-anchor="end">the target</text>
           <text x="502" y="170" class="s-sub">the only place effort changes the number</text>
-          <rect x="478" y="192" width="13" height="13" rx="3" fill="#C4633E"/>
+          <rect x="478" y="192" width="13" height="13" rx="3" fill="#436B8E"/>
           <text x="502" y="203" class="s-small">hardest tenth</text>
           <text x="832" y="203" class="s-small" text-anchor="end">expect ≈ 48%</text>
           <text x="502" y="220" class="s-sub">triage early — misses here are not failures</text>
-          <text x="478" y="240" class="s-tag" fill="#C4633E">MISSES MEASURED AGAINST WHAT WAS POSSIBLE</text>
+          <text x="478" y="240" class="s-tag" fill="#436B8E">MISSES MEASURED AGAINST WHAT WAS POSSIBLE</text>
         </g>
       </svg>
       </div>
       <figcaption><span class="figno">Figure 2</span>Same cases, two scoreboards. The blended number can only go up or down; the difficulty-adjusted one says where to spend effort and whom to stop blaming. This reframe — not any single prediction — is the business product of the forecast layer.</figcaption>
     </figure>
 
-    <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on. Our early never-verify model scored 0.93 AUC and was a lie — post-outcome fields had leaked into the features. The rebuilt, strictly as-of version scores 0.71, and the retraction is checked into the repo as a permanent record. If the first product had been an acting agent instead of a forecast, that lesson would have arrived as behavior, not as a number.</p>
+    <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on. My early never-verify model scored 93% and was a lie — post-outcome fields had leaked into the features. The rebuilt, strictly as-of version scores 71%, and the retraction is checked into the repo as a permanent record. If the first product had been an acting agent instead of a forecast, that lesson would have arrived as behavior, not as a number.</p>
 
     <p>Restraint, to be clear, is not absence. Inside this pattern run six learned models over a 147-signal read of every case-day, retrained monthly under audit. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
 
@@ -286,7 +286,7 @@ a{color:inherit}
         <!-- steps -->
         <g>
           <rect x="36" y="216" width="188" height="88" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <rect x="248" y="156" width="188" height="148" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="248" y="156" width="188" height="148" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <rect x="460" y="96" width="188" height="208" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
           <rect x="672" y="36" width="188" height="268" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
         </g>
@@ -300,7 +300,7 @@ a{color:inherit}
           <text x="268" y="184" class="s-title">Predict</text>
           <text x="268" y="204" class="s-sub">“this case is 48% likely</text>
           <text x="268" y="220" class="s-sub">to never verify”</text>
-          <text x="268" y="244" class="s-tag" fill="#C4633E">SHIPPED</text>
+          <text x="268" y="244" class="s-tag" fill="#436B8E">SHIPPED</text>
           <text x="342" y="330" text-anchor="middle" class="s-mono">price: as-of features ·</text>
           <text x="342" y="346" text-anchor="middle" class="s-mono">leakage audit · OOT month</text>
         </g>
@@ -322,10 +322,10 @@ a{color:inherit}
         </g>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 3</span>The ladder of claims. Each rung is priced in instrumentation, and the price is paid before the claim is made, not after. We hold the line publicly at rung two: correlations like “email-first resolves more often” are reported as observation, never as advice, because selection effects — not wording — may be doing all the work.</figcaption>
+      <figcaption><span class="figno">Figure 3</span>The ladder of claims. Each rung is priced in instrumentation, and the price is paid before the claim is made, not after. I hold the line publicly at rung two: correlations like “email-first resolves more often” are reported as observation, never as advice, because selection effects — not wording — may be doing all the work.</figcaption>
     </figure>
 
-    <p>Two artifacts make this rule real rather than aspirational. The first is a written <strong>disallowed-claims list</strong> in the architecture record — no causal channel or template claims, no calling the router an autonomous policy, no training a “learned policy” on historical logs and pretending the logs were experiments. The second is a <strong>mechanical promotion gate</strong> for the models themselves: a challenger must beat the champion on ranking quality without giving up any top-of-queue sharpness or calibration, with confidence intervals excluding zero, replicated on a never-seen month. That gate has rejected three consecutive improvements to our headline model — each better on average, each worse where operators actually work. Three rejections in writing is the system functioning, not failing.</p>
+    <p>Two artifacts make this rule real rather than aspirational. The first is a written <strong>disallowed-claims list</strong> in the architecture record — no causal channel or template claims, no calling the router an autonomous policy, no training a “learned policy” on historical logs and pretending the logs were experiments. The second is a <strong>mechanical promotion gate</strong> for the models themselves: a challenger must beat the champion on ranking quality without giving up any top-of-queue sharpness or calibration, with confidence intervals excluding zero, replicated on a never-seen month. That gate has rejected three consecutive improvements to the headline model — each better on average, each worse where operators actually work. Three rejections in writing is the system functioning, not failing.</p>
 
     <blockquote class="pull">Autonomy is not a capability you install. It is a permission the evidence grants — and the default answer is no.</blockquote>
 
@@ -348,11 +348,11 @@ a{color:inherit}
           <line x1="698" y1="86" x2="720" y2="86" marker-end="url(#arrB)"/>
         </g>
         <g>
-          <rect x="24" y="52" width="158" height="68" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
+          <rect x="24" y="52" width="158" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="103" y="80" text-anchor="middle" class="s-title">Shadow</text>
           <text x="103" y="100" text-anchor="middle" class="s-sub">system watches, humans work</text>
-          <path d="M95 132 L103 122 L111 132 Z" fill="#C4633E"/>
-          <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#C4633E">YOU ARE HERE</text>
+          <path d="M95 132 L103 122 L111 132 Z" fill="#436B8E"/>
+          <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#436B8E">YOU ARE HERE</text>
           <text x="103" y="166" text-anchor="middle" class="s-sub">backtested on 2.75M case-days</text>
         </g>
         <g>
@@ -426,12 +426,13 @@ a{color:inherit}
 
   <footer class="colophon">
     <div style="max-width:672px;margin:0 auto">
-      <p><strong style="color:var(--ink)">The series.</strong> This essay is part 2. Also: <a href="engineering.html">the engineering deep dive</a> (part 1 — architecture, champions, the leakage retraction) · <a href="illustrated.html">the illustrated walkthrough</a> (part 3 — one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+      <p><strong style="color:var(--ink)">The series.</strong> This essay is the design philosophy. Also: <a href="engineering.html">the engineering deep dive</a> (architecture, champions, the leakage retraction) · <a href="illustrated.html">the illustrated walkthrough</a> (one case through the machine) · <a href="exec-briefing.html">the executive briefing</a> · <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
       <p>Internal note written in the style of a public post. All figures are backtested and as-of; correlations are reported as observation, never as causal advice; pilot results are not claimed. Sources of record in-repo: <code>docs/ADR/0001-verification-play-decision-engine.md</code>, <code>README.md</code>, <code>docs/LEAKAGE_RETRACTION.md</code>, <code>config/model_champion_v1.json</code>, <code>presentations/</code>.</p>
       <p>UBS Verifications · Decision Engine · July 2026</p>
     </div>
   </footer>
 </div>
+
 
 </body>
 </html>

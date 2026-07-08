@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>The Murphy Brown problem</title>
+<title>The Ceiling of Scripted Automation — Field Report</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -27,13 +27,13 @@ a{color:inherit}
     --ink:#141413;
     --warm:#6E6A5F;
     --warm-light:#8A8578;
-    --clay:#C4633E;
-    --clay-soft:#CC785C;
-    --clay-tint:#F6E7DE;
+    --clay:#436B8E;
+    --clay-soft:#6B93B5;
+    --clay-tint:#E4EDF4;
     --moss:#5F7A4A;
     --moss-tint:#EAEFE2;
-    --rust:#9A4B38;
-    --rust-tint:#F3E2DB;
+    --rust:#2C4A66;
+    --rust-tint:#DDE8F0;
     --sans:"Styrene A","Neue Haas Grotesk Text","Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
     --serif:"Tiempos Text","Iowan Old Style",Georgia,"Times New Roman",serif;
     --mono:"Berkeley Mono","Cascadia Code",Consolas,"SF Mono",monospace;
@@ -209,8 +209,8 @@ a{color:inherit}
 
   <header class="masthead">
     <div class="eyebrow">Field report</div>
-    <h1>The Murphy Brown problem</h1>
-    <p class="dek">Our verification bot touched 26,663 cases over four months, handed more than half back to people with nothing but a note, and its closures are reopening at ten times the winter rate. What the ops deep-dive actually found — and why every fix on its list is a component the decision engine already has.</p>
+    <h1>The ceiling of scripted automation</h1>
+    <p class="dek">Murphy Brown, our verification bot, touched tens of thousands of cases over four months, handed more than half back to people with nothing but a note, and its closures are reopening at ten times the winter rate. What the ops deep-dive actually found — and why every fix on its list is a component the decision engine already has.</p>
     <div class="byline">
       <span><b>Evidence window</b> Mar 1 – Jun 30, 2026 (live warehouse refresh)</span>
       <span><b>Claim posture</b> association language only — see the fine print</span>
@@ -221,22 +221,24 @@ a{color:inherit}
     <span class="kicker">The 60-second version</span>
     <ul>
       <li><strong>What’s wrong:</strong> the bot runs without an operating layer. More than half of what it touches flows back to people as note-only handoffs; the closures it does make are reopening at ten-plus times the winter rate; and its handbacks queue behind fresh work (EDUV +30.6h).</li>
-      <li><strong>Why it happens:</strong> nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing records enough to prove any of it — so humans became the control layer.</li>
+      <li><strong>Why it happens:</strong> nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing records enough to prove any of it — so humans became the control layer. Not bugs: the ceiling of scripted, pre-ML automation.</li>
       <li><strong>What to do:</strong> five asks — closure lock, triage gate, handback re-rank, one holdout config rule (the causal number lands ~July 15 either way), and the structured payload. The decision engine already implements this layer; the bot becomes a governed channel inside it.</li>
     </ul>
   </aside>
 
   <article class="prose">
-    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. This report is not an argument against it — MB has real wins, and the deep-dive is careful to say so. It is an argument about what MB is missing, because the pattern of its failures turns out to be the single best evidence for the operating layer described in the rest of this series.</p>
+    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. Whatever sits inside it, its measured behavior is that of classic pre-ML workflow automation: scripted touches, fired where a contact plan is already laid. That kind of software had a long and honorable run — but it has a ceiling, and in the age of AI/ML the ceiling shows. A scripted bot cannot judge which cases are worth picking up, choose among contact paths, decide when to wait, switch, or escalate, or notice that a case it closed didn’t stay closed. Every number in this report is that ceiling, measured.</p>
 
-    <p>Four numbers tell the story:</p>
+    <p>So this is not an argument against the bot — MB has real wins, and the deep-dive is careful to say so. It is an argument about the generation of software it belongs to, and about the missing layer — the brain — that the rest of this series describes. Deterministic automation without intelligence or orchestration was the best available answer when it was built; it no longer is.</p>
+
+    <p>Five numbers tell the story:</p>
   </article>
 
   <div class="statband">
     <div class="stat">
       <div class="n">55.5<small>%</small></div>
       <div class="l">Of bot-touched cases flow back to people</div>
-      <div class="s">14,787 of 26,663 — producing 64,362 downstream human attempt rows.</div>
+      <div class="s">Roughly 14,800 of 26,700 — about four downstream human attempts apiece, 64,000+ rows in all.</div>
     </div>
     <div class="stat">
       <div class="n">~43<small>%</small></div>
@@ -251,12 +253,12 @@ a{color:inherit}
     <div class="stat">
       <div class="n">1.7<small>%</small></div>
       <div class="l">Containment in the worst tenth of what it picks up</div>
-      <div class="s">Its wins were predictable before pickup (score 0.773) — nobody was gating the door.</div>
+      <div class="s">Its wins were predictable before pickup (77% sorting power) — nobody was gating the door.</div>
     </div>
     <div class="stat">
       <div class="n">~45<small>%</small></div>
       <div class="l">Of eligible tickets picked up by neither automation</div>
-      <div class="s">113,357 EMPV/EDUV tickets where automation is live — the gate fails in both directions.</div>
+      <div class="s">About 113,000 EMPV/EDUV tickets where automation is live — the gate fails in both directions.</div>
     </div>
   </div>
   <p class="evidence">Source: the consolidated MB/SNH-AI findings (2026-06-30) and the July 2–3 forensics one-pager, read-only warehouse analysis. All figures are the current numbers of record for their stated windows.</p>
@@ -270,9 +272,9 @@ a{color:inherit}
       <div class="panel">
       <div class="fightle">
         <h3>The two-speed workflow</h3>
-        <p>What happened to the 26,663 cases the bot touched · EMPV + EDUV · March–June 2026 · live warehouse refresh</p>
+        <p>What happened to the ~26,700 cases the bot touched · EMPV + EDUV · March–June 2026 · live warehouse refresh</p>
       </div>
-      <svg viewBox="0 0 880 448" role="img" aria-label="Flow diagram: 26,663 bot-touched cases fork into two lanes. Contained lane: 11,876 cases, 44.5 percent, closed in one to two days with no later human — but flagged that these closures are increasingly reopening. Handback lane: 14,787 cases, 55.5 percent, flowing into 64,362 downstream human attempt rows. A comparator strip notes the clean human-only lane worked 111,895 cases in the same window.">
+      <svg viewBox="0 0 880 448" role="img" aria-label="Flow diagram: about 26,700 bot-touched cases fork into two lanes. Contained lane: roughly 11,900 cases, 44.5 percent, closed in one to two days with no later human — but flagged that these closures are increasingly reopening. Handback lane: roughly 14,800 cases, 55.5 percent, flowing into 64,000+ downstream human attempt rows. A comparator strip notes the clean human-only lane worked about 111,900 cases in the same window.">
         <defs>
           <marker id="arM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -285,35 +287,35 @@ a{color:inherit}
         </g>
         <g>
           <rect x="24" y="88" width="200" height="100" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="40" y="120" class="s-title">26,663 cases</text>
+          <text x="40" y="120" class="s-title">~26,700 cases</text>
           <text x="40" y="142" class="s-sub">touched by the bot</text>
           <text x="40" y="160" class="s-sub">EMPV + EDUV, Mar–Jun 2026</text>
         </g>
         <g>
           <rect x="332" y="60" width="222" height="54" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
-          <text x="348" y="83" class="s-small">Contained · 11,876 (44.5%)</text>
+          <text x="348" y="83" class="s-small">Contained · ~11,900 (44.5%)</text>
           <text x="348" y="101" class="s-sub">closed in 1–2 days, no later human</text>
-          <text x="332" y="140" class="s-tag" fill="#9A4B38">…BUT SEE FIGURE 2: THESE CLOSURES ARE REOPENING</text>
+          <text x="332" y="140" class="s-tag" fill="#2C4A66">…BUT SEE FIGURE 2: THESE CLOSURES ARE REOPENING</text>
         </g>
         <g>
-          <rect x="332" y="170" width="285" height="54" rx="4" fill="#F6E7DE" stroke="#C4633E" stroke-width="1.5"/>
-          <text x="348" y="193" class="s-small">Handed back · 14,787 (55.5%)</text>
+          <rect x="332" y="170" width="285" height="54" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="348" y="193" class="s-small">Handed back · ~14,800 (55.5%)</text>
           <text x="348" y="211" class="s-sub">flows back to people, note-only handoff</text>
         </g>
         <g>
-          <rect x="652" y="160" width="204" height="74" rx="4" fill="#F3E2DB" stroke="#9A4B38" stroke-width="1.5"/>
+          <rect x="652" y="160" width="204" height="74" rx="4" fill="#DDE8F0" stroke="#2C4A66" stroke-width="1.5"/>
           <text x="668" y="188" class="s-small">People finish the job</text>
-          <text x="668" y="208" class="s-sub">64,362 downstream human</text>
+          <text x="668" y="208" class="s-sub">64,000+ downstream human</text>
           <text x="668" y="224" class="s-sub">attempt rows after the bot</text>
         </g>
         <line x1="24" y1="278" x2="856" y2="278" stroke="#E2DCCE" stroke-width="1"/>
         <text x="24" y="302" class="s-tag" fill="#8A8578">FOR SCALE — EVERY WORKED LANE IN THE WINDOW</text>
         <rect x="24" y="312" width="671" height="26" fill="#F0EEE6" stroke="#8A8578" stroke-width="1"/>
         <rect x="695" y="312" width="71" height="26" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1"/>
-        <rect x="766" y="312" width="90" height="26" fill="#F6E7DE" stroke="#C4633E" stroke-width="1"/>
-        <text x="36" y="329" class="s-small">human-only · 111,895 cases</text>
-        <text x="856" y="360" class="s-sub" text-anchor="end" style="fill:#5F7A4A">bot-contained · 11,876</text>
-        <text x="856" y="376" class="s-sub" text-anchor="end" style="fill:#C4633E">bot + handback · 14,787</text>
+        <rect x="766" y="312" width="90" height="26" fill="#E4EDF4" stroke="#436B8E" stroke-width="1"/>
+        <text x="36" y="329" class="s-small">human-only · ~111,900 cases</text>
+        <text x="856" y="360" class="s-sub" text-anchor="end" style="fill:#5F7A4A">bot-contained · ~11,900</text>
+        <text x="856" y="376" class="s-sub" text-anchor="end" style="fill:#436B8E">bot + handback · ~14,800</text>
         <text x="24" y="366" class="s-sub">Netting out bot attempts, the handback lane needs about the same human</text>
         <text x="24" y="384" class="s-sub">effort per case as clean human-only work (≈4.4 non-bot attempts/search in both).</text>
         <text x="24" y="424" class="s-mono">handback wait is queue latency, not parking: 99.98% agent-assigned · EMPV +6.0h · EDUV +30.6h vs matched fresh work</text>
@@ -324,7 +326,7 @@ a{color:inherit}
 
     <p>Fairness requires the other half: <strong>when the bot contains a case, it is genuinely fast.</strong> The contained lane completes in about 61 hours versus 161 for human-only work, with a higher raw success rate (80.5% vs 73.7%). Two caveats keep that honest: these are raw lane averages, not matched comparisons — the bot picks up easier-looking work — and the clocks flatter it, because the bot fires instantly while human work queues first. Re-anchored at first touch, EMPV’s speed advantage halves to −37.6 hours and EDUV flips to 23.7 hours <em>slower</em> than fresh human work. The containment is still real — which is exactly why the recommendation is to govern the bot, not retire it.</p>
 
-    <p>And there is a third speed the two-lane picture can’t show: <strong>never picked up at all.</strong> Where automation is live, 44.9% of eligible EMPV/EDUV tickets — 113,357 — were touched by neither the bot nor the SNH-AI engine behind it (ticket grain). Part of the mechanism is already known: all-or-nothing API routing pushed 50,332 excluded-client searches back to manual work, a modeled 7.2–8.6k added manual searches per month that still needs configuration history to be proof-grade. The gate fails in both directions — the bot picks up cases it can’t contain (its worst decile contains 1.7%) and never reaches nearly half of what it could. One gating layer fixes both.</p>
+    <p>And there is a third speed the two-lane picture can’t show: <strong>never picked up at all.</strong> Where automation is live, 44.9% of eligible EMPV/EDUV tickets — about 113,000 — were touched by neither the bot nor the SNH-AI engine behind it (ticket grain). Part of the mechanism is already known: all-or-nothing API routing pushed about 50,000 excluded-client searches back to manual work, a modeled 7.2–8.6k added manual searches per month that still needs configuration history to be proof-grade. The gate fails in both directions — the bot picks up cases it can’t contain (its worst decile contains 1.7%) and never reaches nearly half of what it could. One gating layer fixes both.</p>
 
     <p>And the contained lane — the bot’s success story — has a quality problem growing inside it:</p>
 
@@ -337,7 +339,7 @@ a{color:inherit}
       <svg viewBox="0 0 880 330" role="img" aria-label="Grouped bar chart of reopen-after-result-sent rates for bot-contained closures, February versus June 2026. EMPV: 4.4 percent in February rising 9.5 times to 41.6 percent in June. EDUV: 2.7 percent rising 16 times to 43.8 percent. June figures are floors, not finals.">
         <defs>
           <marker id="arRust" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#9A4B38"/>
+            <path d="M0,0 L10,5 L0,10 z" fill="#2C4A66"/>
           </marker>
         </defs>
         <line x1="120" y1="270" x2="820" y2="270" stroke="#141413" stroke-width="1.25"/>
@@ -352,7 +354,7 @@ a{color:inherit}
         <rect x="190" y="251.5" width="90" height="18.5" rx="2" fill="#E9E4D6" stroke="#8A8578" stroke-width="1"/>
         <text x="235" y="240" class="s-num" text-anchor="middle" style="font-size:14px">4.4%</text>
         <text x="235" y="292" class="s-sub" text-anchor="middle">February</text>
-        <rect x="300" y="95.3" width="90" height="174.7" rx="2" fill="#9A4B38"/>
+        <rect x="300" y="95.3" width="90" height="174.7" rx="2" fill="#2C4A66"/>
         <text x="345" y="82" class="s-num" text-anchor="middle">41.6%</text>
         <text x="345" y="292" class="s-sub" text-anchor="middle">June</text>
         <text x="290" y="318" class="s-small" text-anchor="middle">EMPV — employment</text>
@@ -360,14 +362,14 @@ a{color:inherit}
         <rect x="520" y="258.7" width="90" height="11.3" rx="2" fill="#E9E4D6" stroke="#8A8578" stroke-width="1"/>
         <text x="565" y="247" class="s-num" text-anchor="middle" style="font-size:14px">2.7%</text>
         <text x="565" y="292" class="s-sub" text-anchor="middle">February</text>
-        <rect x="630" y="86" width="90" height="184" rx="2" fill="#9A4B38"/>
+        <rect x="630" y="86" width="90" height="184" rx="2" fill="#2C4A66"/>
         <text x="675" y="73" class="s-num" text-anchor="middle">43.8%</text>
         <text x="675" y="292" class="s-sub" text-anchor="middle">June</text>
         <text x="620" y="318" class="s-small" text-anchor="middle">EDUV — education</text>
-        <path d="M 272 244 C 294 168, 310 126, 334 102" fill="none" stroke="#9A4B38" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
-        <text x="246" y="150" class="s-num" style="fill:#9A4B38">×9.5</text>
-        <path d="M 602 250 C 624 166, 640 122, 664 90" fill="none" stroke="#9A4B38" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
-        <text x="582" y="148" class="s-num" style="fill:#9A4B38">×16</text>
+        <path d="M 272 244 C 294 168, 310 126, 334 102" fill="none" stroke="#2C4A66" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
+        <text x="246" y="150" class="s-num" style="fill:#2C4A66">×9.5</text>
+        <path d="M 602 250 C 624 166, 640 122, 664 90" fill="none" stroke="#2C4A66" stroke-width="1.25" stroke-dasharray="4 4" marker-end="url(#arRust)"/>
+        <text x="582" y="148" class="s-num" style="fill:#2C4A66">×16</text>
       </svg>
       </div>
       <figcaption><span class="figno">Figure 2</span>Reopen-after-result-sent on bot-contained closures, February vs. June 2026. June postdates are still maturing, so these are floors. The rise is within-lane and concentrated in bot-only closures — which is why the deep-dive’s first ask is a closure lock with reopen-reason instrumentation, and why “grow containment” without one would scale a quality problem. The narrow June eForm defect (300 strict cases where the bot emailed <em>after</em> a closeout state, 1,119 manual touch rows) is the same missing lock in miniature.</figcaption>
@@ -405,17 +407,24 @@ a{color:inherit}
       <figcaption style="margin-top:16px"><span class="figno">Figure 3</span>The note versus the payload. The left side is the deep-dive’s finding; the right side is its required fix — and it is, field for field, the shape of the decision engine’s evidence-state and logging contracts.</figcaption>
     </figure>
 
-    <p>The cost of that missing contract is now measured, not inferred: in the March–May window, humans <strong>re-tried the exact channel the bot had already tried without success</strong> — same method, same case — in roughly 16,100 attempt rows across ~6,700 searches, at a median five to six days after the bot’s attempt. (Method-level; per-target linkage is exactly what the payload’s <code>selected_contact</code> field exists to provide.) A handoff that carried “what I tried” would have made each of those a choice instead of a rediscovery.</p>
+    <p>The cost of that missing contract is now measured, not inferred: in the March–May window, humans <strong>re-tried the exact channel the bot had already tried without success</strong> — same method, same case — on roughly 6,700 cases, averaging 2–3 re-tries each (about 16,100 attempt rows), at a median five to six days after the bot’s attempt. Scaled to the whole floor, that is <strong>roughly 3% of every named human attempt in the window — one touch in every thirty</strong> — spent re-burning a channel the bot had already tried. (Method-level; per-target linkage is exactly what the payload’s <code>selected_contact</code> field exists to provide.) A handoff that carried “what I tried” would have made each of those a choice instead of a rediscovery.</p>
 
-    <p>The rest of the issue list follows from the same missing layer. Cases with weak source or contact data bounce back at 57.6%; fax-heavy and multi-path contact routes bounce at 80.8%; CALL-first retry loops run to 35% unable-to-verify with 2% two-day success; policy exceptions can’t be told apart from avoidable work because the rule was never encoded. And the whole thing is hard to even <em>measure</em>: an avoidability-labeling exercise failed outright (independent labelers agreed at chance, κ ≈ 0) — not because the labelers were bad, but because 43% of events don’t carry enough evidence to judge. The system can’t explain itself.</p>
+    <p>The rest of the issue list follows from the same missing layer — no judgment at the door, no memory behind it:</p>
 
-    <p>Step back and one diagnosis explains every number in this report: <strong>MB is execution without cognition.</strong> Hand it a case with a clean, pre-laid contact path and it performs the motion — send the email, fire the fax — and does it fast. But a verification is rarely one motion; it is a sequence of judgments — which path first, when to wait, when to switch channels, when to escalate, when to stop, when a close is safe to call closed. The bot makes none of them. So it never picks up nearly half of what it could (no judgment about what is workable), hands back most of what it does pick up with only a note (no next move), leaves humans re-dialing channels it already burned (no memory), loops on calls without a stop rule (no cadence), and closes cases that will not stay closed (no closure judgment). No supervisor over its choices, no dispatcher behind its next move, no recorder under its work. The hands are fine. There is no head.</p>
+    <ul>
+      <li><strong>Thin contact data — 57.6% bounce back.</strong> When a case arrives with weak source or contact information, the bot touches it anyway. Nothing checks whether the case was workable before pickup.</li>
+      <li><strong>Fax-heavy and multi-path routes — 80.8% bounce back.</strong> Wherever the path requires choosing between channels, the bot can’t make the choice — so a person inherits the case right after the touch.</li>
+      <li><strong>CALL-first retry loops — 35% end unable-to-verify; only 2% succeed within two days.</strong> Repeat dialing with no stop rule, no channel switch, no escalation: the highest-friction path on the floor, run on autopilot.</li>
+      <li><strong>Policy exceptions — indistinguishable from avoidable work.</strong> The rule that makes a wait legitimate was never encoded as data, so legitimate exceptions and avoidable rework look identical in the record.</li>
+    </ul>
+
+    <p>Step back and one diagnosis explains every number in this report: <strong>MB is execution without cognition.</strong> Hand it a case with a clean, pre-laid contact path and it performs the motion — send the email, fire the fax — and does it fast. But a verification is rarely one motion; it is a sequence of judgments — which path first, when to wait, when to switch channels, when to escalate, when to stop, when a close is safe to call closed. The bot makes none of them. So it never picks up nearly half of what it could (no judgment about what is workable), hands back most of what it does pick up with only a note (no next move), leaves humans re-dialing channels it already burned (no memory), loops on calls without a stop rule (no cadence), and closes cases that will not stay closed (no closure judgment). No supervisor over its choices, no dispatcher behind its next move, no recorder under its work. The hands are fine. There is no brain.</p>
 
     <blockquote class="pull">Murphy Brown automates the motion, not the mission. It can send the email; it cannot run the case.</blockquote>
 
     <h2>Why this is the decision engine’s story to finish</h2>
 
-    <p>The decision engine is the head the bot is missing: models that read every case, a resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
+    <p>The decision engine is the brain the bot is missing: models that read every case, a resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
 
     <figure>
       <div class="fightle">
@@ -437,9 +446,9 @@ a{color:inherit}
           <span class="chip built">BUILT · BACKTESTED</span>
         </div>
         <div class="row">
-          <div class="gap"><b>No triage gate at pickup</b><span>worst decile contains 1.7%; wins predictable at 0.773</span></div>
+          <div class="gap"><b>No triage gate at pickup</b><span>worst decile contains 1.7%; wins predictable at 77%</span></div>
           <div class="arrow">→</div>
-          <div class="fix"><b>Difficulty models gate the door</b><span>day-0 never-verify ~0.81 · score-gated eligibility routing</span></div>
+          <div class="fix"><b>Difficulty models gate the door</b><span>day-0 never-verify ~81% · score-gated eligibility routing</span></div>
           <span class="chip built">BUILT · BACKTESTED</span>
         </div>
         <div class="row">
@@ -454,26 +463,20 @@ a{color:inherit}
           <div class="fix"><b>Cadence + eligibility controls</b><span>call_escalation_ladder_v1 · wait_policy_v1 · action_eligibility_v1</span></div>
           <span class="chip built">BUILT · BACKTESTED</span>
         </div>
-        <div class="row">
-          <div class="gap"><b>Unmeasurable — labeling failed (κ ≈ 0)</b><span>43% of events carry too little evidence to judge</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Flight recorder + holdout design</b><span>recommendation → action/override → delivery → outcome, logged</span></div>
-          <span class="chip ask">NEEDS THE PILOT + ONE CONFIG RULE</span>
-        </div>
       </div>
-      <figcaption style="margin-top:16px"><span class="figno">Figure 4</span>The deep-dive’s asks mapped to the decision engine. Two items on the bot’s side remain genuine asks to SNH-AI — the structured action payload and reopen-reason codes — because our layer can define the contract but the bot must write into it.</figcaption>
+      <figcaption style="margin-top:16px"><span class="figno">Figure 4</span>The deep-dive’s asks mapped to the decision engine. Two items on the bot’s side remain genuine asks to SNH-AI — the structured action payload and reopen-reason codes — because the engine can define the contract but the bot must write into it.</figcaption>
     </figure>
 
     <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes a channel inside the decision engine.</strong> The resolver decides <em>when</em> the bot may touch a case; the difficulty scores decide <em>whether it should</em> (fax-primary and thin-contact cases skip it — the deep-dive’s own modeling says gating to the top ~60–70% keeps 83–91% of the bot’s wins while halving the handback lane); terminal states and the inbound-first rule <em>lock what’s closed</em>; the priority queue re-ranks what comes back; and the flight recorder finally makes the bot’s value a measured number instead of a debate. The engine runs the mission; the bot becomes its fastest pair of hands.</p>
 
-    <h2>What we’re careful not to claim</h2>
+    <h2>What I’m careful not to claim</h2>
 
     <ul>
       <li><strong>Association, not causation.</strong> The bot is <em>associated with</em> a large downstream queue. The matched comparison does not prove it makes comparable cases worse on effort or time — the proven finding is the residual queue, the weak fast-closeout, and the missing handoff state.</li>
-      <li><strong>No savings claims.</strong> The handback lane’s labor premium is small (≈$3/search). The money case is turnaround time and closure quality — 103,581 EDUV wait-hours in the window, and reopen churn now measured at 0.69–3.4 reopens per automated closure (the leak-back band) but still unpriced in dollars. Attempt rows are not labor minutes, FTEs, or ROI.</li>
-      <li><strong>No avoidable-percentage.</strong> Labeling did not converge; until the 80-assignment ops spot-check adjudicates why, no avoidability number is quoted. The causal number comes from a two-week 50/50 holdout — one configuration rule on the bot’s side, fully reversible — with a difference-in-differences fallback running ~July 15 regardless.</li>
-      <li><strong>Modeled is labeled modeled.</strong> The missed-pickup mechanism (all-or-nothing API routing; 50,332 exposed searches, ~7.2–8.6k modeled manual searches/month) still needs effective-dated configuration history to be proof-grade; the 44.9% neither-automation figure is measured at ticket grain where automation is live.</li>
-      <li><strong>And one test the bot passed.</strong> We probed whether MB fires before evidence exists: 0.0% of its touches happen while a vendor clock is open, and only 0.2–1.7% land before a vendor return. The bot’s timing discipline is not the problem — its handoffs, closures, and gating are.</li>
+      <li><strong>No savings claims.</strong> The handback lane’s labor premium is small (≈$3/search). The money case is turnaround time and closure quality — 100,000+ EDUV wait-hours in the window, and reopen churn now measured at 0.69–3.4 reopens per automated closure (the leak-back band) but still unpriced in dollars. Attempt rows are not labor minutes, FTEs, or ROI.</li>
+      <li><strong>No avoidable-percentage.</strong> No share of the bot’s downstream work is labeled “avoidable” — the record doesn’t yet carry enough per-case evidence to make that judgment stick, so no avoidability number is quoted. The causal number comes from a two-week 50/50 holdout — one configuration rule on the bot’s side, fully reversible — with a difference-in-differences fallback running ~July 15 regardless.</li>
+      <li><strong>Modeled is labeled modeled.</strong> The missed-pickup mechanism (all-or-nothing API routing; about 50,000 exposed searches, ~7.2–8.6k modeled manual searches/month) still needs effective-dated configuration history to be proof-grade; the 44.9% neither-automation figure is measured at ticket grain where automation is live.</li>
+      <li><strong>And one test the bot passed.</strong> I probed whether MB fires before evidence exists: 0.0% of its touches happen while a vendor clock is open, and only 0.2–1.7% land before a vendor return. The bot’s timing discipline is not the problem — its handoffs, closures, and gating are.</li>
     </ul>
 
     <h2>The asks, in one place</h2>
@@ -487,8 +490,8 @@ a{color:inherit}
     </ol>
 
     <div class="note">
-      <span class="kicker">The one-sentence version</span>
-      <p>Our automation’s hands were never the problem — it executes fast wherever the path is already laid. What it lacks is the head: nothing reads the case, nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing remembers what it tried. That head is exactly what the decision engine is — which makes Murphy Brown, honestly told, the strongest argument we have for shipping it. <span class="endmark">◆</span></p>
+      <span class="kicker">The version to take out of the room</span>
+      <p>Our automation’s hands were never the problem — it executes fast wherever the path is already laid. What it lacks is the brain: nothing reads the case, nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing remembers what it tried. That brain is exactly what the decision engine is — which makes Murphy Brown, honestly told, the strongest argument we have for shipping it. <span class="endmark">◆</span></p>
     </div>
   </article>
 
