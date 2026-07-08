@@ -237,11 +237,11 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The verification department gets a brain</h1>
-    <p class="dek">Machine learning can read a caseload; it can’t run one. So this was built as two things that only work together. The intelligence: six models, trained on 2.75 million real case-days, that read every open case each morning and score how it will end — which cases will never verify, which will land in five days, which are about to stall. And the operating system that makes intelligence operate in a regulated department: a deterministic rulebook that decides what’s allowed before any score is consulted, an orchestrator that turns the scores into each case’s next move, a flight recorder that logs every recommendation against what actually happened. The models find the winnable work; the operating system makes acting on it safe. Both halves, and what they change — with the scores to back it.</p>
+    <p class="dek">Today the department spends roughly ten operators’ worth of hours a year on motion that produces nothing: 400,000 touches to people who had already answered, third calls into lanes that fail 69% of the time. And the metric it manages by blames the team for cases that were dead on arrival. I built the fix and proved it on 2.75 million of our own case-days — machine-learning models score every open case every morning, and an operating system turns those scores into the next move on each one, with the compliance rules hard-wired: an improper contact isn’t a risk to manage, it’s a thing that can’t happen. Zero violations across the entire replay. This isn’t a vendor deck — it’s our data, our cases, already backtested. Next step: wire it into the live workflow, Murphy Brown included, and take back the hours, the turnaround time, and the number.</p>
     <div class="byline">
       <span><b>The problem</b> 1 in 5 cases ends unable to verify</span>
       <span><b>The evidence</b> 2.75M real case-days replayed</span>
-      <span><b>Status</b> built &amp; backtested — pilot pending approval</span>
+      <span><b>Status</b> built &amp; backtested — next step: integration</span>
     </div>
   </header>
 
@@ -250,11 +250,13 @@ a{color:inherit}
     <ul>
       <li><strong>What was built:</strong> two halves that only work together — six machine-learned models that read every open case every morning and score how it will end (right 71% of the time today, ~81% at day 0), and the operating system that turns those scores into safe action: hard rules that make an improper contact structurally impossible, an orchestrator that recommends each next move. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
       <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV (unable-to-verify) number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
-      <li><strong>What I’m asking:</strong> adopt the achievable-UTV scoreboard, approve the human-in-loop pilot with outcome logging, and — once the evidence flows — choose the first learning target.</li>
+      <li><strong>Next steps:</strong> wire the engine into the live workflow — Murphy Brown included — with outcome logging on, adopt the achievable-UTV scoreboard, and let the logged evidence switch on the first learning target.</li>
     </ul>
   </aside>
 
   <article class="prose">
+    <p><strong>What was built:</strong> machine learning can read a caseload; it can’t run one — so this is two things that only work together. The intelligence: six models, trained on 2.75 million real case-days, that read every open case each morning and score how it will end — which cases will never verify, which will land in five days, which are about to stall. And the operating system that makes intelligence safe to act on in a regulated department: a deterministic rulebook that decides what’s allowed before any score is consulted, an orchestrator that turns the scores into each case’s next move, a flight recorder that logs every recommendation against what actually happened. <strong>The models find the winnable work; the operating system makes acting on it safe.</strong></p>
+
     <p>Start with the problem: <strong>one in five worked cases ends “unable to verify,”</strong> and for years the number could be watched but not managed. Behind each one is a person waiting — on a job offer, a lease, a placement; that wait is what turnaround time measures. Replaying a year of casework showed why — it isn’t one number. Three different problems wear the same label:</p>
 
     <ul>
@@ -269,7 +271,7 @@ a{color:inherit}
       <div class="ask">
         <span class="no">1 — ORCHESTRATE</span>
         <h3>The next move on every open case, every day</h3>
-        <p>Built. The engine proposes the next sensible move on every open case, every day — ranked by six learned models, fenced by rules that outrank them. It goes live the day the pilot is approved.</p>
+        <p>Built. The engine proposes the next sensible move on every open case, every day — ranked by six learned models, fenced by rules that outrank them. It goes live the day it’s wired into the workflow.</p>
         <span class="chip now">BUILT — READY TO PILOT</span>
       </div>
       <div class="ask">
@@ -602,7 +604,7 @@ a{color:inherit}
       <p>Avoided touches × 3 minutes ÷ 60 = hours returned; hours ÷ 2,000 = operator-years. The replay already counts <strong>~400,000 re-contact touches a year</strong> that the engine prevents outright: at 3 minutes each, that is <strong>~20,000 hours — roughly 10 operator-years of motion</strong> — before a single capped dead-lane call or faster handback is counted. Every assumption is visible and swappable; the pilot’s logs replace the 3-minute estimate with measured handle time, and that number becomes the business case.</p>
     </aside>
 
-    <p>None of these are promises; all of them are measured mechanisms. The pilot’s outcome logs are what convert mechanisms into a defensible dollars-and-hours number — which is exactly why outcome logging is one of today’s asks.</p>
+    <p>None of these are promises; all of them are measured mechanisms. The pilot’s outcome logs are what convert mechanisms into a defensible dollars-and-hours number — which is exactly why outcome logging ships with the integration.</p>
 
     <h2>What the department looks like after implementation</h2>
 
@@ -743,7 +745,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 250" role="img" aria-label="Three-stage roadmap. Stage 1, done: predict and protect — difficulty scores, safety rules, backtested on 2.75 million case-days. Stage 2, the current decision: human-in-loop pilot — recommendations on live cases, operators decide, outcomes logged. Stage 3, next: the learned playbook — learns from past outreach what works; a small language model drafts the emails, faxes, notes, and call scripts, and an AI contact researcher finds fresh, verified contact paths. Gates between stages: your approval starts the pilot; pilot evidence unlocks the playbook.">
+      <svg viewBox="0 0 880 250" role="img" aria-label="Three-stage roadmap. Stage 1, done: predict and protect — difficulty scores, safety rules, backtested on 2.75 million case-days. Stage 2, next: human-in-loop integration — recommendations on live cases, operators decide, outcomes logged. Stage 3, after: the learned playbook — learns from past outreach what works; a small language model drafts the emails, faxes, notes, and call scripts, and an AI contact researcher finds fresh, verified contact paths. Gates between stages: integration into the live workflow; logged evidence unlocks the playbook.">
         <defs>
           <marker id="arF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -763,7 +765,7 @@ a{color:inherit}
         </g>
         <g>
           <rect x="318" y="48" width="244" height="124" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="336" y="76" class="s-tag" fill="#436B8E">STAGE 2 — TODAY’S DECISION</text>
+          <text x="336" y="76" class="s-tag" fill="#436B8E">STAGE 2 — INTEGRATION, NEXT</text>
           <text x="336" y="100" class="s-title">Human-in-loop pilot</text>
           <text x="336" y="122" class="s-sub">recommendations on live cases ·</text>
           <text x="336" y="140" class="s-sub">operators take or override ·</text>
@@ -777,12 +779,12 @@ a{color:inherit}
           <text x="612" y="140" class="s-sub">faxes, notes, call scripts — and an AI</text>
           <text x="612" y="158" class="s-sub">researcher hunts fresh contact paths</text>
         </g>
-        <text x="302" y="206" text-anchor="middle" class="s-mono">gate: this room’s approval</text>
+        <text x="302" y="206" text-anchor="middle" class="s-mono">gate: wired into the live workflow</text>
         <text x="578" y="206" text-anchor="middle" class="s-mono">gate: logged pilot evidence</text>
         <text x="440" y="236" text-anchor="middle" class="s-sub" font-style="italic">nothing sends on its own yet — auto-send is a later stage, unlocked by pilot evidence</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Chart 6</span>The roadmap. Stage 1 is finished and measured. Stage 2 needs a decision from this room. Stage 3 — the part every vendor promises on day one — is deliberately last here, because we intend to prove it rather than claim it.</figcaption>
+      <figcaption><span class="figno">Chart 6</span>The roadmap. Stage 1 is finished and measured. Stage 2 is the integration step — the engine running beside the people who work the queue. Stage 3 — the part every vendor promises on day one — is deliberately last, because it gets proven rather than claimed.</figcaption>
     </figure>
 
     <h2>Four questions worth asking</h2>
@@ -804,21 +806,21 @@ a{color:inherit}
     <ul>
       <li><strong>Operators ignore it.</strong> If recommendations get blanket-overridden, the value never materializes. The pilot logs every override with a reason from day one — so trust is measured on evidence, not assumed.</li>
       <li><strong>The models age.</strong> Casework drifts, and a model trained on last year can quietly weaken. The counter is already running: monthly retraining behind a promotion gate that has rejected three of my own upgrades rather than weaken the top of the queue.</li>
-      <li><strong>The pilot proves nothing.</strong> An underpowered or half-logged pilot would leave us exactly where we started. Outcome logging is designed in before launch — it is one of today’s asks, not an afterthought.</li>
+      <li><strong>The pilot proves nothing.</strong> An underpowered or half-logged pilot would leave us exactly where we started. Outcome logging is designed in before launch — it ships with the integration, not as an afterthought.</li>
       <li><strong>The bot’s fixes sit with a vendor.</strong> Two of the Murphy Brown asks — the structured payload and reopen-reason codes — are SNH-AI’s to build. The engine works without them, but the bot stays a black-box channel inside it until they land.</li>
     </ul>
 
-    <h2>Three decisions switch it on</h2>
+    <h2>The next steps, in order</h2>
 
     <ul>
-      <li><strong>Approve the fair “achievable UTV” target</strong> and track it against a three-month forward test — turning Chart 2 into the operation’s scoreboard.</li>
-      <li><strong>Greenlight the human-in-loop pilot with outcome logging</strong> — live recommendations, operators in control, every event recorded. This is the key that unlocks Stage 3.</li>
-      <li><strong>Pick the first Stage-3 target</strong> once pilot data flows: best-channel learning; the language layer — a small language model that drafts the emails, faxes, notes, and call scripts from what past communication proves works; or the contact researcher — an AI agent that hunts fresh, verified emails, fax numbers, and phone numbers, so cases stop burning attempts on dead contact paths.</li>
+      <li><strong>Adopt the fair “achievable UTV” scoreboard</strong> and track it against a three-month forward test — turning Chart 2 into the operation’s scoreboard.</li>
+      <li><strong>Integrate the engine into the live workflow, with outcome logging on</strong> — recommendations running beside the people who work the queue, Murphy Brown operating as a governed channel inside it, every event recorded. This is what fixes the bot’s handback and reopen problems, moves turnaround time, and unlocks Stage 3.</li>
+      <li><strong>Switch on the first learning target once outcomes flow:</strong> best-channel learning; the language layer — a small language model that drafts the emails, faxes, notes, and call scripts from what past communication proves works; or the contact researcher — an AI agent that hunts fresh, verified emails, fax numbers, and phone numbers, so cases stop burning attempts on dead contact paths.</li>
     </ul>
 
     <div class="note">
       <span class="kicker">The version to take out of the room</span>
-      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. The models find the winnable work; the operating system makes acting on it safe. One approved pilot makes the last claim — what actually causes replies — provable too. And the honest, replay-tested scores are why you can believe the rest. <span class="endmark">◆</span></p>
+      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. The models find the winnable work; the operating system makes acting on it safe. Integration makes the last claim — what actually causes replies — provable too. And the honest, replay-tested scores are why you can believe the rest. <span class="endmark">◆</span></p>
     </div>
   </article>
 
