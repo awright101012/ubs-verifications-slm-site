@@ -407,14 +407,14 @@ a{color:inherit}
       <figcaption style="margin-top:16px"><span class="figno">Figure 3</span>The note versus the payload. The left side is the deep-dive’s finding; the right side is its required fix — and it is, field for field, the shape of the decision engine’s evidence-state and logging contracts.</figcaption>
     </figure>
 
-    <p>The cost of that missing contract is now measured, not inferred: in the March–May window, humans <strong>re-tried the exact channel the bot had already tried without success</strong> — same method, same case — on roughly 6,700 cases, averaging 2–3 re-tries each (about 16,100 attempt rows), at a median five to six days after the bot’s attempt. Scaled to the whole floor, that is <strong>roughly 3% of every named human attempt in the window — one touch in every thirty</strong> — spent re-burning a channel the bot had already tried. (Method-level; per-target linkage is exactly what the payload’s <code>selected_contact</code> field exists to provide.) A handoff that carried “what I tried” would have made each of those a choice instead of a rediscovery.</p>
+    <p>The cost of that missing contract is now measured, not inferred: in the March–May window, humans <strong>re-tried the exact channel the bot had already tried without success</strong> — same method, same case — on roughly 6,700 cases, averaging 2–3 re-tries each (about 16,100 attempt rows), at a median five to six days after the bot’s attempt. Scaled to the whole department, that is <strong>roughly 3% of every named human attempt in the window — one touch in every thirty</strong> — spent re-burning a channel the bot had already tried. (Method-level; per-target linkage is exactly what the payload’s <code>selected_contact</code> field exists to provide.) A handoff that carried “what I tried” would have made each of those a choice instead of a rediscovery.</p>
 
     <p>The rest of the issue list follows from the same missing layer — no judgment at the door, no memory behind it:</p>
 
     <ul>
       <li><strong>Thin contact data — 57.6% bounce back.</strong> When a case arrives with weak source or contact information, the bot touches it anyway. Nothing checks whether the case was workable before pickup.</li>
       <li><strong>Fax-heavy and multi-path routes — 80.8% bounce back.</strong> Wherever the path requires choosing between channels, the bot can’t make the choice — so a person inherits the case right after the touch.</li>
-      <li><strong>CALL-first retry loops — 35% end unable-to-verify; only 2% succeed within two days.</strong> Repeat dialing with no stop rule, no channel switch, no escalation: the highest-friction path on the floor, run on autopilot.</li>
+      <li><strong>CALL-first retry loops — 35% end unable-to-verify; only 2% succeed within two days.</strong> Repeat dialing with no stop rule, no channel switch, no escalation: the highest-friction path in the department, run on autopilot.</li>
       <li><strong>Policy exceptions — indistinguishable from avoidable work.</strong> The rule that makes a wait legitimate was never encoded as data, so legitimate exceptions and avoidable rework look identical in the record.</li>
     </ul>
 
