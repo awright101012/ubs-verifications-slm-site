@@ -317,7 +317,7 @@ a{color:inherit}
           <text x="692" y="84" class="s-sub">“the system chooses the</text>
           <text x="692" y="100" class="s-sub">channel, timing, message”</text>
           <text x="692" y="124" class="s-tag" fill="#8A8578">OFF BY DEFAULT</text>
-          <text x="766" y="330" text-anchor="middle" class="s-mono">price: propensity-logged</text>
+          <text x="766" y="330" text-anchor="middle" class="s-mono">price: odds recorded</text>
           <text x="766" y="346" text-anchor="middle" class="s-mono">decisions + exploration</text>
         </g>
       </svg>
@@ -335,7 +335,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage autonomy ladder: shadow (system watches, humans work), assist (recommendations with overrides logged), explore (randomization among near-ties with propensities recorded), act (system chooses the play), compose (system writes the message). Gates between stages: pilot begins; operators accept and logging is complete; propensity data suffices; causal evidence for language. A you-are-here marker sits under shadow.">
+      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage autonomy ladder: shadow (system watches, humans work), assist (recommendations with overrides logged), explore (randomization among near-ties with each option’s odds recorded), act (system chooses the play), compose (system writes the message). Gates between stages: pilot begins; operators accept and logging is complete; recorded odds suffice; causal evidence for language. A you-are-here marker sits under shadow.">
         <defs>
           <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
@@ -372,7 +372,7 @@ a{color:inherit}
           <rect x="540" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
           <text x="619" y="80" text-anchor="middle" class="s-title">Act</text>
           <text x="619" y="100" text-anchor="middle" class="s-sub">system picks the play</text>
-          <text x="619" y="150" text-anchor="middle" class="s-mono">gate: propensity data</text>
+          <text x="619" y="150" text-anchor="middle" class="s-mono">gate: recorded odds</text>
           <text x="619" y="166" text-anchor="middle" class="s-mono">suffices for a policy</text>
         </g>
         <g>
@@ -385,7 +385,7 @@ a{color:inherit}
         <text x="440" y="228" text-anchor="middle" class="s-sub" font-style="italic">every gate defaults to closed — in our config, literally: exploration_enabled = false, NOT_APPROVED_FOR_EXPLORATION</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage exists to generate the evidence the next stage needs: the pilot logs overrides, overrides calibrate trust, exploration produces propensities, propensities make a learned policy honest. Skipping a rung doesn’t accelerate the system — it caps how far it can ever be trusted to go.</figcaption>
+      <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage exists to generate the evidence the next stage needs: the pilot logs overrides, overrides calibrate trust, exploration records each option’s odds of being offered, and those recorded odds make a learned policy honest. Skipping a rung doesn’t accelerate the system — it caps how far it can ever be trusted to go.</figcaption>
     </figure>
 
     <p>This is why the system’s most capable component is the one that doesn’t exist yet — and that’s the ladder working as intended. The destination is explicit: a small language model that writes the outreach itself — the emails, faxes, case notes, and the scripts the call team works from — learning from the logged record of past communication and its outcomes to draft the best next action, alongside an AI contact researcher that hunts better contact paths for the cases stuck on dead ones. Message generation is the most capable layer and the least verifiable one — its evidence requirements sit at the very top — so it is sequenced last, behind causal instrumentation that today exists as schemas and validators rather than collected data. The roadmap names the destination; the discipline decides the pace.</p>

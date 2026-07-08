@@ -258,7 +258,7 @@ a{color:inherit}
           <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Difficulty models</text>
           <text x="316" y="122" class="s-sub">P(verify ≤2d) · P(verify ≤5d) · P(never)</text>
-          <text x="316" y="140" class="s-sub">gradient-boosted trees, isotonic-calibrated</text>
+          <text x="316" y="140" class="s-sub">gradient-boosted trees, calibrated</text>
           <text x="316" y="158" class="s-sub">2,751,900 case-day snapshots</text>
         </g>
         <!-- resolver -->
@@ -318,7 +318,7 @@ a{color:inherit}
         <tbody>
           <tr>
             <td>Never verifies (final UTV)<span class="small">the headline target</span></td>
-            <td><code>bounded</code> <span class="chip hold">kept — 3 challengers rejected</span></td>
+            <td>baseline, bounded features <span class="chip hold">kept — 3 challengers rejected</span></td>
             <td class="num">0.201</td>
             <td class="num">0.706</td>
             <td class="num">—<span class="small">champion held; lift 2.61× vs 2.47×</span></td>
@@ -326,7 +326,7 @@ a{color:inherit}
           </tr>
           <tr>
             <td>Verifies within 5 days</td>
-            <td><code>inbound_text_no_direct</code> <span class="chip pass">promoted</span></td>
+            <td>note-aware, identity-safe <span class="chip pass">promoted</span></td>
             <td class="num">0.477</td>
             <td class="num">0.717</td>
             <td class="num">0.726</td>
@@ -334,7 +334,7 @@ a{color:inherit}
           </tr>
           <tr>
             <td>Verifies within 2 days</td>
-            <td><code>inbound_text</code> <span class="chip pass">promoted</span></td>
+            <td>note-aware <span class="chip pass">promoted</span></td>
             <td class="num">0.264</td>
             <td class="num">0.747</td>
             <td class="num">0.745</td>
@@ -382,7 +382,7 @@ a{color:inherit}
 
     <div class="tablewrap">
       <table>
-        <caption>Table 2. The model fleet. All are gradient-boosted trees with isotonic calibration, trained under the same as-of matrix discipline; every model passes the leakage audit, and champions additionally clear the promotion gate.</caption>
+        <caption>Table 2. The model fleet. All are gradient-boosted trees, calibrated so their probabilities read true (a 30% means 30%), trained under the same as-of matrix discipline; every model passes the leakage audit, and champions additionally clear the promotion gate.</caption>
         <thead>
           <tr>
             <th>Model</th>
@@ -552,16 +552,12 @@ a{color:inherit}
         <text x="437" y="226" class="s-mono" text-anchor="middle">every export manifest certifies: no raw note text persisted</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 5</span>The inbound text layer. Signal crosses the boundary; text does not. The one taxonomy class that never fired (<code>undeliverable</code>: 60 hits in 17.9M events) shipped as a dead feature and is first in line for the v2 phrasing pass.</figcaption>
+      <figcaption><span class="figno">Figure 5</span>The inbound text layer. Signal crosses the boundary; text does not.</figcaption>
     </figure>
 
     <p>The payoff cleared the full promotion gate for both success targets — the five-day model improved on every metric with confidence intervals excluding zero, and the gain <em>grew</em> on the never-seen month; the two-day model held the same pattern. The never-verify variant, as covered above, gained on average, lost the top decile, and died at the gate.</p>
 
-    <aside class="note">
-      <span class="kicker">Incident report — two exporters, one lock</span>
-      <p>During the v3 export, two <code>--skip-existing</code> relaunches raced: an exporter from before a session cutoff had survived and kept writing. Interleaved truncate/append left partitions at ~1.8× their true row count with a single header — subtly plausible files, exactly the kind that poison everything downstream.</p>
-      <p>The manifest caught it. A row-count cross-check against each partition’s manifest failed <em>before any consumer read the data</em>; all parts were wiped and re-exported under a new exclusive pidfile lock, with Windows-aware liveness checking (on Windows, <code>os.kill(pid, 0)</code> terminates the target — <code>OpenProcess</code> it is) and three regression tests. Cheap invariant checks between pipeline stages are the highest-ROI code in this repo.</p>
-    </aside>
+    <p>One operational note survives from that build: a routine row-count check against the export manifests caught a corrupted export <em>before anything consumed it</em>. Cheap invariant checks between pipeline stages are the highest-ROI code in the system.</p>
 
     <h2>What I deliberately don’t claim</h2>
 
@@ -577,7 +573,7 @@ a{color:inherit}
 
     <h2>What’s next</h2>
 
-    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from propensity-logged pilot data — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
+    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from pilot data that records which options were offered, not just which was taken — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
 
     <p>One more build sits on the same roadmap: a <strong>contact-researcher loop</strong> — an AI agent that goes looking for better contact paths (fresh, verified emails, fax numbers, and phone numbers for employers, registrars, and vendors) and hands them to the eligibility layer as an upgraded contact plan. Today a case lives or dies on the contacts already in its file; a researcher that replaces a dead fax line before the third failed attempt turns unworkable cases workable. Like every other layer, its suggestions enter as candidates for the rules to admit — never as automatic dial targets.</p>
 
