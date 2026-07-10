@@ -208,10 +208,11 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of my own improvements. How the system works — and how the next layers attach: the complete play, the contact researcher, and the small language model that will write the outreach.</p>
+    <p class="dek">Six machine-learning models read every open case. A thirteen-state resolver names what is true. Deterministic rules remove unsafe moves before the ML models rank what remains. How 2.75 million case-days became one daily recommendation — and why the promotion gate rejected three of my own model improvements.</p>
     <div class="byline">
-      <span><b>Published</b> July 3, 2026</span>
-            <span><b>Champions</b> v3, promoted July 2, 2026</span>
+      <span><b>Evidence</b> 2.75 million replayed case-days</span>
+      <span><b>AI/ML fleet</b> six machine-learning models</span>
+      <span><b>Result</b> zero DNC and hard-policy violations in replay</span>
     </div>
   </header>
 
@@ -342,7 +343,7 @@ a{color:inherit}
       </table>
     </div>
 
-    <p>In plain terms: hand the never-verify model any two open cases — one that eventually verified, one that never did — and it puts them in the right order <strong>71% of the time</strong>, where a coin flip manages 50% (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day models sort at 75% and 72%. At day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>≈81%</strong> across three forward folds (82% / 80% / 81%); knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 81% and the pooled 71% is survivorship, not decay: fresh cases differ enormously and are easy to tell apart, while the pool of still-open cases grows more alike as the easy ones resolve out — ranking the survivors is intrinsically harder. And the three champions are not alone: <strong>six learned models run in orchestration</strong> — these three forecasts, the day-0 intake read, day-1/2 re-scores for aging cases, and an early-warning model — all reading the same morning snapshot, all feeding one daily decision pass. What that buys operationally is the spread: the tenth of cases the model ranks riskiest actually fails <strong>48% of the time against a department-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
+    <p>In plain terms: hand the never-verify model any two open cases — one that eventually verified, one that never did — and it puts them in the right order <strong>71% of the time</strong>, where a coin flip manages 50% (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day models sort at 75% and 72%. At day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>≈81%</strong> across three forward folds (82% / 80% / 81%); knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 81% and the pooled 71% is survivorship, not decay: fresh cases differ enormously and are easy to tell apart, while the pool of still-open cases grows more alike as the easy ones resolve out — ranking the survivors is intrinsically harder. And the three champions are not alone: <strong>six machine-learning models run in orchestration</strong> — these three forecasts, the day-0 intake read, day-1/2 re-scores for aging cases, and an early-warning model — all reading the same morning snapshot, all feeding one daily decision pass. What that buys operationally is the spread: the tenth of cases the model ranks riskiest actually fails <strong>48% of the time against a department-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
 
     <figure>
       <div class="panel">
@@ -376,7 +377,7 @@ a{color:inherit}
 
     <p>That 16× spread is also the business story. Today’s UTV rate silently blames operators for cases that were structurally dead on arrival. Score-conditioned targets flip that: the easy decile is expected to verify almost always, the hard decile almost never, and management attention goes to the winnable middle.</p>
 
-    <p>The three champions are also just the tip of the fleet. Six learned models run in this system’s production posture, each with its own validation story:</p>
+    <p>The three champions are also just the tip of the fleet. Six machine-learning models run in this system’s production posture, each with its own validation story:</p>
 
     <div class="tablewrap">
       <table>
@@ -570,7 +571,7 @@ a{color:inherit}
 
     <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. The resolver supplies the state; the rules supply the boundaries; the pilot supplies the evidence.</p>
 
-    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from pilot data that records which options were offered, not just which was taken — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
+    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>remaining pre-integration checks</strong> either approve the identity-bearing champions for action-facing use or keep the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from pilot data that records which options were offered, not just which was taken — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
 
     <p>One more build sits on the same roadmap: a <strong>contact-researcher loop</strong> — an AI agent that goes looking for better contact paths (fresh, verified emails, fax numbers, and phone numbers for employers, registrars, and vendors) and hands them to the eligibility layer as an upgraded contact plan. Today a case lives or dies on the contacts already in its file; a researcher that replaces a dead fax line before the third failed attempt turns unworkable cases workable. Like every other layer, its suggestions enter as candidates for the rules to admit — never as automatic dial targets.</p>
 

@@ -426,7 +426,7 @@ a{color:inherit}
 
     <h2>Why this is the decision engine’s story to finish</h2>
 
-    <p>The decision engine supplies the operating layer the bot is missing: models that read every case, a resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
+    <p>The decision engine supplies the operating layer the bot is missing: machine-learning models that read every case, a deterministic resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
 
     <figure>
       <div class="fightle">
@@ -493,13 +493,11 @@ a{color:inherit}
 
     <h2>What the bot becomes</h2>
 
-    <p>Murphy Brown is not the old system we discard — it is the execution layer the new system can finally use well. The decision engine decides which cases are ready, which actions are allowed, and what should happen next. As the pilot’s log accumulates, the engine learns the complete play — channel, timing, message — finds a better contact path when the one on file is dead, and drafts the outreach for a person to approve. The bot executes the proven plays at machine speed, lane by lane, as the logged evidence earns it.</p>
-
-    <p>Today, Murphy Brown automates individual touches. Inside the decision engine, it becomes part of an operation that can run the entire case — and improve after every outcome. The engine runs the case; the bot becomes its fastest pair of hands.</p>
+    <p>Murphy Brown is not the old system we discard — it is the execution layer the new system can finally use well. The decision engine decides which cases are ready, which actions are allowed, and what should happen next. As the pilot’s log accumulates, the machine-learning models learn the complete play — channel, timing, message; an AI researcher finds a better contact path when the one on file is dead; a small language model drafts the outreach for a person to approve. Murphy Brown executes the proven plays at machine speed, lane by lane, as the logged evidence earns it.</p>
 
     <div class="note">
       <span class="kicker">The version to take out of the room</span>
-      <p>Our automation’s hands were never the problem — it executes fast wherever the path is already laid. What it lacks is the brain: nothing reads the case, nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing remembers what it tried. That brain is exactly what the decision engine is — which makes Murphy Brown, honestly told, the strongest argument we have for shipping it. <span class="endmark">◆</span></p>
+      <p>Today, Murphy Brown automates individual touches. Inside the decision engine, it becomes part of an operation that can run the entire case — and improve after every outcome. The engine runs the case; the bot becomes its fastest pair of hands — which makes Murphy Brown, honestly told, the strongest argument we have for shipping the engine. <span class="endmark">◆</span></p>
     </div>
   </article>
 

@@ -218,7 +218,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Illustrated guide</div>
     <h1>How one case moves through the machine</h1>
-    <p class="dek">The engineering deep dive explained what we built; the philosophy essay, why it is built that way. This one is for intuition. Follow a single employment verification — invented for this guide — through every layer of the architecture, one picture at a time.</p>
+    <p class="dek">One employment verification, nine days, two emails, one call, and one final reply. Follow case 4127 — invented for this guide — through the machine that decides what it needs each morning, one picture at a time. Then see what changes when the AI begins learning the complete play.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Case 4127</b> is fictional; probabilities shown are illustrative, not model output</span>
@@ -369,7 +369,7 @@ a{color:inherit}
 
     <h2><span class="stepno">2</span>Triage: three questions about the same case</h2>
 
-    <p>For case 4127, Monday morning — the day it arrives — is the sharpest read it will ever get, before the first attempt changes the evidence. Each morning after, three calibrated models read the visible half of the file and score it: <em>will this verify within 2 days? within 5? will it ever?</em> Calibrated means the numbers behave like frequencies — across all cases scored “30% never-verify,” about 30% actually never verify. That property is what makes the scores safe to build queues and thresholds on.</p>
+    <p>For case 4127, Monday morning — the day it arrives — is the sharpest read it will ever get, before the first attempt changes the evidence. Each morning after, three calibrated machine-learning models read the visible half of the file and score it: <em>will this verify within 2 days? within 5? will it ever?</em> Calibrated means the numbers behave like frequencies — across all cases scored “30% never-verify,” about 30% actually never verify. That property is what makes the scores safe to build queues and thresholds on.</p>
 
     <p>One case’s scores are mildly interesting. The population view is where triage earns its keep: sorted by predicted never-verify risk, the easiest tenth of cases fails 3% of the time and the hardest tenth 48%. Same process, same operators — a 16× spread in what was ever achievable. That spread powers the queue (work the winnable middle first) and a fairer scoreboard (measure misses against what was possible, not against a blended average).</p>
 
@@ -630,7 +630,7 @@ a{color:inherit}
           <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Triage: difficulty models</text>
-          <text x="316" y="122" class="s-sub">six models · 147 signals per case-day</text>
+          <text x="316" y="122" class="s-sub">six ML models · 147 signals per case-day</text>
           <text x="316" y="140" class="s-sub">calibrated so 30% means 30%</text>
         </g>
         <g>
