@@ -446,9 +446,13 @@ a{color:inherit}
 
     <blockquote class="pull">The model doesn’t just predict the future. It makes the UTV number <em>fair</em> — misses measured against what was actually possible.</blockquote>
 
-    <h2>How the two halves work — without the math</h2>
+    <h2>How intelligence becomes a safe next move</h2>
 
-    <p>Inside, there are two very different machines, and the design rule that separates them is the single most important sentence in this briefing:</p>
+    <p>Every morning, six machine-learning models read the same case snapshot — a 147-signal view of everything knowable that day — and return calibrated probabilities: when they say 30%, it happens about 30% of the time. They do not send, block, close, or authorize anything. They answer one question: <em>what is likely to happen next?</em></p>
+
+    <p>The operating system takes over from there. The thirteen-state resolver names the case state. Deterministic rules remove moves that are unsafe, premature, or no longer relevant. The scorer ranks what remains. A person makes the decision. The flight recorder connects the recommendation to what actually happened. No single component runs the case — the handoff between them does:</p>
+
+    <blockquote class="pull">Machine learning decides what deserves attention. The operating system decides what may happen. A person decides what happens now.</blockquote>
 
     <figure>
       <div class="panel">
@@ -498,37 +502,36 @@ a{color:inherit}
       <div class="takeaway"><b>Takeaway</b>Zero policy violations in 2.75 million replayed case-days — not because the model is careful, but because it never gets the vote.</div>
     </figure>
 
+    <div class="levers">
+      <div class="lever">
+        <h4>1 · Six ML models<span>read &amp; predict</span></h4>
+        <p>Read the morning snapshot and forecast the case’s path — never-verify, two-day, five-day, the day-0 intake read, the re-scores, the early warning.</p>
+      </div>
+      <div class="lever">
+        <h4>2 · The case-state resolver<span>names what is true</span></h4>
+        <p>Thirteen states — replied, blocked, cooling down, workable — decided by rules, never by a score.</p>
+      </div>
+      <div class="lever">
+        <h4>3 · Deterministic rules<span>remove unsafe moves</span></h4>
+        <p>Do-not-contact, client policy, timing, “they already replied” — a blocked move leaves the table before ranking begins.</p>
+      </div>
+      <div class="lever">
+        <h4>4 · The ML-backed scorer<span>ranks what remains</span></h4>
+        <p>Only surviving moves get ranked; no confidence level resurrects a removed one.</p>
+      </div>
+      <div class="lever">
+        <h4>5 · A person<span>decides</span></h4>
+        <p>Takes the recommendation or overrides it — and the override is as valuable a signal as the action.</p>
+      </div>
+      <div class="lever">
+        <h4>6 · The outcome record<span>teaches</span></h4>
+        <p>Connects each recommendation to what actually happened; that complete chain retrains the fleet monthly, behind the promotion gate.</p>
+      </div>
+    </div>
+
     <p>One more reason the scores can be trusted: every test scored each case using <strong>only what was known that specific morning</strong> — “as-of” discipline, enforced by an automated no-peeking audit that re-checks every new training matrix before the models may train on it. The scores here are conservative by design, measured the hard, honest way.</p>
 
     <p>The same discipline applies to upgrades: a new model version replaces the old one only if it wins on every criterion — including on a month of data it has never seen. That gate has rejected three of my own “improvements” this year because they would have weakened the top of the worklist, the part your teams actually touch. The system says no to me in writing. That’s a feature.</p>
-
-    <h2>Where the AI is — and where the engineering is</h2>
-
-    <p>The restraint in this design is a choice, not an absence. Pull the system apart and you can point at each half: the machine-learning stack that finds the winnable work on one side, and the operating system that makes acting on it safe on the other:</p>
-
-    <figure>
-      <div class="duo">
-        <div class="col ai">
-          <h4>The machine learning</h4>
-          <div class="sub">learned from 2.75M real case-days · retrained monthly</div>
-          <p><b>Six machine-learning models.</b> Never-verify <span class="score">71%</span> · verify-in-2-days <span class="score">75%</span> · verify-in-5-days <span class="score">72%</span> · day-0 intake <span class="score">~81%</span> · day-1/2 re-score <span class="score">73%/70%</span> · early warning <span class="score">78%</span> (preliminary)</p>
-          <p><b>A 147-signal read of every case, every morning</b> — history, contacts, policy context, timing, and 30 signals distilled from operator notes.</p>
-          <p><b>A note-reader.</b> 17.9 million free-text notes classified in flight; the signal kept, the text never stored.</p>
-          <p><b>Calibrated probabilities.</b> When it says 30%, it happens about 30% of the time — so queues and thresholds can be built on it.</p>
-          <p><b>Monthly self-improvement, gated.</b> Challenger models every cycle, promoted only past confidence tests and a never-seen month.</p>
-        </div>
-        <div class="col eng">
-          <h4>The operating system</h4>
-          <div class="sub">deterministic · auditable · zero-tolerance</div>
-          <p><b>A 13-state resolver</b> that names what is true on every case-day — replied, blocked, cooling down, workable.</p>
-          <p><b>An eligibility filter</b> that removes disallowed moves before ranking — no score can resurrect them.</p>
-          <p><b>Cadence controls</b> — cooldowns, attempt caps, forced channel switches, an escalation ladder.</p>
-          <p><b>A calibrated priority queue</b> and workflow lanes, each with a reason and a trigger attached.</p>
-          <p><b>A flight recorder and a promotion gate</b> — every action logged; models rejected in writing when they miss the bar.</p>
-        </div>
-      </div>
-      <figcaption>Anyone can fit a model. What’s on display is a fleet that survives next month — leakage-audited, calibration-checked, re-proven on data it has never seen — inside an operating system that makes it safe to act on. The models find the winnable work; the operating system makes acting on it safe.</figcaption>
-    </figure>
 
     <h2>What the operation gets on day one</h2>
 
