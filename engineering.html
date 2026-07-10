@@ -208,7 +208,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of my own improvements. How the system works — and how it’s built to take on a small language model for client messaging in the next phase.</p>
+    <p class="dek">Three calibrated difficulty models, a thirteen-state deterministic resolver, and a promotion gate that has now rejected three of my own improvements. How the system works — and how the next layers attach: the complete play, the contact researcher, and the small language model that will write the outreach.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
             <span><b>Champions</b> v3, promoted July 2, 2026</span>
@@ -218,9 +218,7 @@ a{color:inherit}
   <article class="prose">
     <p>Every verification case ends one of two ways: verified, or <em>unable to verify</em>. In the twelve months ending May 2026, UBS worked nearly a million verification searches across four products — employment, education, reference, and license-style checks (EMPV, EDUV, REFV, PLV). Just under half a million of them received at least one attempt, and one in five of those — roughly 100,000 — ended unable to verify. That UTV rate is the number the business wants down, and it is a frustrating one to manage, because it blends two very different populations: cases that were never going to verify no matter what anyone did, and cases that were winnable but stalled.</p>
 
-    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no.</p>
-
-    <p>One roadmap note up front. What ships today is calibrated tabular models plus a deterministic policy layer. The next phase adds a <strong>small language model for client messaging</strong> — drafting the emails, faxes, notes, and call scripts, and learning from past communication to draft the best next action. It is deliberately sequenced behind the pilot’s instrumentation, so its value can be measured rather than asserted. More on that at the end.</p>
+    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no. One expectation to set early: the largest immediately bankable finding in here did not come from a better model. It came from writing down, in rules, what “already responded” means.</p>
 
     <h2>The shape of the system</h2>
 
@@ -405,7 +403,7 @@ a{color:inherit}
 
     <h2>Rules decide what’s allowed; models decide what’s next</h2>
 
-    <p>The deterministic half is an evidence-state resolver that classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and derives the set of admissible actions from the state, never from a score. Here is where the 2.75M snapshots actually sit:</p>
+    <p>The models answer “what is likely?” The resolver answers “what is true, what is blocked, and what may happen next?” The questions stay separate because they fail differently: a bad ranking wastes effort; a bad permission creates an incident. The deterministic half is an evidence-state resolver that classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and derives the set of admissible actions from the state, never from a score. Here is where the 2.75M snapshots actually sit:</p>
 
     <figure>
       <div class="statebar" role="img" aria-label="Distribution of 2.75 million case snapshots across resolver states: outreach ready 34.1%, review due 24.4%, inbound review required 20.2%, policy review 12.7%, outreach prohibited 4.9%, cooldown 3.7%, paths exhausted 0.2%.">
@@ -558,7 +556,7 @@ a{color:inherit}
 
     <h2>What I deliberately don’t claim</h2>
 
-    <p>The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
+    <p>The layers ahead are ambitious, which makes the boundary between built, ready, and not-yet-proved more important — not less. The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
 
     <ul>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
@@ -568,7 +566,9 @@ a{color:inherit}
       <li><strong>No rework-savings claims — the QA loop is measured, not yet moved.</strong> A reproducible July baseline timed the quality-review loop (education + employment, Jan–Jun 2026): a returned check runs a median 11.2 days from first QA return to approval, against 5.0 days for a typical check’s entire first pass — and 85.6% of coded return reasons are process-and-judgment classes, the ones the resolver, eligibility rules and lanes exist to prevent. “Exist to prevent” is a design statement, not an effect size: the effect claim waits for the pilot, and hands-on handle time waits for work-item state logs that nothing emits today.</li>
     </ul>
 
-    <h2>What’s next</h2>
+    <h2>The system this foundation unlocks</h2>
+
+    <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. The resolver supplies the state; the rules supply the boundaries; the pilot supplies the evidence.</p>
 
     <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>identity proxy gate</strong> either approves the identity-bearing champions for action-facing use or keeps the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from pilot data that records which options were offered, not just which was taken — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
 
@@ -576,7 +576,9 @@ a{color:inherit}
 
     <p>And after the play engine comes the final step: a <strong>small language model that writes the communications themselves</strong> — the emails, the faxes, the case notes, and the scripts our call operators work from — learning from the logged record of past communication and its outcomes to draft the best next action for every case. It is sequenced last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
 
-    <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every flashier layer gets built on top of that — or not at all. <span class="endmark">◆</span></p>
+    <p>And behind all of it sits the layer every vendor sells first: execution. Every lane starts with human review. A narrow, stable lane moves to controlled auto-send only after its logged evidence proves it safe, stable, and effective — authority expands one lane at a time, from measured outcomes, never from a roadmap date.</p>
+
+    <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. That discipline is not the ceiling of the architecture — it is what lets the architecture grow more capable without growing less trustworthy. Every flashier layer gets built on top of it, or not at all. And when it is, the destination is concrete: a verification operation that reads the case, repairs the path, chooses the play, drafts the outreach, executes what it has proven, and learns from every outcome. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">

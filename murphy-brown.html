@@ -211,7 +211,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Field report</div>
     <h1>The ceiling of scripted automation</h1>
-    <p class="dek">Murphy Brown, our verification bot, touched tens of thousands of cases over four months, handed more than half back to people with nothing but a note, and its closures are reopening at ten times the winter rate. What the ops deep-dive actually found — and why every fix on its list is a component the decision engine already has.</p>
+    <p class="dek">Murphy Brown, our verification bot, is genuinely fast when the contact path is already clear — it fully contained about 44.5% of the tens of thousands of cases it touched over four months. The other half flowed back to people with nothing but a note, and its closures are reopening at ten times the winter rate. What the ops deep-dive actually found, why the answer is to govern the bot rather than retire it — and how it becomes the execution layer inside the decision engine.</p>
     <div class="byline">
       <span><b>Evidence window</b> Mar 1 – Jun 30, 2026 (live warehouse refresh)</span>
       <span><b>Claim posture</b> association language only — see the fine print</span>
@@ -221,16 +221,17 @@ a{color:inherit}
   <aside class="note" style="margin-top:48px">
     <span class="kicker">The 60-second version</span>
     <ul>
-      <li><strong>What’s wrong:</strong> the bot runs without an operating layer. More than half of what it touches flows back to people as note-only handoffs; the closures it does make are reopening at ten-plus times the winter rate; and its handbacks queue behind fresh work (EDUV +30.6h).</li>
-      <li><strong>Why it happens:</strong> nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing records enough to prove any of it — so humans became the control layer. Not bugs: the ceiling of scripted, pre-ML automation.</li>
-      <li><strong>What to do:</strong> five asks — closure lock, triage gate, handback re-rank, one holdout config rule (the causal number lands ~July 15 either way), and the structured payload. The decision engine already implements this layer; the bot becomes a governed channel inside it.</li>
+      <li><strong>What works:</strong> the bot fully contains ~44.5% of what it touches, usually within a day or two. Where the contact path is already laid and the case fits the script, it executes fast — genuinely.</li>
+      <li><strong>What breaks:</strong> the other 55.5% flows back to people as note-only handoffs; the closures it does make are reopening at ten-plus times the winter rate; and its handbacks queue behind fresh work (EDUV +30.6h).</li>
+      <li><strong>Why it happens:</strong> nothing gates what it picks up, nothing owns the state it leaves behind, nothing locks what it closes, and nothing records enough to prove any of it — so humans became the control layer. Not bugs: the ceiling of scripted automation.</li>
+      <li><strong>What to do:</strong> keep the bot; add the operating layer. Five asks — closure lock, triage gate, handback re-rank, one holdout config rule (the causal number lands ~July 15 either way), and the structured payload. The decision engine is that layer; the bot becomes a governed channel inside it.</li>
     </ul>
   </aside>
 
   <article class="prose">
-    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. Whatever sits inside it, its measured behavior is that of classic pre-ML workflow automation: scripted touches, fired where a contact plan is already laid. That kind of software had a long and honorable run — but it has a ceiling, and in the age of AI/ML the ceiling shows. A scripted bot cannot judge which cases are worth picking up, choose among contact paths, decide when to wait, switch, or escalate, or notice that a case it closed didn’t stay closed. Every number in this report is that ceiling, measured.</p>
+    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. Its measured strength is execution: where a contact plan is already laid, it fires the touch fast and often contains the case. Its measured limit is everything around the touch: a scripted bot cannot judge which cases are worth picking up, choose among contact paths, decide when to wait, switch, or escalate, or notice that a case it closed didn’t stay closed. That is the ceiling of scripted automation — and every number in this report is that ceiling, measured.</p>
 
-    <p>So this is not an argument against the bot — MB has real wins, and the deep-dive is careful to say so. It is an argument about the generation of software it belongs to, and about the missing layer — the brain — that the rest of this series describes. Deterministic automation without intelligence or orchestration was the best available answer when it was built; it no longer is.</p>
+    <p>So the bot’s strongest result and its biggest problem turn out to be the same behavior: fast when the path is clear, judgment handed back when it is not. This is not an argument against Murphy Brown, and it is not an argument for turning it off. It is the case for governing it — adding the missing layer, the brain, that decides what should happen before and after every touch. The decision engine supplies the judgment; the bot supplies the speed.</p>
 
     <p>Five numbers tell the story:</p>
   </article>
@@ -376,7 +377,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 2</span>Reopen-after-result-sent on bot-contained closures, February vs. June 2026. June postdates are still maturing, so these are floors. The rise is within-lane and concentrated in bot-only closures — which is why the deep-dive’s first ask is a closure lock with reopen-reason instrumentation, and why “grow containment” without one would scale a quality problem. The narrow June eForm defect (300 strict cases where the bot emailed <em>after</em> a closeout state, 1,119 manual touch rows) is the same missing lock in miniature.</figcaption>
     </figure>
 
-    <h2>What the bot leaves behind</h2>
+    <h2>A note is not a handoff</h2>
 
     <p>Underneath the volumes sits one mechanism, and the deep-dive names it precisely: <em>every strict MB touch in the diagnostic packet is note-only.</em> The bot does work and leaves an annotation — not a state. So the person who picks the case up must reconstruct what happened, whether evidence is complete, and what should happen next. The handoff itself creates work:</p>
 
@@ -425,7 +426,7 @@ a{color:inherit}
 
     <h2>Why this is the decision engine’s story to finish</h2>
 
-    <p>The decision engine is the brain the bot is missing: models that read every case, a resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
+    <p>The decision engine supplies the operating layer the bot is missing: models that read every case, a resolver that knows what is true and what is allowed, a scorer that picks the play, cadence rules that run the sequence to completion, and a log that remembers what was tried. That is not an analogy — the deep-dive’s fix list and the engine’s component list are the same list, item for item:</p>
 
     <figure>
       <div class="fightle">
@@ -461,14 +462,14 @@ a{color:inherit}
         <div class="row">
           <div class="gap"><b>CALL loops, fax complexity, stale contacts</b><span>repeat-call lanes at 35% UTV, 2% 48h success</span></div>
           <div class="arrow">→</div>
-          <div class="fix"><b>Cadence + eligibility controls</b><span>call_escalation_ladder_v1 · wait_policy_v1 · action_eligibility_v1</span></div>
+          <div class="fix"><b>Cadence + eligibility controls</b><span>escalation ladder · wait policy · eligibility rules — versioned configs</span></div>
           <span class="chip built">BUILT · BACKTESTED</span>
         </div>
       </div>
       <figcaption style="margin-top:16px"><span class="figno">Figure 4</span>The deep-dive’s asks mapped to the decision engine. Two items on the bot’s side remain genuine asks to SNH-AI — the structured action payload and reopen-reason codes — because the engine can define the contract but the bot must write into it.</figcaption>
     </figure>
 
-    <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes a channel inside the decision engine.</strong> The resolver decides <em>when</em> the bot may touch a case; the difficulty scores decide <em>whether it should</em> (fax-primary and thin-contact cases skip it — the deep-dive’s own modeling says gating to the top ~60–70% keeps 83–91% of the bot’s wins while halving the handback lane); terminal states and the inbound-first rule <em>lock what’s closed</em>; the priority queue re-ranks what comes back; and the flight recorder finally makes the bot’s value a measured number instead of a debate. The engine runs the mission; the bot becomes its fastest pair of hands.</p>
+    <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes a channel inside the decision engine.</strong> The resolver decides <em>when</em> the bot may touch a case; the difficulty scores decide <em>whether it should</em> (fax-primary and thin-contact cases skip it — the deep-dive’s own modeling says gating to the top ~60–70% keeps 83–91% of the bot’s wins while halving the handback lane); terminal states and the inbound-first rule <em>lock what’s closed</em>; the priority queue re-ranks what comes back; and the flight recorder finally makes the bot’s value a measured number instead of a debate.</p>
 
     <h2>What I’m careful not to claim</h2>
 
@@ -480,7 +481,7 @@ a{color:inherit}
       <li><strong>And one test the bot passed.</strong> I probed whether MB fires before evidence exists: 0.0% of its touches happen while a vendor clock is open, and only 0.2–1.7% land before a vendor return. The bot’s timing discipline is not the problem — its handoffs, closures, and gating are.</li>
     </ul>
 
-    <h2>The asks, in one place</h2>
+    <h2>Five changes that make the bot governable</h2>
 
     <ol>
       <li><strong>Closure lock + reopen-reason instrumentation</strong> — adjudicates the reopen explosion before anyone scales containment.<span class="askmeta">owner: SNH-AI · product / state-machine change</span></li>
@@ -489,6 +490,12 @@ a{color:inherit}
       <li><strong>The holdout config rule</strong> — two weeks, reversible, powered; the only path to the causal dollar-and-TAT number.<span class="askmeta">owner: SNH-AI · one configuration rule, fully reversible</span></li>
       <li><strong>Structured action payload + inbound capture</strong> — the state contract of Figure 3, written by the bot, read by the engine.<span class="askmeta">owner: SNH-AI · the field spec is ready to hand over</span></li>
     </ol>
+
+    <h2>What the bot becomes</h2>
+
+    <p>Murphy Brown is not the old system we discard — it is the execution layer the new system can finally use well. The decision engine decides which cases are ready, which actions are allowed, and what should happen next. As the pilot’s log accumulates, the engine learns the complete play — channel, timing, message — finds a better contact path when the one on file is dead, and drafts the outreach for a person to approve. The bot executes the proven plays at machine speed, lane by lane, as the logged evidence earns it.</p>
+
+    <p>Today, Murphy Brown automates individual touches. Inside the decision engine, it becomes part of an operation that can run the entire case — and improve after every outcome. The engine runs the case; the bot becomes its fastest pair of hands.</p>
 
     <div class="note">
       <span class="kicker">The version to take out of the room</span>
