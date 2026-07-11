@@ -238,24 +238,13 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The Verifications Decision Engine</h1>
-    <p class="dek">Verification is not fundamentally a contact problem. It is a decision problem. Today, people receive a queue without a consistent case strategy, while basic automation executes isolated touches without governing what happens before or after them. I built a two-part decision engine — a specialist model fleet plus a deterministic operating layer — and replayed it across 2.75 million of our own case-days. It identifies where effort can still matter, prevents unsafe or redundant actions, and gives every case an explainable next move. The first release recommends; the live record unlocks contact repair, SLM drafting, and earned automation.</p>
+    <p class="dek">People have judgment, but the queue has no strategy. Automation has speed, but it has no orchestration. The Verifications Decision Engine gives both lanes a governed plan &mdash; and turns every outcome into evidence for the next case.</p>
     <div class="byline">
       <span><b>Problem</b> people have a queue; automation has a touch; neither has a complete case strategy</span>
       <span><b>Evidence</b> 2.75 million historical case-days replayed</span>
       <span><b>Status</b> built and backtested; next step is live integration with human review</span>
     </div>
   </header>
-
-  <aside class="note" style="margin-top:48px">
-    <span class="kicker">The 60-second version</span>
-    <ul>
-      <li><strong>The problem:</strong> unlike cases enter similar queues, and the blended unable-to-verify number cannot distinguish an impossible case from a recoverable one we lost.</li>
-      <li><strong>The manual gap:</strong> people receive work without a consistent case strategy, so operators must supply the prioritization, memory, and next-step planning themselves.</li>
-      <li><strong>The automation gap:</strong> basic automation executes a predefined touch when the path is clear, but it does not govern case fit, permission, sequence, handoff, or learning.</li>
-      <li><strong>What was built:</strong> a specialist model fleet reads where each case is heading; a deterministic operating layer turns that intelligence into a safe, explainable recommendation for a person.</li>
-      <li><strong>What the replay proved:</strong> the engine exposed a 3%-to-48% difficulty spread, caught roughly 400,000 already-replied case-days, and produced zero do-not-contact and hard-policy violations across 2.75 million historical case-days.</li>
-    </ul>
-  </aside>
 
   <article class="prose">
 
@@ -267,26 +256,46 @@ a{color:inherit}
 
     <p>The automation lane has the opposite strength and the same underlying weakness. Automation can execute a touch quickly when the contact path and next action are already clear. But it does not consistently decide whether the case is a good fit, whether another touch is allowed, when the path should change, what state the case should return in, or what the outcome should teach us. That produces fast cases when the script fits &mdash; and downstream handbacks, repeated work, reopening closures, and human reconstruction when it does not. <a href="murphy-brown.html"><em>The ceiling of scripted automation</em></a>, the Murphy Brown field report, documents that pattern in detail.</p>
 
+    <p>The blended &ldquo;unable to verify&rdquo; number reflects the same weakness. One in five worked cases ends unable to verify, but the result does not tell leadership whether the case was impossible, the contact path failed, or a recoverable case received the wrong next move. Different problems enter similar workflows and disappear inside the same outcome.</p>
+
     <p>The common problem is not a lack of effort or automation. It is the absence of an intelligence and orchestration layer shared by both. People have judgment without systematic decision support. Automation has speed without case-level judgment. Neither lane produces the complete record needed to learn what works.</p>
 
     <p>That is the problem the Verifications Decision Engine was built to solve.</p>
 
-    <p>The blended &ldquo;unable to verify&rdquo; number reflects the same weakness. One in five worked cases ends unable to verify, but the number does not tell leadership whether the case was impossible, whether the contact information failed, or whether a recoverable case received the wrong next move. Unlike cases enter similar workflows and are judged through the same result, making the metric difficult to manage and the work difficult to aim.</p>
-
     <figure>
-      <div class="fightle">
-        <h3>The work has two lanes. The missing layer is the same.</h3>
-        <p>Manual queue and basic automation, converging on one shared gap</p>
+      <div class="panel">
+      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing layer. Manual lane: people working queues — judgment, but no encoded plan or priority. Automation lane: automation executing touches — speed, but no orchestration or case fit. Both converge on the Decision Engine: shared case state, priority, a safe next move, and an outcome record.">
+        <defs>
+          <marker id="arC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
+          <line x1="300" y1="64" x2="552" y2="104" marker-end="url(#arC)"/>
+          <line x1="300" y1="176" x2="552" y2="136" marker-end="url(#arC)"/>
+        </g>
+        <g>
+          <rect x="24" y="28" width="276" height="72" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="42" y="50" class="s-tag" fill="#436B8E">MANUAL LANE</text>
+          <text x="42" y="73" class="s-title">People working queues</text>
+          <text x="42" y="91" class="s-sub">judgment, but no encoded plan or priority</text>
+        </g>
+        <g>
+          <rect x="24" y="140" width="276" height="72" rx="4" fill="#F0EEE6" stroke="#8A8578" stroke-width="1.5"/>
+          <text x="42" y="162" class="s-tag" fill="#8A8578">AUTOMATION LANE</text>
+          <text x="42" y="185" class="s-title">Automation executing touches</text>
+          <text x="42" y="203" class="s-sub">speed, but no orchestration or case fit</text>
+        </g>
+        <g>
+          <rect x="560" y="62" width="296" height="116" rx="4" fill="#FDFCFA" stroke="#141413" stroke-width="1.5"/>
+          <text x="578" y="88" class="s-tag" fill="#436B8E">THE MISSING LAYER</text>
+          <text x="578" y="112" class="s-title">The Decision Engine</text>
+          <text x="578" y="136" class="s-sub">shared case state · priority ·</text>
+          <text x="578" y="154" class="s-sub">safe next move · outcome record</text>
+        </g>
+      </svg>
       </div>
-      <div style="max-width:880px;margin:0 auto;font-family:var(--sans);border-top:2px solid var(--ink)">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:12px 4px;border-bottom:1px solid var(--hairline);font-size:.71875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase"><span style="color:#436B8E">People working the queue</span><span style="color:#8A8578">Basic automation executing a touch</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Receives a worklist, not a case strategy</span><span>Receives a predefined action, not the full case</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Relies on the operator to establish priority and plan</span><span>Relies on the contact path already being clear</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Does not consistently show difficulty, urgency, or why one case comes first</span><span>Does not consistently judge case fit or when the path should change</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Makes people reconstruct state and history</span><span>Returns uncertain work with weak state or handoff</span></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Uses human judgment without systematic decision support</span><span>Uses machine speed without orchestration</span></div>
-      </div>
-      <div class="takeaway" style="max-width:880px"><b>Shared root cause</b>No common intelligence, orchestration, and outcome-learning layer.</div>
+      <figcaption>Neither lane fails for lack of effort. Both are missing the same layer &mdash; the one the Decision Engine supplies.</figcaption>
     </figure>
 
     <h2>The original ask was a learning operation, not just a model</h2>
@@ -415,14 +424,7 @@ a{color:inherit}
 
     <p>Once the live record connects each recommendation to the action, message, delivery, reply, and final outcome, the operation can begin learning the complete play &mdash; not merely which case looks difficult, but which channel, timing, contact path, and message should be used next.</p>
 
-    <p>That record unlocks the rest of the original ask:</p>
-
-    <ul>
-      <li><strong>Repair the inputs:</strong> an AI contact researcher finds fresh, verified contact paths, reducing manual re-entry and preventing attempts against information already known to be weak.</li>
-      <li><strong>Draft the outreach:</strong> a small language model prepares the email, fax, note, or call script using what the operation has learned.</li>
-      <li><strong>Keep people responsible:</strong> a person initially approves or edits every draft.</li>
-      <li><strong>Automate what earns it:</strong> a narrow, stable lane earns controlled auto-send from its own logged results; higher-risk and uncertain cases stay with people.</li>
-    </ul>
+    <p>That record unlocks the rest of the original ask. An AI contact researcher repairs weak contact paths, and a small language model drafts the outreach &mdash; emails, faxes, notes, call scripts. People approve the work first. A narrow lane earns controlled auto-send only after logged evidence proves it safe, stable, and effective.</p>
 
     <p>The long-term product is not a model or a bot. It is a verification operation that improves after every completed case.</p>
 
@@ -480,11 +482,7 @@ a{color:inherit}
 
     <p>The immediate decision is not whether to let AI run verifications autonomously. It is whether to put the decision and evidence layer into the workflow so the operation can improve now &mdash; and so the larger AI ambition can be built on proof rather than promise.</p>
 
-    <div class="note">
-      <span class="kicker">The version to take out of the room</span>
-      <p>Verification is not one problem wearing one label. It is a daily sequence of decisions about difficulty, permission, timing, contact path, and evidence. The specialist model fleet provides the intelligence. The operating layer makes that intelligence safe and usable. A person remains responsible for the decision, and the outcome becomes evidence for the next case.</p>
-      <p>That is how the original SLM ask becomes viable: not language first, but evidence first; not automation first, but a system that knows what it is automating and whether it worked. <span class="endmark">&#9670;</span></p>
-    </div>
+    <p>That is how the original SLM ambition becomes viable: not language first, but a system that knows what it is automating and whether it worked. <span class="endmark">&#9670;</span></p>
   </article>
 
   <footer class="colophon">
