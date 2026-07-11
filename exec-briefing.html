@@ -242,7 +242,7 @@ a{color:inherit}
     <div class="byline">
       <span><b>Problem</b> no shared case strategy</span>
       <span><b>Evidence</b> 2.75 million historical case-days replayed</span>
-      <span><b>Status</b> built and backtested; next step is live integration with human review</span>
+      <span><b>Status</b> built and tested in historical replay; next step is live integration with human review</span>
     </div>
   </header>
 
@@ -252,9 +252,9 @@ a{color:inherit}
 
     <p>Verifications currently operates through two lanes: people working queues and automation executing individual touches. Both produce real work. Neither is supported by a common decision system that reads the case, explains what matters, and governs what should happen next.</p>
 
-    <p>In the manual lane, people receive a queue &mdash; not a strategy. The worklist does not consistently tell them which cases are most recoverable, which are beginning to stall, which have already received a reply, or why one case should be worked before another. Agents bring their own experience and judgment, but the system makes them reconstruct the plan case by case. The operation therefore depends on people to supply the prioritization, memory, and orchestration that the workflow itself does not provide.</p>
+    <p>In the manual lane, people receive a queue &mdash; not a strategy. The worklist does not consistently tell them which cases are most recoverable, which are beginning to stall, which have already received a reply, or why one case should be worked before another. Agents bring their own experience and judgment, but the system makes them reconstruct the plan case by case. The operation therefore depends on people to supply what the workflow does not: which case to work first, what has already been tried, and when to change course.</p>
 
-    <p>The automation lane does not work the case; it fires the script. Give it a contact plan and it sends the same canned sequence &mdash; two emails and a fax &mdash; without asking whether the case has changed, whether the last touch accomplished anything, or whether a different path now makes more sense. It makes outreach faster, not smarter. When the sequence ends, the unresolved case returns to a person to reconstruct. <a href="murphy-brown.html"><em>The ceiling of scripted automation</em></a>, the Murphy Brown field report, documents that pattern in detail.</p>
+    <p>The automation lane does not work the case; it fires the script. Give it a contact plan and it sends a fixed sequence of canned emails and faxes without asking whether the case has changed, whether the last touch accomplished anything, or whether a different path now makes more sense. It makes outreach faster, not smarter. When the sequence ends, the unresolved case returns to a person to reconstruct. <a href="murphy-brown.html"><em>The ceiling of scripted automation</em></a>, the Murphy Brown field report, documents that pattern in detail.</p>
 
     <p>Today, one in five worked cases ends &ldquo;unable to verify.&rdquo; But that single rate combines very different cases: some were unlikely to verify from the start, some were blocked by missing or weak contact information, and some were recoverable but stalled in the workflow. Because all three disappear into the same number, leadership can see how often verification failed &mdash; but not why, which misses were avoidable, or where a different next move could have changed the outcome.</p>
 
@@ -357,17 +357,19 @@ a{color:inherit}
       </div>
     </div>
 
-    <p>The model never receives authority to restore an action the rules removed. That is how prediction can improve the work without owning compliance.</p>
+    <p>The model never receives authority to restore an action the rules removed. Prediction improves the work while permission stays with the rules.</p>
 
     <h2>What 2.75 million historical case-days proved</h2>
 
-    <p><strong>The operation can see difficulty before spending the effort.</strong> At intake, the system separates likely successes from likely failures with approximately 81% sorting power. Across the full daily population, the specialist forecasts remain useful as cases age and the obvious successes leave the queue.</p>
+    <p>The historical replay evaluated one daily record for every open case on every day it remained open &mdash; 2.75 million case-days across the year. Four findings changed how the operation can be managed.</p>
 
-    <p><strong>The blended UTV number hides radically different cases.</strong> The easiest predicted tenth of cases fails about 3% of the time. The hardest tenth fails about 48% of the time. That 16-fold spread makes a fairer operating measure possible: evaluate outcomes against what was realistically achievable and direct effort toward cases where intervention can still matter.</p>
+    <p><strong>The operation can see difficulty before spending the effort.</strong> At intake, the system separates likely successes from likely failures with approximately 81% sorting power. The specialist forecasts continue separating harder from easier cases even after the obvious successes leave the queue.</p>
+
+    <p><strong>One UTV rate hides three different problems.</strong> The easiest predicted tenth of cases fails about 3% of the time. The hardest tenth fails about 48% of the time. That 16-fold spread makes a fairer operating measure possible: evaluate outcomes against what was realistically achievable and direct effort toward cases where intervention can still matter.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 330" role="img" aria-label="Two-bar chart of actual unable-to-verify rates. Easiest predicted tenth of cases: 3.0 percent. Hardest predicted tenth: 48.2 percent. A dashed line at 20.3 percent marks today's blended average.">
+      <svg viewBox="0 0 880 330" role="img" aria-label="Two-bar chart of actual unable-to-verify rates. Easiest predicted tenth of cases: 3.0 percent. Hardest predicted tenth: 48.2 percent. A dashed line at 20.3 percent marks the department-wide UTV rate.">
         <!-- axis -->
         <line x1="120" y1="270" x2="820" y2="270" stroke="#141413" stroke-width="1.25"/>
         <g class="s-sub" text-anchor="end">
@@ -379,7 +381,7 @@ a{color:inherit}
         </g>
         <!-- base rate -->
         <line x1="120" y1="184.7" x2="820" y2="184.7" stroke="#141413" stroke-width="1.5" stroke-dasharray="6 5"/>
-        <text x="820" y="176" class="s-small" text-anchor="end">today’s blended average · 20.3%</text>
+        <text x="120" y="176" class="s-small">department-wide UTV rate · 20.3%</text>
         <text x="330" y="118" class="s-sub" font-style="italic" text-anchor="middle">the middle eight bands sit in between —</text>
         <text x="330" y="136" class="s-sub" font-style="italic" text-anchor="middle">this is where effort changes outcomes</text>
         <!-- easiest -->
@@ -430,7 +432,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 250" role="img" aria-label="Three-stage roadmap. Stage 1, done: predict and protect — difficulty scores, safety rules, backtested on 2.75 million case-days. Stage 2, next: human-in-loop integration — recommendations on live cases, operators decide, outcomes logged. Stage 3, after: the learned playbook — an AI contact researcher finds fresh, verified contact paths, and a small language model drafts the emails, faxes, notes, and call scripts, learning from logged outcomes what works. Gates between stages: integration into the live workflow; logged evidence unlocks the playbook.">
+      <svg viewBox="0 0 880 250" role="img" aria-label="Three-stage roadmap. Stage 1, done: predict and protect — difficulty scores, safety rules, tested in replay on 2.75 million case-days. Stage 2, next: human-in-loop integration — recommendations on live cases, operators decide, outcomes logged. Stage 3, after: the learned playbook — an AI contact researcher finds fresh, verified contact paths, and a small language model drafts the emails, faxes, notes, and call scripts, learning from logged outcomes what works. Gates between stages: integration into the live workflow; logged evidence unlocks the playbook.">
         <defs>
           <marker id="arF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -442,15 +444,15 @@ a{color:inherit}
         </g>
         <g>
           <rect x="24" y="48" width="262" height="124" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
-          <text x="42" y="76" class="s-tag" fill="#5F7A4A">STAGE 1 — DONE, BACKTESTED</text>
+          <text x="42" y="76" class="s-tag" fill="#5F7A4A">STAGE 1 — BUILT · TESTED IN REPLAY</text>
           <text x="42" y="100" class="s-title">Predict &amp; protect</text>
           <text x="42" y="122" class="s-sub">difficulty scores on every case ·</text>
           <text x="42" y="140" class="s-sub">safety rules that can’t be overridden ·</text>
-          <text x="42" y="158" class="s-sub">proven on 2.75M real case-days</text>
+          <text x="42" y="158" class="s-sub">replayed on 2.75M real case-days</text>
         </g>
         <g>
           <rect x="318" y="48" width="244" height="124" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="336" y="76" class="s-tag" fill="#436B8E">STAGE 2 — INTEGRATION, NEXT</text>
+          <text x="336" y="76" class="s-tag" fill="#436B8E">STAGE 2 — NEXT · LIVE INTEGRATION</text>
           <text x="336" y="100" class="s-title">Human-in-loop pilot</text>
           <text x="336" y="122" class="s-sub">recommendations on live cases ·</text>
           <text x="336" y="140" class="s-sub">operators take or override ·</text>
@@ -458,7 +460,7 @@ a{color:inherit}
         </g>
         <g>
           <rect x="594" y="48" width="262" height="124" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="612" y="76" class="s-tag" fill="#8A8578">STAGE 3 — EARNED NEXT</text>
+          <text x="612" y="76" class="s-tag" fill="#8A8578">STAGE 3 — AFTER LIVE EVIDENCE</text>
           <text x="612" y="100" class="s-title">The learned playbook</text>
           <text x="612" y="122" class="s-sub">an AI researcher hunts fresh contact</text>
           <text x="612" y="140" class="s-sub">paths, and the SLM drafts the outreach —</text>
@@ -475,7 +477,7 @@ a{color:inherit}
     <h2>What leadership is being asked to do</h2>
 
     <ul>
-      <li><strong>Adopt difficulty-adjusted UTV as the operating scoreboard.</strong> Measure misses against what was realistically achievable, not only against the blended average.</li>
+      <li><strong>Adopt difficulty-adjusted UTV as the operating scoreboard.</strong> Measure misses against what was realistically achievable, not only against the overall department UTV rate.</li>
       <li><strong>Integrate the Decision Engine beside the live team with complete outcome logging.</strong> Recommendations remain under human review while the operation measures adoption, overrides, turnaround, and outcomes.</li>
       <li><strong>Use the resulting evidence to sequence the larger AI build.</strong> Contact research, SLM drafting, and controlled automation advance only from the record produced by live casework.</li>
     </ul>
