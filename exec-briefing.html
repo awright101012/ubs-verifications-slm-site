@@ -238,7 +238,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The Verifications Decision Engine</h1>
-    <p class="dek">The waste in verifications is countable now. One kind alone — re-contacting people who had already answered — burns roughly ten operators’ worth of hours a year. And the number we manage by can’t tell a case that was impossible from a case we lost. I replayed 2.75 million of our own case-days to count it, and built the fix in the same pass. Six machine-learning models score every open case every morning. An operating system turns the scores into each case’s next move, with compliance hard-wired: zero violations across the entire replay. Our data, our cases, already backtested. Next: wire it into the live workflow, Murphy Brown included. The hours come back, turnaround drops, and the UTV number finally moves — and the record the pilot keeps starts teaching the engine which complete play wins each kind of case.</p>
+    <p class="dek">The waste in verifications is countable now. One kind alone — re-contacting people who had already answered — burns roughly ten operators’ worth of hours a year. And the number we manage by can’t tell a case that was impossible from a case we lost. I replayed 2.75 million of our own case-days to count it, and built the fix in the same pass: a fleet of specialist machine-learning models that reads every open case each morning, inside an operating system that turns the scores into each case’s next safe move. Already backtested, on our own cases. Next: wire it into the live workflow, Murphy Brown included — the hours come back, turnaround drops, the UTV number finally moves, and the record the pilot keeps starts teaching the engine which complete play wins.</p>
     <div class="byline">
       <span><b>The problem</b> 1 in 5 cases ends unable to verify</span>
       <span><b>The evidence</b> 2.75M real case-days replayed</span>
@@ -249,14 +249,14 @@ a{color:inherit}
   <aside class="note" style="margin-top:48px">
     <span class="kicker">The 60-second version</span>
     <ul>
-      <li><strong>What was built:</strong> two halves that only work together — six machine-learned models that read every open case every morning and score how it will end (right 71% of the time today, ~81% at day 0), and the operating system that turns those scores into safe action: hard rules that make an improper contact structurally impossible, an orchestrator that recommends each next move. Nothing auto-sends yet — the wiring for automation is in place, and it turns on as a later, earned stage.</li>
-      <li><strong>What it proved:</strong> replayed against 2.75 million real case-days — a 48%-vs-3% difficulty spread the blended UTV (unable-to-verify) number hides, 1 in 7 case-days where we would have re-contacted someone who had already replied, and zero policy violations.</li>
+      <li><strong>What was built:</strong> two halves that only work together — a fleet of specialist machine-learning models that reads every open case every morning and scores how it will end (right 71% of the time today, ~81% at day 0), and the operating system that turns those scores into safe action: hard rules that make an improper contact structurally impossible, an orchestrator that recommends each next move. Nothing auto-sends yet.</li>
+      <li><strong>What it proved:</strong> replayed against the full year of casework — a 48%-vs-3% difficulty spread the blended UTV (unable-to-verify) number hides, 1 case-day in 7 where we would have re-contacted someone who had already replied, and zero policy violations.</li>
       <li><strong>Next steps:</strong> wire the engine into the live workflow — Murphy Brown included — with outcome logging on, adopt the achievable-UTV scoreboard, and let the logged evidence switch on the next layers in order: learn the winning play, repair dead contact paths, draft the outreach — and only then earn auto-send, lane by lane.</li>
     </ul>
   </aside>
 
   <article class="prose">
-    <p><strong>What was built:</strong> machine learning can read a caseload; it can’t run one — so this is two things that only work together. The intelligence: six models, trained on 2.75 million real case-days, that read every open case each morning and score how it will end — which cases will never verify, which will land in five days, which are about to stall. And the operating system that makes intelligence safe to act on in a regulated department: a deterministic rulebook that decides what’s allowed before any score is consulted, an orchestrator that turns the scores into each case’s next move, a flight recorder that logs every recommendation against what actually happened. <strong>The models find the winnable work; the operating system makes acting on it safe.</strong></p>
+    <p><strong>What was built:</strong> machine learning can read a caseload; it can’t run one — so this is two things that only work together. The intelligence: a fleet of specialist models, trained on a year of our own case history, that reads every open case each morning and scores how it will end. And the operating system that makes intelligence safe to act on in a regulated department: a deterministic rulebook that decides what’s allowed before any score is consulted, an orchestrator that turns scores into each case’s next move, a flight recorder that logs every recommendation against what actually happened. <strong>The models find the winnable work; the operating system makes acting on it safe.</strong></p>
 
     <p>Start with the problem: <strong>one in five worked cases ends “unable to verify,”</strong> and for years the number could be watched but not managed. Behind each one is a person waiting — on a job offer, a lease, a placement; that wait is what turnaround time measures. Replaying a year of casework showed why — it isn’t one number. Three different problems wear the same label:</p>
 
@@ -266,53 +266,7 @@ a{color:inherit}
       <li><strong>People contacted after they already answered.</strong> On 1 case-day in 7, the reply was on record and the flow would have reached out again anyway.</li>
     </ul>
 
-    <p>None of that is visible in a blended average — and all of it is fixable with the same machinery. The operation’s asks were three: pick the next move on every case, know each case’s fate upfront, and prove which outreach actually works. So I built it — one capability per ask:</p>
-
-    <div class="asks3">
-      <div class="ask">
-        <span class="no">1 — ORCHESTRATE</span>
-        <h3>The next move on every open case, every day</h3>
-        <p>Built. The engine proposes the next sensible move on every open case, every day — ranked by six learned models, fenced by rules that outrank them. It goes live the day it’s wired into the workflow.</p>
-        <span class="chip now">BUILT — READY TO PILOT</span>
-      </div>
-      <div class="ask">
-        <span class="no">2 — PREDICT</span>
-        <h3>Each case’s fate, read at arrival</h3>
-        <p>Built and proven. The engine reads difficulty at intake — ~81% sorting power before any work is done — and every morning after, validated against 2.75 million replayed case-days. It makes a fair “achievable UTV” target possible for the first time.</p>
-        <span class="chip done">DELIVERED &amp; BACKTESTED</span>
-      </div>
-      <div class="ask">
-        <span class="no">3 — LEARN</span>
-        <h3>Which message works — and which contact path reaches</h3>
-        <p>Deliberately sequenced last. Two builds wait here, in order. The contact researcher: an AI agent that hunts fresh, verified emails, fax numbers, and phone numbers — repairing the input instead of letting a case burn attempts on a dead path. Then the language layer: a small language model that drafts the outreach itself — emails, faxes, notes, and call scripts — learning from the logged record which draft to send next; I will not claim a message “works” until that’s measured, not guessed. Both run on the outcome logging the pilot creates.</p>
-        <span class="chip next">NEXT — UNLOCKED BY THE PILOT</span>
-      </div>
-    </div>
-
-    <h2>What the build revealed</h2>
-
-    <p>Four findings and capabilities nobody planned for — each one changes what the operation can do:</p>
-
-    <div class="valgrid">
-      <div class="val">
-        <h3>A fair scoreboard — new management IP</h3>
-        <p>The models separate cases that fail 3% of the time from cases that fail 48% of the time. “Achievable UTV” becomes a real target for the first time: misses measured against what was possible, effort steered to the winnable middle.</p>
-      </div>
-      <div class="val">
-        <h3>A system that reads</h3>
-        <p>17.9 million free-text operator notes distilled into signal by an 11-class reader — raw text never stored. This month’s accuracy gains came from it, re-proven on a month the models had never seen.</p>
-      </div>
-      <div class="val">
-        <h3>Safety as architecture, not vigilance</h3>
-        <p>Zero policy and do-not-contact violations across all 2.75M replayed case-days — improper contact is structurally impossible. That is precisely what makes automation deployable in a regulated flow at all.</p>
-      </div>
-      <div class="val">
-        <h3>The Murphy Brown answer</h3>
-        <p>The build also produced the diagnosis of why the current bot hands 55% of its cases back — and the fix list is, item for item, this system. Inside the engine, the bot stops being a problem and becomes a governed channel: selected by the scores, sequenced by the rules, measured by the log. See <a href="murphy-brown.html">the field report</a>.</p>
-      </div>
-    </div>
-
-    <p>Everything below is the evidence. Four numbers carry it:</p>
+    <p>None of that is visible in a blended average — and all of it is fixable with the same machinery. The operation’s asks were three: pick the next move on every case, know each case’s fate upfront, and prove which outreach actually works. I built one capability per ask — the first two are built and backtested; the third is deliberately sequenced behind the pilot’s outcome logging, and the roadmap below says exactly how it earns its way in. Everything below is the evidence. Four numbers carry it:</p>
   </article>
 
   <div class="statband">
@@ -395,17 +349,7 @@ a{color:inherit}
       <div class="takeaway"><b>Takeaway</b>On the day a case arrives, the engine is already 62% of the way from a coin flip to perfect — before a single attempt is spent. Today’s process has no read at all: every case enters the same queue at the same cadence.</div>
     </figure>
 
-    <p>The 81% deserves a beat. That is the system reading a case <em>at the moment it arrives</em> — no attempts, no history, nothing but intake facts — and already sorting “will come back” from “never will” at its sharpest power of the day. That was the second ask, verbatim: <em>know upfront</em>.</p>
-
-    <p>The build speed is part of the evidence too. The first working version of these models was a one-week build, shown on June 19. By the champion cycle two weeks later, the five-day read had moved from 67% to 72% and the day-0 read from 73% to ~81% — each improvement forced through the promotion gate, not a demo bar. The founding question behind this work — how quickly can viable SLMs be produced on our own casework — already has a measured answer: weeks, in writing.</p>
-
-    <div class="note">
-      <span class="kicker">Why 81% at day 0, but 71% overall?</span>
-      <p>Because the two numbers answer different questions. The 81% is the model meeting every case <em>fresh</em>, on day 0 — and fresh cases differ enormously (a university registrar with a clean contact file versus a dissolved employer with one dead phone number), so telling them apart is more tractable. The 71% is the harder, everyday question: re-scoring every still-open case every morning, including the week-old ones — and by then the obviously easy cases have already resolved and left the pool. What remains looks more alike, so ranking the survivors is genuinely harder.</p>
-      <p>The model doesn’t get worse as cases age; the question gets harder. Operationally you get both: the sharpest read exactly when routing happens, and a still-useful re-read every day after.</p>
-    </div>
-
-    <p>One more thing the scorecard hides: <strong>the system already reads.</strong> This month’s model upgrade came from teaching the fleet to read 17.9 million free-text operator notes — “left a voicemail,” “reached HR, call back Tuesday” — classified by an 11-class reader at export time, with the raw text never stored anywhere. The reading is worth real accuracy, and the gain was re-proven on a month the models had never seen. It is also the first step toward the roadmap’s language layer: a system that learns to read before it is allowed to write.</p>
+    <p>Three things about that chart deserve a beat. The 81% is the fleet reading a case <em>at the moment it arrives</em> — nothing but intake facts — at its sharpest power of the day; that was the second ask, verbatim: <em>know upfront</em>. The pooled 71% is the harder everyday question — re-ranking the survivors after the easy cases resolve out — so the score falls as the question hardens, not as the models age. Part of the accuracy comes from reading: 17.9 million free-text operator notes, distilled into signal by an 11-class classifier at export time with the raw text never stored — the first step toward a system that learns to read before it is allowed to write. And the build speed is evidence too: the first working version was a one-week build shown on June 19, and by the champion cycle two weeks later the five-day read had moved from 67% to 72% and the day-0 read from 73% to ~81% — each improvement forced through the promotion gate, not a demo bar. The founding question — how quickly can viable SLMs be produced on our own casework — already has its answer: weeks, in writing.</p>
 
     <h2>The spread is the strategy</h2>
 
@@ -448,64 +392,14 @@ a{color:inherit}
 
     <h2>How intelligence becomes a safe next move</h2>
 
-    <p>Every morning, six machine-learning models read the same case snapshot — a 147-signal view of everything knowable that day — and return calibrated probabilities: when they say 30%, it happens about 30% of the time. They do not send, block, close, or authorize anything. They answer one question: <em>what is likely to happen next?</em></p>
-
-    <p>The operating system takes over from there. The thirteen-state resolver names the case state. Deterministic rules remove moves that are unsafe, premature, or no longer relevant. The scorer ranks what remains. A person makes the decision. The flight recorder connects the recommendation to what actually happened. No single component runs the case — the handoff between them does:</p>
+    <p>Every morning the model fleet — six specialists — reads the same case snapshot, a 147-signal view of everything knowable that day, and returns calibrated probabilities: when it says 30%, it happens about 30% of the time. It does not send, block, close, or authorize anything. From there the operating system takes over: the resolver names the case state, deterministic rules remove unsafe moves, the scorer ranks what remains, a person decides, and the flight recorder connects the recommendation to what actually happened. No single component runs the case — the handoff between them does:</p>
 
     <blockquote class="pull">Machine learning decides what deserves attention. The operating system decides what may happen. A person decides what happens now.</blockquote>
 
-    <figure>
-      <div class="panel">
-      <svg viewBox="0 0 880 300" role="img" aria-label="Three boxes: the advisor (AI) reads every case and suggests the next move; the rulebook (deterministic) decides what is allowed and can veto anything; your people make the final call with every step recorded. A struck-out dashed arrow from the advisor directly to action is labeled: locked today — auto-send is earned later, gate by gate.">
-        <defs>
-          <marker id="arE" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
-          </marker>
-          <marker id="arR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#2C4A66"/>
-          </marker>
-        </defs>
-        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
-          <line x1="298" y1="120" x2="330" y2="120" marker-end="url(#arE)"/>
-          <line x1="582" y1="120" x2="614" y2="120" marker-end="url(#arE)"/>
-        </g>
-        <g>
-          <rect x="36" y="64" width="262" height="112" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="54" y="94" class="s-tag" fill="#436B8E">THE ADVISOR — AI</text>
-          <text x="54" y="118" class="s-title">Reads every case, every day</text>
-          <text x="54" y="140" class="s-sub">six learned models · 147 signals/case-day</text>
-          <text x="54" y="158" class="s-sub">wrong is cheap — it re-orders, never acts</text>
-        </g>
-        <g>
-          <rect x="330" y="64" width="252" height="112" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="348" y="94" class="s-tag" fill="#141413">THE RULEBOOK — NOT AI</text>
-          <text x="348" y="118" class="s-title">Decides what’s allowed</text>
-          <text x="348" y="140" class="s-sub">do-not-contact · client policy · timing ·</text>
-          <text x="348" y="158" class="s-sub">“they already replied” — vetoes anything</text>
-        </g>
-        <g>
-          <rect x="614" y="64" width="230" height="112" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
-          <text x="632" y="94" class="s-tag" fill="#5F7A4A">YOUR PEOPLE</text>
-          <text x="632" y="118" class="s-title">Make the call</text>
-          <text x="632" y="140" class="s-sub">take it or override it —</text>
-          <text x="632" y="158" class="s-sub">every step recorded</text>
-        </g>
-        <!-- forbidden -->
-        <path d="M167 176 C 200 250, 560 250, 720 186" fill="none" stroke="#2C4A66" stroke-width="1.5" stroke-dasharray="6 5" marker-end="url(#arR)"/>
-        <circle cx="444" cy="232" r="15" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
-        <line x1="434" y1="222" x2="454" y2="242" stroke="#2C4A66" stroke-width="1.5"/>
-        <line x1="454" y1="222" x2="434" y2="242" stroke="#2C4A66" stroke-width="1.5"/>
-        <text x="444" y="278" text-anchor="middle" class="s-tag" fill="#2C4A66">LOCKED TODAY — AUTO-SEND IS EARNED LATER, GATE BY GATE</text>
-      </svg>
-      </div>
-      <figcaption><span class="figno">Chart 3</span>The two halves, drawn: the advisor is the intelligence; the rulebook is the operating system’s veto. The AI is confined to the failure mode we can afford (a suboptimal suggestion); the rulebook owns the failure mode we can’t (an improper contact) and is deterministic — same inputs, same answer, auditable line by line. That’s why the violation count across 2.75M replayed case-days is zero: the AI never gets the chance.</figcaption>
-      <div class="takeaway"><b>Takeaway</b>Zero policy violations in 2.75 million replayed case-days — not because the model is careful, but because it never gets the vote.</div>
-    </figure>
-
     <div class="levers">
       <div class="lever">
-        <h4>1 · Six ML models<span>read &amp; predict</span></h4>
-        <p>Read the morning snapshot and forecast the case’s path — never-verify, two-day, five-day, the day-0 intake read, the re-scores, the early warning.</p>
+        <h4>1 · The model fleet<span>reads &amp; predicts</span></h4>
+        <p>Reads the morning snapshot and forecasts the case’s path — the specialists: never-verify, two-day, five-day, the day-0 intake read, the re-scores, the early warning.</p>
       </div>
       <div class="lever">
         <h4>2 · The case-state resolver<span>names what is true</span></h4>
@@ -528,6 +422,8 @@ a{color:inherit}
         <p>Connects each recommendation to what actually happened; that complete chain retrains the fleet monthly, behind the promotion gate.</p>
       </div>
     </div>
+
+    <p>Pressure-test the handoff: suppose a specialist strongly favors another call on a case whose reply is already on record. The rules remove call before ranking — no confidence level restores it, and the person never even sees it as a recommendation. That is why the replay’s violation count is zero: the models never get the chance to cause one.</p>
 
     <p>One more reason the scores can be trusted: every test scored each case using <strong>only what was known that specific morning</strong> — “as-of” discipline, enforced by an automated no-peeking audit that re-checks every new training matrix before the models may train on it. The scores here are conservative by design, measured the hard, honest way.</p>
 
@@ -556,7 +452,7 @@ a{color:inherit}
         <div class="k"><span class="sw" style="background:#E5DFD1"></span>Cooling down after a recent attempt<span class="v">3.7%</span></div>
         <div class="k"><span class="sw" style="background:#6E6A5F"></span>Escalation lane — normal paths exhausted<span class="v">0.2%</span></div>
       </div>
-      <figcaption style="margin-top:18px"><span class="figno">Chart 4</span>Where all 2.75M case-days actually sit. A third of the book is workable <em>today</em> with a ranked move attached; a fifth has a reply sitting unread by the current flow. This chart is, in effect, tomorrow morning’s org-wide to-do list.</figcaption>
+      <figcaption style="margin-top:18px"><span class="figno">Chart 3</span>Where all 2.75M case-days actually sit. A third of the book is workable <em>today</em> with a ranked move attached; a fifth has a reply sitting unread by the current flow. This chart is, in effect, tomorrow morning’s org-wide to-do list.</figcaption>
       <div class="takeaway"><b>Takeaway</b>This works on day one, no pilot required: every case-day carries a named state, a reason, and a next step — and the 1-in-7 accidental re-contact becomes structurally impossible instead of vigilance-dependent.</div>
     </figure>
 
@@ -564,55 +460,12 @@ a{color:inherit}
 
     <p>That is also where the turnaround-time story lives. Velocity doesn’t come from asking people to work faster; it comes from deleting dead motion and moving recoverable cases earlier — replies go to review before another touch is spent, handbacks re-enter ranked by urgency instead of waiting behind fresh work, and stalled cases switch channel or escalate before another day is lost.</p>
 
-    <div class="valgrid">
-      <div class="val">
-        <h3>Every case named and owned</h3>
-        <p>Each case-day carries a state, a reason, and a next step — scheduled re-checks with triggers attached, nothing waiting silently. The department becomes legible to itself.</p>
-      </div>
-      <div class="val">
-        <h3>Sharper worklists</h3>
-        <p>The riskiest tenth of the book is <span style="font-weight:600">2.4×</span> denser in true never-verifies than average — effort goes where it changes outcomes, from day 0.</p>
-      </div>
-      <div class="val">
-        <h3>Stop re-contacting people who answered</h3>
-        <div class="dots" aria-hidden="true"><i class="hit"></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <p><span class="big">1 in 7</span> case-days had a reply already on record that the flow would have talked past — roughly 400,000 in the year replayed. Caught, every time, by a rule.</p>
-      </div>
-      <div class="val">
-        <h3>The foundation to learn what works</h3>
-        <p>Every recommendation, override, send, reply, and outcome gets logged. That record is what lets us <em>prove</em> which channel and message drive responses — the third ask — instead of guessing.</p>
-      </div>
-    </div>
-
     <h2>Where the hours come back</h2>
 
-    <p>I deliberately do not quote a labor-savings number — that figure belongs to the pilot, and claiming it early is how credibility dies in rooms like this one. What we can show is where the hours demonstrably are, measured in the replay, with arithmetic anyone here can redo:</p>
-
-    <div class="levers">
-      <div class="lever">
-        <h4>Stop chasing people who already answered<span>~400,000 case-days a year</span></h4>
-        <p>Touches the current flow would have spent re-contacting parties whose reply was already on record. At even 2–3 operator-minutes per avoided touch, that is <strong>13,000–20,000 hours a year</strong> of motion that produces nothing — illustrative arithmetic, priced for real by the pilot’s logs.</p>
-      </div>
-      <div class="lever">
-        <h4>Stop paying full price in dead lanes<span>47–69% never-verify</span></h4>
-        <p>Repeated-call sequences historically run 47% (employment) to 69% (reference) never-verify while consuming three-plus touches per case, uncapped. Cadence limits, forced channel switches, and early escalation end that spend; the hardest tenth gets triage, not ritual.</p>
-      </div>
-      <div class="lever">
-        <h4>Point the first hour at tomorrow’s failures<span>2.4× density</span></h4>
-        <p>The top of the ranked worklist holds 2.4× more true never-verifies than the same hour spent working in arrival order. No new headcount — the same morning, aimed better.</p>
-      </div>
-      <div class="lever">
-        <h4>Cut waiting, not just working<span>100,000+ wait-hours</span></h4>
-        <p>In one four-month window, education-verification handbacks from today’s automation sat an extra 30.6 hours each behind fresh work. A single re-ranking rule reclaims turnaround time your clients feel — at zero additional effort.</p>
-      </div>
-    </div>
-
     <aside class="note">
-      <span class="kicker">The impact calculator — one line of arithmetic</span>
-      <p>Avoided touches × 3 minutes ÷ 60 = hours returned; hours ÷ 2,000 = operator-years. The replay already counts <strong>~400,000 re-contact touches a year</strong> that the engine prevents outright: at 3 minutes each, that is <strong>~20,000 hours — roughly 10 operator-years of motion</strong> — before a single capped dead-lane call or faster handback is counted. Every assumption is visible and swappable; the pilot’s logs replace the 3-minute estimate with measured handle time, and that number becomes the business case.</p>
+      <span class="kicker">The impact arithmetic — measured count, illustrative clock</span>
+      <p>The replay measured roughly <strong>400,000 case-days a year</strong> where the flow would have re-contacted someone whose reply was already on record. That count is measured, not assumed. Put an illustrative three operator-minutes on each avoided touch and it is <strong>~20,000 hours — roughly ten operator-years</strong> — before a single capped dead-lane call or faster handback is counted. The three-minute clock is the only assumption in the line; the pilot’s logs replace it with measured handle time, and that number becomes the business case. I deliberately quote no labor-savings figure beyond this arithmetic — that figure belongs to the pilot.</p>
     </aside>
-
-    <p>None of these are promises; all of them are measured mechanisms. The pilot’s outcome logs are what convert mechanisms into a defensible dollars-and-hours number — which is exactly why outcome logging ships with the integration.</p>
 
     <h2>What the department looks like after implementation</h2>
 
@@ -739,17 +592,17 @@ a{color:inherit}
         </g>
       </svg>
       </div>
-      <figcaption><span class="figno">Chart 5</span>The same eight cases, two mornings. Case details are illustrative; the locks, caps, ranks and states are what the backtested engine produces on real case-days — states from the deterministic resolver, order from the calibrated risk scores. On the left, C and D are problems nobody can see. On the right, they are named states with owners, and the operator’s first hour goes where it can still change the outcome.</figcaption>
+      <figcaption><span class="figno">Chart 4</span>The same eight cases, two mornings. Case details are illustrative; the locks, caps, ranks and states are what the backtested engine produces on real case-days — states from the deterministic resolver, order from the calibrated risk scores. On the left, C and D are problems nobody can see. On the right, they are named states with owners, and the operator’s first hour goes where it can still change the outcome.</figcaption>
       <div class="takeaway"><b>Takeaway</b>Nothing about the cases changed — only the reading did. C stops being tomorrow’s accidental re-contact, D stops burning a third call into a 69% dead lane, and the first hour of the morning goes to E, A and F, where effort still changes outcomes.</div>
     </figure>
 
     <h2>We already know what automation without this layer looks like</h2>
 
-    <p>This isn’t hypothetical. Our current verification bot — Murphy Brown, run by SNH-AI — automates the motion, not the mission: it executes a touch where a contact plan already exists, but runs with no triage gate, no machine-readable handoff, and no closure lock. The ops deep-dive measured what that costs: <strong>55.5% of the tens of thousands of cases it touched over four months flowed back to people</strong> as note-only handoffs (64,000+ downstream human attempt rows); reopen-after-result on its closures climbed from ~3–4% in February to <strong>~42–44% by June</strong>; and its EDUV handbacks wait <strong>+30.6 hours</strong> longer than fresh work. The deep-dive’s own fix list — structured handoff state, closure lock, score-gated eligibility, handback re-ranking, outcome instrumentation — is, item for item, the system in this briefing. The full story, held to its own strict claim discipline, is in <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
+    <p>This isn’t hypothetical. Our current verification bot — Murphy Brown, run by SNH-AI — automates the motion, not the mission: over four months, <strong>55.5% of the tens of thousands of cases it touched flowed back to people</strong> as note-only handoffs, its closures now reopen at roughly ten times the winter rate, and its education handbacks wait <strong>+30.6 hours</strong> behind fresh work. The deep-dive’s own fix list — structured handoff state, closure lock, score-gated pickup, handback re-ranking, outcome logging — is, item for item, the system in this briefing; inside it, the bot becomes a governed channel whose speed finally serves a mission. The full story, held to its own strict claim discipline, is in <a href="murphy-brown.html">the Murphy Brown field report</a>.</p>
 
     <h2>From decision support to a learning operation</h2>
 
-    <p>The first release recommends; the destination learns. <strong>Now — read and recommend:</strong> six machine-learning models score every open case, deterministic rules strike the unsafe moves, the engine recommends, a person decides. <strong>Next — learn the complete play:</strong> the live workflow logs recommendation, action or override, channel, timing, message, delivery, reply, and outcome — the record that teaches which complete play wins each kind of case. <strong>Then — repair the inputs and draft the outreach:</strong> the contact researcher hunts fresh, verified emails, fax numbers, and phone numbers, so repairing the input replaces re-keying around it — the standing ask on manual entry starts here — and the SLM drafts the emails, faxes, notes, and call scripts from what the log proves works. <strong>Finally — automate what earns it:</strong> a narrow lane moves to controlled auto-send only after its logged evidence proves it safe, stable, and effective; higher-risk and uncertain cases stay with people. The long-term product is not a model or a bot — it is a verification operation that improves after every completed case.</p>
+    <p>The first release recommends; the destination learns. <strong>Now — read and recommend:</strong> the model fleet scores every open case, deterministic rules strike the unsafe moves, the engine recommends, a person decides. <strong>Next — learn the complete play:</strong> the live workflow logs recommendation, action or override, channel, timing, message, delivery, reply, and outcome — the record that teaches which complete play wins each kind of case. <strong>Then — repair the inputs and draft the outreach:</strong> the contact researcher hunts fresh, verified emails, fax numbers, and phone numbers, so repairing the input replaces re-keying around it — the standing ask on manual entry starts here — and the SLM drafts the emails, faxes, notes, and call scripts from what the log proves works. <strong>Finally — automate what earns it:</strong> a narrow lane moves to controlled auto-send only after its logged evidence proves it safe, stable, and effective; higher-risk and uncertain cases stay with people. The long-term product is not a model or a bot — it is a verification operation that improves after every completed case.</p>
 
     <figure>
       <div class="panel">
@@ -792,44 +645,28 @@ a{color:inherit}
         <text x="440" y="236" text-anchor="middle" class="s-sub" font-style="italic">nothing sends on its own yet — auto-send is a later stage, unlocked by pilot evidence</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Chart 6</span>The roadmap. Stage 1 is finished and measured. Stage 2 is the integration step — the engine running beside the people who work the queue. Stage 3 — the part every vendor promises on day one — is deliberately last, because it gets proven rather than claimed.</figcaption>
+      <figcaption><span class="figno">Chart 5</span>The roadmap. Stage 1 is finished and measured. Stage 2 is the integration step — the engine running beside the people who work the queue. Stage 3 — the part every vendor promises on day one — is deliberately last, because it gets proven rather than claimed.</figcaption>
     </figure>
 
-    <h2>Four questions worth asking</h2>
+    <h2>Two questions worth asking</h2>
 
     <p class="q">“So an AI decides who gets contacted?”</p>
-    <p>No. The AI only <em>orders</em> options that a deterministic rulebook has already approved — and today a person executes. It cannot add an option or skip the rulebook, and it does not send anything on its own — <em>yet</em>. The plumbing for automation is already built; switching it on is a later stage that pilot evidence unlocks, lane by lane, starting with the safest. That separation is why the replay shows zero violations: the AI never gets the chance to cause one.</p>
+    <p>No. The AI only <em>orders</em> options that a deterministic rulebook has already approved — and today a person executes. It cannot add an option or skip the rulebook, and it does not send anything on its own — <em>yet</em>. The plumbing for automation is already built; switching it on is a later stage that pilot evidence unlocks, lane by lane, starting with the safest.</p>
 
     <p class="q">“What happens when the model is wrong?”</p>
     <p>Someone works a less-urgent case first. That is the entire blast radius — model error can cost efficiency, never compliance, because what’s allowed is never the model’s call. The scores are also calibrated: when the system says 30%, it happens about 30% of the time, so error is budgeted rather than hidden.</p>
 
-    <p class="q">“Vendors promise message optimization on day one. Why is it last here?”</p>
-    <p>Because proving a message <em>causes</em> replies requires evidence that does not exist yet anywhere: the full logged chain from recommendation to outcome. Reading it off historical logs confuses correlation with cause — teams emailed the easy cases, so email “looks” magical. The pilot creates that evidence in our own department, from our own cases — a data advantage no outside vendor can bring or buy — and the learning gets built on it properly. It is also a useful question to put to any vendor.</p>
-
-    <p class="q">“Haven’t we already tried automation here?”</p>
-    <p>Yes — and it proves the point. Murphy Brown has real wins (it fully contains ~44.5% of what it touches within a day or two), but it runs without a state contract, a closure lock, or a triage gate — so more than half of its cases flow back to people with a note, and its closures now reopen at roughly ten times the winter rate. The bot automates the motion, not the mission — it can send the email; it cannot run the case. Under this system it finally serves one: gated by the scores, sequenced by the rules, measured by the log. The engine runs the case; the bot becomes its fastest pair of hands.</p>
-
-    <h2>What could still go wrong — and what I’d do</h2>
-
-    <ul>
-      <li><strong>Operators ignore it.</strong> If recommendations get blanket-overridden, the value never materializes. The pilot logs every override with a reason from day one — so trust is measured on evidence, not assumed.</li>
-      <li><strong>The models age.</strong> Casework drifts, and a model trained on last year can quietly weaken. The counter is already running: monthly retraining behind a promotion gate that has rejected three of my own upgrades rather than weaken the top of the queue.</li>
-      <li><strong>The pilot proves nothing.</strong> An underpowered or half-logged pilot would leave us exactly where we started. Outcome logging is designed in before launch — it ships with the integration, not as an afterthought.</li>
-      <li><strong>The bot’s fixes sit with a vendor.</strong> Two of the Murphy Brown asks — the structured payload and reopen-reason codes — are SNH-AI’s to build. The engine works without them, but the bot stays a black-box channel inside it until they land.</li>
-    </ul>
-
-    <h2>The next steps, in order</h2>
+    <h2>The decision, and the gates on it</h2>
 
     <ul>
       <li><strong>Adopt the fair “achievable UTV” scoreboard</strong> and track it against a three-month forward test — turning Chart 2 into the operation’s scoreboard.</li>
-      <li><strong>Integrate the engine into the live workflow, with outcome logging on</strong> — recommendations running beside the people who work the queue, Murphy Brown operating as a governed channel inside it, every event recorded. This is what fixes the bot’s handback and reopen problems, moves turnaround time, and unlocks Stage 3.</li>
-      <li><strong>Switch on the first learning target once outcomes flow:</strong> best-channel learning; the contact researcher — an AI agent that hunts fresh, verified emails, fax numbers, and phone numbers, so cases stop burning attempts on dead contact paths; then the language layer — a small language model that drafts the emails, faxes, notes, and call scripts from what past communication proves works.</li>
-      <li><strong>Graduate capabilities in sequence:</strong> learn the play, repair the paths, draft the outreach — and let the safest narrow lane earn auto-send on its own logged record, one lane at a time.</li>
+      <li><strong>Integrate the engine into the live workflow with outcome logging on</strong> — recommendations beside the people who work the queue, Murphy Brown as a governed channel inside it, every recommendation, override (with its reason), send, reply, and outcome recorded. The gates ride along: overrides are measured instead of assumed away, monthly retraining behind the promotion gate counters drift, and logging ships with the integration so the pilot cannot come back unprovable. Two bot-side asks — the structured payload and reopen-reason codes — remain SNH-AI’s to build; the engine works without them, but the bot stays a black-box channel until they land.</li>
+      <li><strong>Let the next layers earn authority from the logged evidence, in order:</strong> best-channel learning; the contact researcher repairing dead contact paths; the SLM drafting the outreach; then controlled auto-send, lane by lane, on each lane’s own record. That evidence is ours alone — our department, our cases — a data advantage no outside vendor can bring or buy.</li>
     </ul>
 
     <div class="note">
       <span class="kicker">The version to take out of the room</span>
-      <p>“Unable to verify” turned out to be three problems wearing one number. A machine now tells them apart, picks the next move on every case, and proved itself against 2.75 million real case-days without a single policy violation. The models find the winnable work; the operating system makes acting on it safe. Integration makes the last claim — what actually causes replies — provable too. The first release recommends; the destination learns from every completed case. And the honest, replay-tested scores are why you can believe the rest. <span class="endmark">◆</span></p>
+      <p>“Unable to verify” turned out to be three problems wearing one number. The models find the winnable work; the operating system makes acting on it safe — a fleet of specialists reading every case each morning, a deterministic layer deciding what’s allowed before any score is consulted. Proven against 2.75 million of our own case-days, zero policy violations. The first release recommends; the live record teaches. And the honest, replay-tested scores are why you can believe the rest. <span class="endmark">◆</span></p>
     </div>
   </article>
 
