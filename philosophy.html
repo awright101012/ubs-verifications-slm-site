@@ -160,9 +160,9 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>There is a class of problem that looks made for AI and punishes naive AI harder than almost anything else. Call it <em>operational casework</em>: hundreds of thousands of open cases, each needing a next move today; hard compliance constraints — do-not-contact lists, client policy, regulated channels; human operators who own the outcomes; and labels that arrive late, noisy, and entangled with the process that produced them. Verification work is our instance — roughly 880,000 cases in a year, a fifth of the attempted ones ending “unable to verify” — but collections, claims, case management, and outreach operations all share the shape.</p>
+    <p>Operational casework looks made for end-to-end AI: large caseloads, daily decisions, hard compliance constraints, delayed and noisy outcomes, and human operators accountable for the result. It is also where naive autonomy fails fastest. Policy is not a weighted preference, historical actions are not experiments, and a plausible recommendation is not evidence that an action should be allowed. Verification work is our instance; collections, claims, and outreach operations all share the shape.</p>
 
-    <p>The tempting move is the end-to-end agent: feed it the case, let it decide, act, and learn. In this problem class that design fails in a specific, predictable order. First it violates a constraint, because a model treats policy as a feature with a weight rather than a boundary — and at our volume, a 99.9%-compliant model is thousands of violations. Then it flatters itself, because historical logs reward whatever the process already did. And then it can’t be trusted with the interesting decisions, because nothing in its training data identifies what would have happened under a different action. Our own verification bot is the live case study: it runs without this operating layer, and <a href="murphy-brown.html">the field report</a> on what it leaves behind — ungated pickup, note-only handoffs, reopening closures — is this essay’s companion piece.</p>
+    <p>Our current verification bot is the live companion example: fast at execution, weak wherever the work requires state, sequence, or judgment — <a href="murphy-brown.html">the field report</a> measures it.</p>
 
     <p>So I built the opposite of an end-to-end agent — because in this class of work, the fastest route to useful autonomy begins by refusing it. The interesting part isn’t the system; it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
 
@@ -229,14 +229,14 @@ a{color:inherit}
         <text x="440" y="420" text-anchor="middle" class="s-sub" font-style="italic">eligibility is a filter, not a score penalty — no confidence level outvotes a rule</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The split. Both lanes read the same evidence, but only the deterministic lane can say no. In this system the rules lane resolved 2.75 million case-days into thirteen work states with zero do-not-contact and zero hard-policy violations — an unremarkable number, which is the point: the models never had the opportunity to create one.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The split. Both lanes read the same evidence, but only the deterministic lane can say no. In this system the rules lane resolved a full year of case-days into thirteen work states with zero do-not-contact and zero hard-policy violations — an unremarkable number, which is the point: the models never had the opportunity to create one.</figcaption>
     </figure>
 
-    <p>The split also produced the cheapest large win in the project, and it came from the <em>rules</em> lane. Writing down, deterministically, what “this person already responded” means revealed that on roughly one case-day in seven, a response was already on record while the process as practiced would have kept contacting. No model, no training run — just a definition, applied consistently at scale.</p>
+    <p>The split also produced the cheapest large win in the project, and it came from the <em>rules</em> lane: recognizing, deterministically, that a reply was already on record before another contact could occur. No model, no training run — just a definition, applied consistently at scale.</p>
 
     <h2>2. Forecast first, act later</h2>
 
-    <p>The second rule is about sequencing: the first machine-learned product should be a <em>forecast</em>, not an action. Forecasts pay rent under zero autonomy. A calibrated estimate of “this case will never verify” is immediately useful for triage — work the winnable middle, not the doomed tail — for early warning, and for something subtler that turned out to matter most to the business: <strong>fixing the metric itself</strong>.</p>
+    <p>The second rule is about sequencing: the first machine-learned product should be a <em>forecast</em>, not an action. Forecasts create value before they receive authority — for triage, for early warning, and for what turned out to matter most to the business: <strong>fixing the metric itself</strong>. The first product was not an automated action but a fairer view of difficulty.</p>
 
     <p>An aggregate failure rate blames operators for cases that were structurally dead on arrival. A difficulty model unblinds that: the easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
 
@@ -275,7 +275,7 @@ a{color:inherit}
 
     <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on — strictly as-of features, automated leakage audits, calibration checks — while the stakes are still just a number on a validation report. If the first product were an acting agent instead of a forecast, a data problem would arrive as behavior in production; in a forecast layer it arrives as a number you can catch and fix before anything acts on it.</p>
 
-    <p>Restraint, to be clear, is not absence. Inside this pattern run six learned models over a 147-signal read of every case-day, retrained monthly under audit. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
+    <p>Restraint, to be clear, is not absence. Inside this pattern, a specialist model fleet reads every case-day under the same as-of and promotion discipline. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
 
     <h2>3. Price every claim</h2>
 
@@ -326,7 +326,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 3</span>The ladder of claims. Each rung is priced in instrumentation, and the price is paid before the claim is made, not after. I hold the line publicly at rung two: correlations like “email-first resolves more often” are reported as observation, never as advice, because selection effects — not wording — may be doing all the work.</figcaption>
     </figure>
 
-    <p>Two artifacts make this rule real rather than aspirational. The first is a written <strong>disallowed-claims list</strong> in the architecture record — no causal channel or template claims, no calling the router an autonomous policy, no training a “learned policy” on historical logs and pretending the logs were experiments. The second is a <strong>mechanical promotion gate</strong> for the models themselves: a challenger must beat the champion on ranking quality without giving up any top-of-queue sharpness or calibration, with confidence intervals excluding zero, replicated on a never-seen month. That gate has rejected three consecutive improvements to the headline model — each better on average, each worse where operators actually work. Three rejections in writing is the system functioning, not failing.</p>
+    <p>Two artifacts make this rule real rather than aspirational. The first is a written <strong>disallowed-claims list</strong> in the architecture record — no causal channel or template claims, no calling the router an autonomous policy, no training a “learned policy” on historical logs and pretending the logs were experiments. The second is a <strong>mechanical promotion gate</strong> for the models themselves. Three challengers improved the average and weakened the first page operators actually work, so all three were rejected. The written “no” is part of the product.</p>
 
     <blockquote class="pull">Autonomy is not a capability you install. It is a permission the evidence grants — and the default answer is no.</blockquote>
 
@@ -354,7 +354,7 @@ a{color:inherit}
           <text x="103" y="100" text-anchor="middle" class="s-sub">system watches, humans work</text>
           <path d="M95 132 L103 122 L111 132 Z" fill="#436B8E"/>
           <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#436B8E">YOU ARE HERE</text>
-          <text x="103" y="166" text-anchor="middle" class="s-sub">backtested on 2.75M case-days</text>
+          <text x="103" y="166" text-anchor="middle" class="s-sub">backtested on a year of case-days</text>
         </g>
         <g>
           <rect x="196" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
@@ -389,7 +389,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage exists to generate the evidence the next stage needs: the pilot logs overrides, overrides calibrate trust, exploration records each option’s odds of being offered, and those recorded odds make a learned policy honest. Skipping a rung doesn’t accelerate the system — it caps how far it can ever be trusted to go.</figcaption>
     </figure>
 
-    <p>This is why the system’s most capable component is the one that doesn’t exist yet — and that’s the ladder working as intended, not a gap in it. The most capable layers are the least verifiable ones, so their evidence requirements sit at the very top: composing outreach is the last rung exactly because nothing below the fourth rung can grade it. The roadmap names the destination; the discipline decides the pace.</p>
+    <p>This is why the system’s most capable component is the one that doesn’t exist yet. The most capable layers sit highest because they are hardest to grade. The roadmap names the destination; evidence decides the pace.</p>
 
     <h2>What restraint buys</h2>
 
@@ -422,7 +422,7 @@ a{color:inherit}
 
     <h2>The boring version, on purpose</h2>
 
-    <p>One level down, this system is pipelines, gates, and calibration curves — the companion post walks through all of it. At this level it is a single idea applied four ways: <strong>separate the question of permission from the question of preference, and make every expansion of the system’s authority something the evidence, not the roadmap, decides.</strong> Today that discipline produces forecasts, recommendations, and human review. Tomorrow the same discipline carries the rest of the destination: the complete play learned from logged outcomes, an AI researcher that repairs dead contact paths before attempts are wasted, a small language model that drafts the outreach — and narrow lanes moving to controlled auto-send only after the logged evidence proves them safe, stable, and effective. The path is ambitious <em>because</em> the gates are real. Restraint is not the absence of progress; it is what makes progress safe to grant. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
+    <p>The pattern is one idea applied four ways: rules own permission, models own likelihood, claims stop where instrumentation stops, and every increase in the system’s authority must be purchased with evidence. Today that produces forecasts, recommendations, and human review. Tomorrow it can support contact repair, drafted outreach, and controlled auto-send — granted only after logged evidence proves each narrow lane safe, stable, and effective. The path is ambitious <em>because</em> the gates are real. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">

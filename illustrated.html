@@ -218,7 +218,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Illustrated guide</div>
     <h1>How one case moves through the machine</h1>
-    <p class="dek">One employment verification, nine days, two emails, one call, and one final reply. Follow case 4127 — invented for this guide — through the machine that decides what it needs each morning, one picture at a time. Then see what changes when the AI begins learning the complete play.</p>
+    <p class="dek">Follow fictional case 4127 through six handoffs — from morning evidence to the outcome that teaches the next case.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Case 4127</b> is fictional; probabilities shown are illustrative, not model output</span>
@@ -369,7 +369,7 @@ a{color:inherit}
 
     <h2><span class="stepno">2</span>Triage: three questions about the same case</h2>
 
-    <p>For case 4127, Monday morning — the day it arrives — is the sharpest read it will ever get, before the first attempt changes the evidence. Each morning after, three calibrated machine-learning models read the visible half of the file and score it: <em>will this verify within 2 days? within 5? will it ever?</em> Calibrated means the numbers behave like frequencies — across all cases scored “30% never-verify,” about 30% actually never verify. That property is what makes the scores safe to build queues and thresholds on.</p>
+    <p>For case 4127, Monday morning — the day it arrives — is the sharpest read it will ever get, before the first attempt changes the evidence. Each morning after, three forecasting specialists from the wider model fleet re-score the visible half of the file: <em>will this verify within 2 days? within 5? will it ever?</em> Calibrated means the numbers behave like frequencies — across all cases scored “30% never-verify,” about 30% actually never verify. That property is what makes the scores safe to build queues and thresholds on.</p>
 
     <p>One case’s scores are mildly interesting. The population view is where triage earns its keep: sorted by predicted never-verify risk, the easiest tenth of cases fails 3% of the time and the hardest tenth 48%. Same process, same operators — a 16× spread in what was ever achievable. That spread powers the queue (work the winnable middle first) and a fairer scoreboard (measure misses against what was possible, not against a blended average).</p>
 
@@ -542,7 +542,7 @@ a{color:inherit}
 
     <h2><span class="stepno">6</span>The heartbeat: how the machine stays honest month over month</h2>
 
-    <p>Case 4127 verified on day 8. One case proves nothing — but its complete decision story joins tens of thousands of others in the next evaluation cycle. Everything above is the <em>daily</em> loop. Wrapped around it is a monthly one: new data lands, the snapshot matrix is rebuilt behind the curtain, an automated leakage audit checks the curtain held, challenger models are trained, and a mechanical gate decides — champion or challenger — with the verdict recorded either way. The gate has said no to three of my own improvements this year. That’s the feature, not the bug.</p>
+    <p>Case 4127 verified on day 8; its complete decision story joins the next monthly evaluation cycle. New evidence rebuilds the same as-of snapshots, challengers train behind the same leakage audit, and the promotion gate records whether each specialist advances or stays put.</p>
 
     <figure>
       <div class="panel">
@@ -598,7 +598,7 @@ a{color:inherit}
 
     <div class="note">
       <span class="kicker">Why two lanes and not one big model?</span>
-      <p>Because the two lanes fail differently. If triage is wrong, an operator works cases in a slightly worse order — cheap, recoverable, invisible. If “what’s allowed” is wrong, someone gets contacted who must never be contacted — an incident with a name on it. Splitting the lanes means the expensive failure mode is handled by the component you can audit line by line, and the learning component is confined to the failure mode you can afford. A single end-to-end model would blend both failure modes into one — and price everything at the expensive one.</p>
+      <p>Because prediction and permission fail differently. A poor ranking wastes effort; a poor permission creates an incident. The learned lane handles the recoverable error, and the deterministic lane owns the boundary that cannot move — a single end-to-end model would blend the two and price everything at the expensive one.</p>
     </div>
 
     <h2>The whole machine today — and what case 4127 looks like next</h2>
@@ -630,7 +630,7 @@ a{color:inherit}
           <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
           <text x="316" y="99" class="s-title">Triage: difficulty models</text>
-          <text x="316" y="122" class="s-sub">six ML models · 147 signals per case-day</text>
+          <text x="316" y="122" class="s-sub">specialist model fleet · 147 signals per case-day</text>
           <text x="316" y="140" class="s-sub">calibrated so 30% means 30%</text>
         </g>
         <g>
@@ -670,11 +670,9 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 8</span>The assembled machine, with case 4127’s six stops numbered in order: <strong>1</strong> the file is snapshotted behind the curtain · <strong>2</strong> triage scores it · <strong>3</strong> the checklist names its state · <strong>4</strong> the bouncer deals and the dispatcher ranks · <strong>5</strong> a person decides and the recorder writes it down · <strong>6</strong> the logs feed the monthly heartbeat. Blue predicts; oat permits; moss decides.</figcaption>
     </figure>
 
-    <p>That’s the whole machine, today. No step is mysterious on its own — a curtain, three scores, a checklist, a bouncer, a queue, a log — and that is deliberate. Each layer is simple enough to explain to the people whose work it touches, and the intelligence lives in how strictly the layers are allowed to talk to each other.</p>
+    <p>Now run the same case forward a stage. Today, the engine recognizes that case 4127 is ready for outreach, removes the blocked moves, and recommends email; a person reviews and sends it. In the next stage, the engine recommends the <em>complete play</em>: confirm the contact path is still good, email this morning with the employment-confirmation message family, and schedule a call only if no reply lands inside the measured response window. If the path on file looks dead, an AI contact researcher hunts a fresh, verified one before another attempt is spent. A small language model drafts the email; a person approves or edits it, and the system records why. And if that complete play keeps winning across comparable cases, that one narrow lane can move to controlled auto-send on its own logged record.</p>
 
-    <p>Now run the same case forward a stage. Today, the engine recognizes that case 4127 is ready for outreach, removes the blocked moves, and recommends email; a person reviews and sends it. In the next stage, the engine recommends the <em>complete play</em>: confirm the contact path is still good, email this morning with the employment-confirmation message family, and schedule a call only if no reply lands inside the measured response window. If the path on file looks dead, an AI contact researcher hunts a fresh, verified one before another attempt is spent. A small language model drafts the email; a person approves or edits it, and the system records why. And if that complete play keeps winning across comparable cases, that one narrow lane can move to controlled auto-send — only after its logged record proves it safe, stable, and effective.</p>
-
-    <p>The case still passes through the same machine — the curtain, the checklist, and the bouncer never move. The difference is that the system gets better at filling the space inside them: state → allowed moves → complete play → path repaired if weak → draft prepared → a person approves, or an earned lane sends → outcome → the loop learns. Today the machine recommends the next move. The future machine learns the whole play — and every completed case makes the next one better. <span class="endmark">◆</span></p>
+    <p>The machine does not change; what it can safely recommend grows. Today it recommends the next move. Tomorrow it learns the complete play from every finished case. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">

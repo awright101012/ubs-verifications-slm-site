@@ -229,10 +229,6 @@ a{color:inherit}
   </aside>
 
   <article class="prose">
-    <p>Murphy Brown (“MB”) is the SNH-AI automation that works employment and education verifications alongside our people. Its measured strength is execution: where a contact plan is already laid, it fires the touch fast and often contains the case. Its measured limit is everything around the touch: a scripted bot cannot judge which cases are worth picking up, choose among contact paths, decide when to wait, switch, or escalate, or notice that a case it closed didn’t stay closed. That is the ceiling of scripted automation — and every number in this report is that ceiling, measured.</p>
-
-    <p>So the bot’s strongest result and its biggest problem turn out to be the same behavior: fast when the path is clear, judgment handed back when it is not. This is not an argument against Murphy Brown, and it is not an argument for turning it off. It is the case for governing it — adding the missing layer, the brain, that decides what should happen before and after every touch. The decision engine supplies the judgment; the bot supplies the speed.</p>
-
     <p>Five numbers tell the story:</p>
   </article>
 
@@ -411,16 +407,7 @@ a{color:inherit}
 
     <p>The cost of that missing contract is now measured, not inferred: in the March–May window, humans <strong>re-tried the exact channel the bot had already tried without success</strong> — same method, same case — on roughly 6,700 cases, averaging 2–3 re-tries each (about 16,100 attempt rows), at a median five to six days after the bot’s attempt. Scaled to the whole department, that is <strong>roughly 3% of every named human attempt in the window — one touch in every thirty</strong> — spent re-burning a channel the bot had already tried. (Method-level; per-target linkage is exactly what the payload’s <code>selected_contact</code> field exists to provide.) A handoff that carried “what I tried” would have made each of those a choice instead of a rediscovery.</p>
 
-    <p>The rest of the issue list follows from the same missing layer — no judgment at the door, no memory behind it:</p>
-
-    <ul>
-      <li><strong>Thin contact data — 57.6% bounce back.</strong> When a case arrives with weak source or contact information, the bot touches it anyway. Nothing checks whether the case was workable before pickup.</li>
-      <li><strong>Fax-heavy and multi-path routes — 80.8% bounce back.</strong> Wherever the path requires choosing between channels, the bot can’t make the choice — so a person inherits the case right after the touch.</li>
-      <li><strong>CALL-first retry loops — 35% end unable-to-verify; only 2% succeed within two days.</strong> Repeat dialing with no stop rule, no channel switch, no escalation: the highest-friction path in the department, run on autopilot.</li>
-      <li><strong>Policy exceptions — indistinguishable from avoidable work.</strong> The rule that makes a wait legitimate was never encoded as data, so legitimate exceptions and avoidable rework look identical in the record.</li>
-    </ul>
-
-    <p>Step back and one diagnosis explains every number in this report: <strong>MB is execution without cognition.</strong> Hand it a case with a clean, pre-laid contact path and it performs the motion — send the email, fire the fax — and does it fast. But a verification is rarely one motion; it is a sequence of judgments — which path first, when to wait, when to switch channels, when to escalate, when to stop, when a close is safe to call closed. The bot makes none of them. So it never picks up nearly half of what it could (no judgment about what is workable), hands back most of what it does pick up with only a note (no next move), leaves humans re-dialing channels it already burned (no memory), loops on calls without a stop rule (no cadence), and closes cases that will not stay closed (no closure judgment). No supervisor over its choices, no dispatcher behind its next move, no recorder under its work. The hands are fine. There is no brain.</p>
+    <p>Every downstream defect in the issue list is the same missing contract seen from a different angle: weak cases enter ungated, channel choices are not preserved, retries lack stop rules, and closures lack a lock. Murphy Brown can execute a touch; it cannot govern the sequence around it.</p>
 
     <blockquote class="pull">Murphy Brown automates the motion, not the mission. It can send the email; it cannot run the case.</blockquote>
 
@@ -431,42 +418,17 @@ a{color:inherit}
     <figure>
       <div class="fightle">
         <h3>Their fix list is our component list</h3>
-        <p>Each measured gap from the deep-dive, mapped to the decision-engine component that closes it</p>
+        <p>Each measured gap, the control that closes it, and who builds it</p>
       </div>
-      <div class="map">
-        <div class="head"><span>The deep-dive found</span><span></span><span>The engine has</span><span>Status</span></div>
-        <div class="row">
-          <div class="gap"><b>Note-only handoffs</b><span>55.5% flow back; humans rediscover each case</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Evidence-state resolver + decision contract</b><span>13 states · movement card · owner, reason, next move on every case-day</span></div>
-          <span class="chip built">BUILT · BACKTESTED</span>
-        </div>
-        <div class="row">
-          <div class="gap"><b>Reopen explosion / eForm collision</b><span>~43% reopen; bot emails after closeout states</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Closure lock: terminal states + inbound-first rule</b><span>resolved cases stop generating work · already-responded catch (1 in 7)</span></div>
-          <span class="chip built">BUILT · BACKTESTED</span>
-        </div>
-        <div class="row">
-          <div class="gap"><b>No triage gate at pickup</b><span>worst decile contains 1.7%; wins predictable at 77%</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Difficulty models gate the door</b><span>day-0 never-verify ~81% · score-gated eligibility routing</span></div>
-          <span class="chip built">BUILT · BACKTESTED</span>
-        </div>
-        <div class="row">
-          <div class="gap"><b>EDUV handbacks wait +30.6h</b><span>queue-ranking, not parking</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Calibrated priority queue</b><span>handbacks ranked by risk + urgency · review-due states carry triggers</span></div>
-          <span class="chip pilot">PILOT PROVES TAT</span>
-        </div>
-        <div class="row">
-          <div class="gap"><b>CALL loops, fax complexity, stale contacts</b><span>repeat-call lanes at 35% UTV, 2% 48h success</span></div>
-          <div class="arrow">→</div>
-          <div class="fix"><b>Cadence + eligibility controls</b><span>escalation ladder · wait policy · eligibility rules — versioned configs</span></div>
-          <span class="chip built">BUILT · BACKTESTED</span>
-        </div>
+      <div style="max-width:880px;margin:0 auto;font-family:var(--sans);border-top:2px solid var(--ink)">
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:12px 4px;border-bottom:1px solid var(--hairline);font-size:.71875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8A8578"><span>Measured gap</span><span style="color:#436B8E">Required control</span><span>Owner</span></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Closures reopening (~43%)</span><span>Closure lock + reopen-reason codes</span><span>SNH-AI</span></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Poor-fit pickup (worst decile contains 1.7%)</span><span>Score-gated triage eligibility</span><span>Joint</span></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Handbacks wait +30.6h</span><span>Urgency re-ranking of returns</span><span>UBS ops</span></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Unprovable impact</span><span>Reversible two-week holdout (~July 15)</span><span>SNH-AI</span></div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr .6fr;gap:6px 22px;padding:11px 4px;border-bottom:1px solid var(--hairline);font-size:.85938rem;line-height:1.55;color:#3E3A31"><span>Note-only handoffs (55.5% flow back)</span><span>Structured state payload + inbound capture</span><span>SNH-AI</span></div>
       </div>
-      <figcaption style="margin-top:16px"><span class="figno">Figure 4</span>The deep-dive’s asks mapped to the decision engine. Two items on the bot’s side remain genuine asks to SNH-AI — the structured action payload and reopen-reason codes — because the engine can define the contract but the bot must write into it.</figcaption>
+      <figcaption style="margin-top:14px"><span class="figno">Figure 4</span>One list does both jobs: the deep-dive’s measured gaps mapped to the decision engine’s controls, with the owner of each. The engine-side controls are built and backtested; the bot-side items are the asks, and the field spec for the payload is ready to hand over.</figcaption>
     </figure>
 
     <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes a channel inside the decision engine.</strong> The resolver decides <em>when</em> the bot may touch a case; the difficulty scores decide <em>whether it should</em> (fax-primary and thin-contact cases skip it — the deep-dive’s own modeling says gating to the top ~60–70% keeps 83–91% of the bot’s wins while halving the handback lane); terminal states and the inbound-first rule <em>lock what’s closed</em>; the priority queue re-ranks what comes back; and the flight recorder finally makes the bot’s value a measured number instead of a debate.</p>
@@ -480,16 +442,6 @@ a{color:inherit}
       <li><strong>Modeled is labeled modeled.</strong> The missed-pickup mechanism (all-or-nothing API routing; about 50,000 exposed searches, ~7.2–8.6k modeled manual searches/month) still needs effective-dated configuration history to be proof-grade; the 44.9% neither-automation figure is measured per ticket where automation is live.</li>
       <li><strong>And one test the bot passed.</strong> I probed whether MB fires before evidence exists: 0.0% of its touches happen while a vendor clock is open, and only 0.2–1.7% land before a vendor return. The bot’s timing discipline is not the problem — its handoffs, closures, and gating are.</li>
     </ul>
-
-    <h2>Five changes that make the bot governable</h2>
-
-    <ol>
-      <li><strong>Closure lock + reopen-reason instrumentation</strong> — adjudicates the reopen explosion before anyone scales containment.<span class="askmeta">owner: SNH-AI · product / state-machine change</span></li>
-      <li><strong>Triage gate at pickup</strong> — score- or rule-based eligibility, re-tuned on a fresh window before any config change.<span class="askmeta">owner: joint · our scores, their routing</span></li>
-      <li><strong>EDUV handback re-rank / SLA</strong> — a worklist rule; kills the +30.6h penalty with zero bot work.<span class="askmeta">owner: UBS ops · smallest ask on the list</span></li>
-      <li><strong>The holdout config rule</strong> — two weeks, reversible, powered; the only path to the causal dollar-and-TAT number.<span class="askmeta">owner: SNH-AI · one configuration rule, fully reversible</span></li>
-      <li><strong>Structured action payload + inbound capture</strong> — the state contract of Figure 3, written by the bot, read by the engine.<span class="askmeta">owner: SNH-AI · the field spec is ready to hand over</span></li>
-    </ol>
 
     <h2>What the bot becomes</h2>
 
@@ -509,14 +461,7 @@ a{color:inherit}
       <figcaption style="margin-top:14px"><span class="figno">Figure 5</span>The same five behaviors, before and after governance. The left column is the measured present; the right column is the decision engine’s existing components applied to the bot.</figcaption>
     </figure>
 
-    <p>Murphy Brown is not the old system we discard — it is the execution layer the new system can finally use well. The decision engine decides which cases are ready, which actions are allowed, and what should happen next. As the pilot’s log accumulates, the machine-learning models learn the complete play — channel, timing, message; an AI researcher finds a better contact path when the one on file is dead; a small language model drafts the outreach for a person to approve. Murphy Brown executes the proven plays at machine speed, lane by lane, as the logged evidence earns it.</p>
-
-    <p><strong>Machine learning chooses the fit. Rules guard the touch. AI repairs weak paths and drafts the outreach. A person approves. Murphy Brown executes. The outcome improves the next case.</strong></p>
-
-    <div class="note">
-      <span class="kicker">The version to take out of the room</span>
-      <p>Today, Murphy Brown automates individual touches. Inside the decision engine, it becomes part of an operation that can run the entire case — and improve after every outcome. The engine runs the case; the bot becomes its fastest pair of hands — which makes Murphy Brown, honestly told, the strongest argument we have for shipping the engine. <span class="endmark">◆</span></p>
-    </div>
+    <p>Inside the engine, the model fleet chooses the fit, rules guard the touch, and a person approves. Murphy Brown executes. As the evidence grows, AI can repair dead contact paths and an SLM can draft the outreach — but the bot’s durable role is simpler: it becomes the engine’s fastest pair of hands, and every outcome improves the next case. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">

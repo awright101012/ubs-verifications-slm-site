@@ -208,10 +208,10 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">Six machine-learning models read every open case. A thirteen-state resolver names what is true. Deterministic rules remove unsafe moves before the ML models rank what remains. How 2.75 million case-days became one daily recommendation — and why the promotion gate rejected three of my own model improvements.</p>
+    <p class="dek">A fleet of specialist machine-learning models reads every open case. A thirteen-state resolver names what is true. Deterministic rules remove unsafe moves before the ML models rank what remains. How 2.75 million case-days became one daily recommendation — and why the promotion gate rejected three of my own model improvements.</p>
     <div class="byline">
       <span><b>Evidence</b> 2.75 million replayed case-days</span>
-      <span><b>AI/ML fleet</b> six machine-learning models</span>
+      <span><b>AI/ML fleet</b> six specialist models</span>
       <span><b>Result</b> zero DNC and hard-policy violations in replay</span>
     </div>
   </header>
@@ -288,18 +288,14 @@ a{color:inherit}
         <text x="380" y="452" class="s-sub" font-style="italic">outcomes feed back — learning loop (build-out)</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The decision path. Models and rules both read the same as-of evidence, but only the resolver decides what is allowed. The scorer ranks within allowed moves; a human works the queue. The dashed loop — learning channel, cadence, and message from logged outcomes — is the build-out, not the current system.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The decision path. Both halves read the same as-of evidence; only the resolver decides what is allowed. The dashed loop — learning from logged outcomes — is the build-out, not the current system.</figcaption>
     </figure>
 
-    <p>The load-bearing design rule is the one in the middle:</p>
-
-    <blockquote class="pull">Deterministic rules decide what is allowed and what is blocking. Models only prioritize within allowed moves — a model never authorizes an action it cannot justify.</blockquote>
-
-    <p>Do-not-contact, client policy constraints, third-party exclusions, cooldown timers, and “this person already replied” are all resolved by rules, independent of the models, before any score is consulted. A hard eligibility violation is a filter, not a score penalty a confident model could outvote. In the full backtest — nearly three million snapshots — the resolver produced <strong>zero DNC violations and zero hard-policy violations</strong>, which is only an interesting number because the models never got a chance to create one.</p>
+    <p>The load-bearing rule sits in the middle: <strong>the resolver alone defines which actions exist. Models rank only the actions that survive.</strong> A blocked action is removed, not penalized, so no level of model confidence can restore it.</p>
 
     <h2>Three questions, one matrix</h2>
 
-    <p>Three machine-learned models each take one version of “how hard is this case?” — will it verify within two days, within five days, and will it <em>ever</em> verify. All three are trained from a single matrix of case-day snapshots — one snapshot per open case per day, nearly three million over the twelve-month window — each restricted to what was knowable at that moment. The models themselves are gradient-boosted decision trees (the HistGradientBoosting family): an ensemble method that builds hundreds of small decision trees, each one trained to correct the mistakes of the trees before it. I chose that family deliberately over deep-learning alternatives — on structured operational data like this it is still the accuracy benchmark to beat; it natively handles the mix of counts, categories, and missing values that case history actually is; it retrains in minutes, which is what makes a monthly self-improvement cycle cheap; and its decisions can be interrogated feature by feature. On top of each model sits a calibration layer that turns raw scores into honest probabilities — when the system says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
+    <p>Three forecast specialists answer the questions that drive daily triage: will this verify within two days, within five days, or ever? The wider fleet adds intake, aging-case, and early-warning reads — each specialist with its own target and validation record, all reading the same morning snapshot: one per open case per day, nearly three million over the twelve-month window, each restricted to what was knowable that morning. The models themselves are gradient-boosted decision trees (the HistGradientBoosting family): an ensemble method that builds hundreds of small decision trees, each one trained to correct the mistakes of the trees before it. I chose the family deliberately over deep-learning alternatives: on structured operational data it is still the benchmark to beat, it handles counts, categories, and missing values natively, it retrains in minutes, and its decisions can be interrogated feature by feature. On top of each model sits a calibration layer that turns raw scores into honest probabilities — when the system says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
 
     <div class="tablewrap">
       <table>
@@ -343,7 +339,9 @@ a{color:inherit}
       </table>
     </div>
 
-    <p>In plain terms: hand the never-verify model any two open cases — one that eventually verified, one that never did — and it puts them in the right order <strong>71% of the time</strong>, where a coin flip manages 50% (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day models sort at 75% and 72%. At day 0 — before any work has happened — a walk-forward, identity-safe variant of the never-verify model reaches <strong>≈81%</strong> across three forward folds (82% / 80% / 81%); knowing on intake which cases probably won’t come back is the single most useful thing the system does. The gap between 81% and the pooled 71% is survivorship, not decay: fresh cases differ enormously and are easy to tell apart, while the pool of still-open cases grows more alike as the easy ones resolve out — ranking the survivors is intrinsically harder. And the three champions are not alone: <strong>six machine-learning models run in orchestration</strong> — these three forecasts, the day-0 intake read, day-1/2 re-scores for aging cases, and an early-warning model — all reading the same morning snapshot, all feeding one daily decision pass. What that buys operationally is the spread: the tenth of cases the model ranks riskiest actually fails <strong>48% of the time against a department-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
+    <p>In plain terms: the never-verify specialist places the eventual failure ahead of the eventual success <strong>71% of the time</strong>, versus 50% for chance (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day specialists sort at 75% and 72%.</p>
+
+    <p>At intake — before any work has happened — the identity-safe day-0 variant reaches <strong>≈81%</strong> across three forward folds. That is not decay in reverse: fresh cases differ sharply, while cases still open a week later increasingly resemble one another, so ranking the survivors is intrinsically harder. What the fleet buys operationally is the spread: the tenth of cases it ranks riskiest actually fails <strong>48% of the time against a department-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
 
     <figure>
       <div class="panel">
@@ -377,7 +375,7 @@ a{color:inherit}
 
     <p>That 16× spread is also the business story. Today’s UTV rate silently blames operators for cases that were structurally dead on arrival. Score-conditioned targets flip that: the easy decile is expected to verify almost always, the hard decile almost never, and management attention goes to the winnable middle.</p>
 
-    <p>The three champions are also just the tip of the fleet. Six machine-learning models run in this system’s production posture, each with its own validation story:</p>
+    <p>The three champions are also just the tip of the fleet — each specialist with its own validation story:</p>
 
     <div class="tablewrap">
       <table>
@@ -436,13 +434,13 @@ a{color:inherit}
 
     <h2>One case-day, from evidence to action</h2>
 
-    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation. The log records the recommendation, the decision, the message, the reply, and the final outcome.</p>
+    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
 
     <p>The models never see six equally available actions. The operating system first decides which actions are real.</p>
 
     <h2>No peeking, by construction</h2>
 
-    <p>The easiest way for a model like this to look brilliant is to let information from after the outcome leak into its features — post-outcome status fields, completion timestamps, identity proxies. Every feature here is built under strict “as-of” discipline instead: 117 columns, each computed with strictly-before semantics, so a case scored on a Tuesday morning is scored only on what was knowable that Tuesday morning. An automated leakage audit re-checks that boundary on every new training matrix before any model is allowed to train on it — and runs again at every monthly retrain. The scores in this post are conservative by design, measured the hard, honest way.</p>
+    <p>The easiest way for a model like this to look brilliant is to let information from after the outcome leak into its features — post-outcome status fields, completion timestamps, identity proxies. Every feature here is built under strict “as-of” discipline instead: 117 columns, each computed with strictly-before semantics. An automated leakage audit re-checks that boundary on every new training matrix — and again at every monthly retrain. The scores in this post are conservative by design, measured the hard, honest way.</p>
 
     <h2>The system rejected three of my improvements</h2>
 
@@ -511,8 +509,6 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 4</span>The gate at work on the never-verify target: three challengers, three different levers, one identical failure mode. Each verdict is machine-recorded — the rejections are as documented as the promotions.</figcaption>
     </figure>
 
-    <p>A gate that never says no is a rubber stamp. Ours says no to us regularly, in writing.</p>
-
     <h2>Reading the notes without keeping them</h2>
 
     <p>The biggest accuracy gain this cycle came from the data source I had been most careful to avoid: the free-text notes operators and vendors leave on case history (“left a voicemail”; “reached HR, call back Tuesday”). Notes are where the richest signal lives — and where the risk lives twice over: outcome language (“verified via…”) leaks answers into training, and raw text carries the privacy exposure, so persisting it into training artifacts was never on the table.</p>
@@ -559,7 +555,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 5</span>The inbound text layer. Signal crosses the boundary; text does not.</figcaption>
     </figure>
 
-    <p>The same new evidence helped two forecasts and hurt the third. The payoff cleared the full promotion gate for both success targets — the five-day model improved on every metric with confidence intervals excluding zero, and the gain <em>grew</em> on the never-seen month; the two-day model held the same pattern. The never-verify variant, as covered above, gained on average, lost the top decile, and died at the gate.</p>
+    <p>The same new evidence improved the two success forecasts but weakened the top of the never-verify worklist. Two challengers advanced; the third was rejected.</p>
 
     <p>One operational note survives from that build: a routine row-count check against the export manifests caught a corrupted export <em>before anything consumed it</em>. Cheap invariant checks between pipeline stages are the highest-ROI code in the system.</p>
 
@@ -570,8 +566,7 @@ a{color:inherit}
     <ul>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
       <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing models exclude direct agent and team IDs behind a drift gate, but behavioral agent attributes remain. Identity-bearing champions stay <code>provisional</code> for action-facing use, and the resolver applies no-direct-identity fallbacks automatically until that gate approves.</li>
-      <li><strong>Decision support today — automation is earned, not assumed.</strong> Nothing auto-sends yet and no decision is finalized by a machine; the wiring for automation exists, and each step toward it — exploration, auto-drafts, then gated auto-send — unlocks on pilot evidence, with exploration shipping disabled by default. The router is shadow-review metadata, not an autonomous policy — and I won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
-      <li><strong>The language layer is next-phase, on purpose.</strong> The endgame — a small language model that drafts the emails, faxes, notes, and call scripts, learning from past communication to draft the best next action — is sequenced last because without the causal instrumentation above no one could tell whether it works.</li>
+      <li><strong>Nothing auto-sends today.</strong> Contact research, message drafting, and controlled auto-send remain evidence-gated future capabilities; each begins with human review and advances only on its own logged outcomes. The router is shadow-review metadata, not an autonomous policy — and I won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
       <li><strong>No rework-savings claims — the QA loop is measured, not yet moved.</strong> A reproducible July baseline timed the quality-review loop (education + employment, Jan–Jun 2026): a returned check runs a median 11.2 days from first QA return to approval, against 5.0 days for a typical check’s entire first pass — and 85.6% of coded return reasons are process-and-judgment classes, the ones the resolver, eligibility rules and lanes exist to prevent. “Exist to prevent” is a design statement, not an effect size: the effect claim waits for the pilot, and hands-on handle time waits for work-item state logs that nothing emits today.</li>
     </ul>
 
@@ -579,13 +574,9 @@ a{color:inherit}
 
     <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. The resolver supplies the state; the rules supply the boundaries; the pilot supplies the evidence. Concretely: the recommendation is logged; the person accepts or overrides it; the chosen channel, timing, message, delivery, reply, and final outcome are recorded. That complete chain — not the final outcome alone — is what teaches the system which play worked.</p>
 
-    <p>Three threads, in order of readiness. The <strong>July cycle</strong> re-runs the monthly spine — the text exporter and matrix builders are month-partitioned and resumable for exactly this — and matures June’s never-verify labels, which is the most promising lever left for the one target that keeps rejecting challengers. The <strong>remaining pre-integration checks</strong> either approve the identity-bearing champions for action-facing use or keep the fallbacks in place; the walk-forward drift harness exists, and the decision is deliberately not mine to hand-wave. And the <strong>play engine</strong> — recommending channel + timing + message family + template as a unit, then eventually learning that choice from pilot data that records which options were offered, not just which was taken — waits on the only thing that can unlock it: real logged outcomes from humans working the queue.</p>
+    <p>What gets built on it, in order of readiness: the <strong>July cycle</strong> matures June’s never-verify labels — the most promising lever for the one target that keeps rejecting challengers — while the remaining pre-integration checks either approve the identity-bearing champions for action-facing use or keep the fallbacks in place. Then the <strong>play engine</strong> learns the complete play — channel, timing, message family, template — from pilot data that records which options were offered, not just which was taken. The <strong>contact researcher</strong> repairs the inputs themselves — fresh, verified emails, fax numbers, and phone numbers entering as candidates for the rules to admit — so unworkable cases turn workable before attempts are wasted. And the <strong>SLM drafts the outreach</strong> last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
 
-    <p>One more build sits on the same roadmap: a <strong>contact-researcher loop</strong> — an AI agent that goes looking for better contact paths (fresh, verified emails, fax numbers, and phone numbers for employers, registrars, and vendors) and hands them to the eligibility layer as an upgraded contact plan. Today a case lives or dies on the contacts already in its file; a researcher that replaces a dead fax line before the third failed attempt turns unworkable cases workable. Like every other layer, its suggestions enter as candidates for the rules to admit — never as automatic dial targets.</p>
-
-    <p>And after the play engine comes the final step: a <strong>small language model that writes the communications themselves</strong> — the emails, the faxes, the case notes, and the scripts our call operators work from — learning from the logged record of past communication and its outcomes to draft the best next action for every case. It is sequenced last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
-
-    <p>And behind all of it sits the layer every vendor sells first: execution. Every lane starts with human review. A narrow, stable lane moves to controlled auto-send only after its logged evidence proves it safe, stable, and effective — authority expands one lane at a time, from measured outcomes, never from a roadmap date.</p>
+    <p>Automation arrives at the end, and is earned: every lane starts with human review, and a narrow lane moves to auto-send only on its own logged record — one lane at a time, never from a roadmap date.</p>
 
     <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the operating system turns it into work the operation can trust. <span class="endmark">◆</span></p>
   </article>
