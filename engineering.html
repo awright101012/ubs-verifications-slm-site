@@ -208,7 +208,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">A fleet of specialist machine-learning models reads every open case. A thirteen-state resolver names what is true. Deterministic rules remove unsafe moves before the ML models rank what remains. How 2.75 million case-days became one daily recommendation — and why the promotion gate rejected three of my own model improvements.</p>
+    <p class="dek">The hard part was not training models to predict which cases would fail. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models reads every open case; deterministic rules decide which moves exist; a person decides what happens next. How 2.75 million case-days became one governed recommendation — and why the promotion gate rejected three of my own model improvements.</p>
     <div class="byline">
       <span><b>Evidence</b> 2.75 million replayed case-days</span>
       <span><b>AI/ML fleet</b> six specialist models</span>
@@ -217,9 +217,11 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>Every verification case ends one of two ways: verified, or <em>unable to verify</em>. In the twelve months ending May 2026, UBS worked nearly a million verification searches across four products — employment, education, reference, and license-style checks (EMPV, EDUV, REFV, PLV). Just under half a million of them received at least one attempt, and one in five of those — roughly 100,000 — ended unable to verify. That UTV rate is the number the business wants down, and it is a frustrating one to manage, because it blends two very different populations: cases that were never going to verify no matter what anyone did, and cases that were winnable but stalled.</p>
+    <p>The largest finding in 2.75 million replayed case-days did not come from a better model. It came from writing down, in rules, what “already responded” means: on roughly 400,000 of those case-days — about one in seven — a response was already on record while the existing flow remained eligible for another touch.</p>
 
-    <p>The system described here exists to separate those populations and act on the difference. For every open case on every day it answers two questions — <em>how hard is this case?</em> and <em>what is the next sensible move?</em> — and it answers them with a strict division of labor: machine-learned models predict, deterministic rules permit. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no. One expectation to set early: the largest immediately bankable finding in here did not come from a better model. It came from writing down, in rules, what “already responded” means.</p>
+    <p>The most revealing model result was also a refusal. Three changes improved average accuracy but weakened the first page of the ranked worklist — the page people actually work — so the promotion gate rejected all three.</p>
+
+    <p>Those two findings define the architecture. Machine learning estimates where the case is heading. Deterministic rules establish what is true and what is allowed. A person decides what happens now. And the outcome becomes evidence for the next decision. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no.</p>
 
     <h2>Control changes hands five times</h2>
 
@@ -293,47 +295,70 @@ a{color:inherit}
 
     <p>The load-bearing rule sits in the middle: <strong>the resolver alone defines which actions exist. Models rank only the actions that survive.</strong> A blocked action is removed, not penalized, so no level of model confidence can restore it.</p>
 
-    <h2>Three questions, one matrix</h2>
+    <h2>One case-day, from evidence to action</h2>
 
-    <p>Three forecast specialists answer the questions that drive daily triage: will this verify within two days, within five days, or ever? The wider fleet adds intake, aging-case, and early-warning reads — each specialist with its own target and validation record, all reading the same morning snapshot: one per open case per day, nearly three million over the twelve-month window, each restricted to what was knowable that morning. The models themselves are gradient-boosted decision trees (the HistGradientBoosting family): an ensemble method that builds hundreds of small decision trees, each one trained to correct the mistakes of the trees before it. I chose the family deliberately over deep-learning alternatives: on structured operational data it is still the benchmark to beat, it handles counts, categories, and missing values natively, it retrains in minutes, and its decisions can be interrogated feature by feature. On top of each model sits a calibration layer that turns raw scores into honest probabilities — when the system says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
+    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
+
+    <p>The models never see six equally available actions. The operating system first decides which actions are real.</p>
+
+    <h2>What the specialist model fleet sees</h2>
+
+    <p>Three forecast specialists answer the questions that drive daily triage: will this case verify within two days, within five days, or ever? The wider fleet adds an intake read at arrival, re-scores as cases age, and an early warning for cases likely to strand. Every specialist reads the same morning snapshot — one per open case per day, nearly three million across a twelve-month window of employment, education, reference, and license-style checks — and sees only what was knowable that morning.</p>
+
+    <p>The models are gradient-boosted trees, a fit chosen for structured operational data: attempt counts, timing, contact availability, product type, policy context, missing fields. On top of each sits a calibration layer that turns raw scores into honest probabilities — when a model says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
+
+    <aside class="note">
+      <span class="kicker">Why gradient-boosted trees</span>
+      <p>The fleet is gradient-boosted decision trees (the HistGradientBoosting family): hundreds of small trees, each trained to correct the mistakes of the trees before it. I chose the family over deep-learning alternatives deliberately — on structured operational data it is still the benchmark to beat, it handles counts, categories, and missing values natively, it retrains in minutes, and its decisions can be interrogated feature by feature.</p>
+    </aside>
 
     <div class="tablewrap">
       <table>
-        <caption>Table 1. Champion models (v3, promoted 2026-07-02). May 2026 is the holdout gate month — roughly 300,000 never-seen snapshots; June 2026 is a further out-of-time month scored with frozen bundles.</caption>
+        <caption>Table 1. The specialist model fleet (champions v3, promoted 2026-07-02). Scores are ROC-AUC: May 2026 is the holdout gate month — roughly 300,000 never-seen snapshots; June 2026 is a further out-of-time month scored with frozen bundles. Every model is calibrated so its probabilities read true, trained under the same as-of discipline, and passes the leakage audit; champions additionally clear the promotion gate.</caption>
         <thead>
           <tr>
-            <th>Target</th>
-            <th>Champion variant</th>
-            <th class="num">Base rate</th>
-            <th class="num">ROC-AUC, May</th>
-            <th class="num">ROC-AUC, June OOT</th>
-            <th class="num">Top-decile lift</th>
+            <th>Specialist</th>
+            <th>Operational question</th>
+            <th class="num">Validated result</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Never verifies (final UTV)<span class="small">the headline target</span></td>
-            <td>baseline, bounded features <span class="chip hold">kept — 3 challengers rejected</span></td>
-            <td class="num">0.201</td>
-            <td class="num">0.706</td>
-            <td class="num">—<span class="small">champion held; lift 2.61× vs 2.47×</span></td>
-            <td class="num">2.40×</td>
-          </tr>
-          <tr>
-            <td>Verifies within 5 days</td>
-            <td>note-aware, identity-safe <span class="chip pass">promoted</span></td>
-            <td class="num">0.477</td>
-            <td class="num">0.717</td>
-            <td class="num">0.726</td>
-            <td class="num">1.81×</td>
+            <td>Never verifies<span class="small">ends “unable to verify” (UTV) — the headline target</span></td>
+            <td>Will this case ever verify?</td>
+            <td class="num">0.706 May<span class="small">2.40× top-decile lift; June: champion held, lift 2.61× vs 2.47×</span></td>
+            <td><span class="chip hold">champion — bounded; 3 challengers rejected</span></td>
           </tr>
           <tr>
             <td>Verifies within 2 days</td>
-            <td>note-aware <span class="chip pass">promoted</span></td>
-            <td class="num">0.264</td>
-            <td class="num">0.747</td>
-            <td class="num">0.745</td>
-            <td class="num">2.52×</td>
+            <td>Will it resolve within two days?</td>
+            <td class="num">0.747 May · 0.745 June<span class="small">2.52× top-decile lift</span></td>
+            <td><span class="chip pass">champion — note-aware</span></td>
+          </tr>
+          <tr>
+            <td>Verifies within 5 days</td>
+            <td>Will it resolve within five days?</td>
+            <td class="num">0.717 May · 0.726 June<span class="small">1.81× top-decile lift</span></td>
+            <td><span class="chip pass">champion — note-aware, identity-safe</span></td>
+          </tr>
+          <tr>
+            <td>Day-0 intake read</td>
+            <td>How hard is this case, at arrival?</td>
+            <td class="num">≈0.81<span class="small">walk-forward, three forward months</span></td>
+            <td><span class="chip pass">identity-safe variant</span></td>
+          </tr>
+          <tr>
+            <td>Day-1/2 re-score</td>
+            <td>Is the case beginning to stall?</td>
+            <td class="num">0.73 / 0.70<span class="small">holdout; lifts the aging employment-check read 0.62 → 0.71</span></td>
+            <td><span class="chip pass">supporting specialist</span></td>
+          </tr>
+          <tr>
+            <td>Early warning</td>
+            <td>Will it strand by day 20?</td>
+            <td class="num">0.776<span class="small">single-month holdout</span></td>
+            <td><span class="chip hold">preliminary</span></td>
           </tr>
         </tbody>
       </table>
@@ -375,31 +400,6 @@ a{color:inherit}
 
     <p>That 16× spread is also the business story. Today’s UTV rate silently blames operators for cases that were structurally dead on arrival. Score-conditioned targets flip that: the easy decile is expected to verify almost always, the hard decile almost never, and management attention goes to the winnable middle.</p>
 
-    <p>The three champions are also just the tip of the fleet — each specialist with its own validation story:</p>
-
-    <div class="tablewrap">
-      <table>
-        <caption>Table 2. The model fleet. All are gradient-boosted trees, calibrated so their probabilities read true (a 30% means 30%), trained under the same as-of matrix discipline; every model passes the leakage audit, and champions additionally clear the promotion gate.</caption>
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Predicts</th>
-            <th class="num">ROC-AUC</th>
-            <th>Validation</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Never-verify champion</td><td>will the case ever verify</td><td class="num">0.706</td><td>May holdout + June OOT</td><td><span class="chip hold">champion — bounded</span></td></tr>
-          <tr><td>Verify within 2 days</td><td>resolves ≤2d of snapshot</td><td class="num">0.747</td><td>May holdout + June OOT</td><td><span class="chip pass">champion — text features</span></td></tr>
-          <tr><td>Verify within 5 days</td><td>resolves ≤5d of snapshot</td><td class="num">0.717</td><td>May holdout + June OOT</td><td><span class="chip pass">champion — text, identity-safe</span></td></tr>
-          <tr><td>Day-0 intake read</td><td>never-verify, at arrival</td><td class="num">~0.81</td><td>walk-forward, 3 forward months</td><td><span class="chip pass">identity-safe variant</span></td></tr>
-          <tr><td>Day-1/2 re-score</td><td>re-reads aging cases</td><td class="num">0.73 / 0.70</td><td>holdout</td><td><span class="chip pass">lifts aging EMPV read 0.62 → 0.71</span></td></tr>
-          <tr><td>Early warning</td><td>will strand by day 20</td><td class="num">0.776</td><td>single-month holdout</td><td><span class="chip hold">preliminary</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
     <h2>A high score still cannot break a rule</h2>
 
     <p>The models answer “what is likely?” The resolver answers “what is true, what is blocked, and what may happen next?” The questions stay separate because they fail differently: a bad ranking wastes effort; a bad permission creates an incident. The deterministic half is an evidence-state resolver that classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and derives the set of admissible actions from the state, never from a score. Here is where the 2.75M snapshots actually sit:</p>
@@ -426,17 +426,13 @@ a{color:inherit}
       <figcaption style="margin-top:18px"><span class="figno">Figure 3</span>Resolver state mix across nearly three million snapshots. The interesting segment is the third one: cases where a vendor response is already on record but the legacy flow would have kept contacting.</figcaption>
     </figure>
 
-    <p>I expected the next win here to come from a better model. It came from a rule — and it was hiding in that third segment. On roughly <strong>400,000 case-days — about one in seven</strong> — a vendor-channel response had already been received, yet the process as practiced would have actively re-contacted the party. The resolver routes every one of them to review-first instead. No model was needed for this; it fell out of writing down, deterministically, what “already responded” means. (The signal is a vendor receipt, not parsed reply content, and it doesn’t exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
+    <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver routes every one of those already-responded case-days to review-first instead of another touch. No model was needed — only the definition, written down. (The signal is a vendor receipt, not parsed reply content, and it doesn’t exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
 
-    <p>The same rule also shows why the safety claim holds under pressure. Suppose a model strongly favors another call on one of those cases. The resolver sees that a reply is already on record, so call is removed before the final ranking — the model’s confidence cannot restore it, and the person never even sees it as a recommendation. That is why the replay produced zero policy violations: safety does not depend on the model remembering every rule. The model never receives the authority to break one.</p>
+    <p>The same rule also shows why the safety claim holds under pressure. Suppose a model strongly favors another call on one of those cases. The resolver sees that a reply is already on record, so call is removed before the final ranking — the model’s confidence cannot restore it, and the person never even sees it as a recommendation. That is why the replay produced zero do-not-contact and hard-policy violations: safety does not depend on the model remembering every rule. The model never receives the authority to break one.</p>
 
-    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — 16.5 million candidate actions in the full run, filters them through eligibility, and ranks the survivors by the calibrated scores. A seven-stage pipeline chains candidates → eligibility → scoring → call-escalation ladder → wait policy → workflow router → pilot queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. The full run produced zero blocked rank-1 actions, zero no-action groups, and a queue where every group has an available move.</p>
+    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — filters them through eligibility, and ranks the survivors by their calibrated scores. Across the full replay, that produced 16.5 million candidate actions.</p>
 
-    <h2>One case-day, from evidence to action</h2>
-
-    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
-
-    <p>The models never see six equally available actions. The operating system first decides which actions are real.</p>
+    <p>A seven-stage pipeline validates every handoff from candidates through the final queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. In the completed run, no prohibited action reached rank one, every case group kept an available move, and the final queue passed end to end.</p>
 
     <h2>No peeking, by construction</h2>
 
@@ -564,21 +560,27 @@ a{color:inherit}
     <p>The layers ahead are ambitious, which makes the boundary between built, ready, and not-yet-proved more important — not less. The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
 
     <ul>
+      <li><strong>Historical replay is not live-pilot performance.</strong> The replay establishes that the system can read, route, and constrain the work at scale. Acceptance, overrides, and cycle-time effects are live questions — exactly what the pilot instrumentation exists to measure.</li>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
-      <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing models exclude direct agent and team IDs behind a drift gate, but behavioral agent attributes remain. Identity-bearing champions stay <code>provisional</code> for action-facing use, and the resolver applies no-direct-identity fallbacks automatically until that gate approves.</li>
+      <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing use stays behind the remaining pre-integration checks: direct agent and team identifiers are excluded, behavioral attributes remain, and the resolver applies no-direct-identity fallbacks automatically until those checks clear.</li>
       <li><strong>Nothing auto-sends today.</strong> Contact research, message drafting, and controlled auto-send remain evidence-gated future capabilities; each begins with human review and advances only on its own logged outcomes. The router is shadow-review metadata, not an autonomous policy — and I won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
-      <li><strong>No rework-savings claims — the QA loop is measured, not yet moved.</strong> A reproducible July baseline timed the quality-review loop (education + employment, Jan–Jun 2026): a returned check runs a median 11.2 days from first QA return to approval, against 5.0 days for a typical check’s entire first pass — and 85.6% of coded return reasons are process-and-judgment classes, the ones the resolver, eligibility rules and lanes exist to prevent. “Exist to prevent” is a design statement, not an effect size: the effect claim waits for the pilot, and hands-on handle time waits for work-item state logs that nothing emits today.</li>
     </ul>
 
     <h2>What the live record teaches next</h2>
 
-    <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. The resolver supplies the state; the rules supply the boundaries; the pilot supplies the evidence. Concretely: the recommendation is logged; the person accepts or overrides it; the chosen channel, timing, message, delivery, reply, and final outcome are recorded. That complete chain — not the final outcome alone — is what teaches the system which play worked.</p>
+    <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. Nearest first: the July cycle matures June’s never-verify labels — the most promising lever for the one target that keeps rejecting challengers — while the remaining pre-integration checks either approve the identity-bearing champions for action-facing use or keep the fallbacks in place. Then the record starts compounding:</p>
 
-    <p>What gets built on it, in order of readiness: the <strong>July cycle</strong> matures June’s never-verify labels — the most promising lever for the one target that keeps rejecting challengers — while the remaining pre-integration checks either approve the identity-bearing champions for action-facing use or keep the fallbacks in place. Then the <strong>play engine</strong> learns the complete play — channel, timing, message family, template — from pilot data that records which options were offered, not just which was taken. The <strong>contact researcher</strong> repairs the inputs themselves — fresh, verified emails, fax numbers, and phone numbers entering as candidates for the rules to admit — so unworkable cases turn workable before attempts are wasted. And the <strong>SLM drafts the outreach</strong> last because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</p>
+    <ul>
+      <li><strong>The live record captures the complete chain:</strong> the recommendation shown, the action taken or the override reason, channel, timing, message, delivery, reply, and final outcome. That complete chain — not the final outcome alone — is what teaches the system which play worked.</li>
+      <li><strong>The play engine learns the complete play:</strong> channel, timing, message family, follow-up, and fallback — from pilot data that records which options were offered, not just which was taken.</li>
+      <li><strong>The contact researcher repairs the inputs:</strong> fresh, verified emails, fax numbers, and phone numbers enter as candidates for the rules to admit, so unworkable cases turn workable before attempts are wasted.</li>
+      <li><strong>The SLM drafts the outreach</strong> — last, because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</li>
+      <li><strong>Controlled automation executes what earns it:</strong> every lane starts with human review, and a narrow lane moves to auto-send only on its own logged record — one lane at a time, never from a roadmap date.</li>
+    </ul>
 
-    <p>Automation arrives at the end, and is earned: every lane starts with human review, and a narrow lane moves to auto-send only on its own logged record — one lane at a time, never from a roadmap date.</p>
+    <p>Each layer receives its inputs and its boundaries from the layer before it. The resolver supplies the state; the rules supply the permission; the live record supplies the evidence. The language model writes only after the operation knows what should be written — and how the result will be judged.</p>
 
-    <p>The system today is, on purpose, the boring version: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the operating system turns it into work the operation can trust. <span class="endmark">◆</span></p>
+    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. That discipline is what lets the architecture become more powerful without becoming less trustworthy. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the operating system turns it into work the operation can trust. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
