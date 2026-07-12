@@ -208,7 +208,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">The hard part was not training models to predict which cases would fail. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models reads every open case; the Case Control Engine turns those forecasts into an ordered case plan; a person decides what happens next. How 2.75 million case-days became one governed recommendation, why the gate rejected three of my own improvements, and how the same architecture is built to automate routine decisions without surrendering control.</p>
+    <p class="dek">The hard part was not training models to predict. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models estimates where each case is heading. The Case Control Engine turns those forecasts into an ordered case plan, and a person decides. Its promotion gate has already rejected three of my own improvements. The same architecture is built to automate routine decisions only as live evidence earns it.</p>
     <div class="byline">
       <span><b>Evidence</b> 2.75 million replayed case-days</span>
       <span><b>AI/ML fleet</b> six specialist models</span>
@@ -301,18 +301,11 @@ a{color:inherit}
 
     <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
 
-    <p>The models never see six equally available actions. The Case Control Engine first decides which actions are real.</p>
+    <p>The models never see six equally available actions. The Case Control Engine first determines which actions are available. It removes blocked or irrelevant moves, uses the model scores to order what remains, and presents one recommendation. A person decides what happens now.</p>
 
     <h2>What the specialist model fleet sees</h2>
 
-    <p>Three forecast specialists answer the questions that drive daily triage: will this case verify within two days, within five days, or ever? The wider fleet adds an intake read at arrival, re-scores as cases age, and an early warning for cases likely to strand. Every specialist reads the same morning snapshot — one per open case per day, nearly three million across a twelve-month window of employment, education, reference, and license-style checks — and sees only what was knowable that morning.</p>
-
-    <p>The models are gradient-boosted trees, a fit chosen for structured operational data: attempt counts, timing, contact availability, product type, policy context, missing fields. On top of each sits a calibration layer that turns raw scores into honest probabilities — when a model says 30%, it happens about 30% of the time — because the consumers of these scores are queues and thresholds, and a queue built on miscalibrated probabilities is a queue that lies about its own workload.</p>
-
-    <aside class="note">
-      <span class="kicker">Why gradient-boosted trees</span>
-      <p>The fleet is gradient-boosted decision trees (the HistGradientBoosting family): hundreds of small trees, each trained to correct the mistakes of the trees before it. I chose the family over deep-learning alternatives deliberately — on structured operational data it is still the benchmark to beat, it handles counts, categories, and missing values natively, it retrains in minutes, and its decisions can be interrogated feature by feature.</p>
-    </aside>
+    <p>The specialist fleet does not make one broad prediction. Different models answer different questions: which new cases are likely to verify, which open cases are beginning to stall, and which are likely to end unable to verify. Every specialist reads the same morning snapshot — one per open case per day, nearly three million across a twelve-month window of employment, education, reference, and license-style checks — and sees only what was knowable that morning. I chose gradient-boosted trees because this evidence is structured, the relationships are uneven, and the system needs probabilities that can be tested and calibrated, not merely labels.</p>
 
     <div class="tablewrap">
       <table>
@@ -366,9 +359,7 @@ a{color:inherit}
       </table>
     </div>
 
-    <p>In plain terms: the never-verify specialist places the eventual failure ahead of the eventual success <strong>71% of the time</strong>, versus 50% for chance (that is what ROC-AUC 0.706 means; every score here reads the same way). The two-day and five-day specialists sort at 75% and 72%.</p>
-
-    <p>At intake — before any work has happened — the identity-safe day-0 variant reaches <strong>≈81%</strong> across three forward folds. That is not decay in reverse: fresh cases differ sharply, while cases still open a week later increasingly resemble one another, so ranking the survivors is intrinsically harder. What the fleet buys operationally is the spread: the tenth of cases it ranks riskiest actually fails <strong>48% of the time against a department-wide base rate of 20%</strong> — 2.4× the true never-verifies packed into the first list an operator works:</p>
+    <p>In plain terms, the never-verify specialist places the eventual failure ahead of the eventual success <strong>71% of the time</strong>, versus 50% for chance. The two-day and five-day specialists sort at 75% and 72%. At intake, when the system compares a case that will eventually fail with one that will verify, it ranks the future failure as harder approximately <strong>81% of the time</strong>. Operationally, the result that matters is the spread: the easiest predicted tenth fails 3% of the time, while the hardest fails 48% of the time.</p>
 
     <figure>
       <div class="panel">
@@ -400,7 +391,7 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 2</span>Observed unable-to-verify rate by predicted-risk decile, May 2026 holdout. The model separates cases that fail 3% of the time from cases that fail 48% of the time. That spread is what makes a <em>fair</em> UTV metric possible: misses can finally be measured against what was actually winnable.</figcaption>
     </figure>
 
-    <p>That 16× spread is also the business story. Today’s UTV rate silently blames operators for cases that were structurally dead on arrival. Score-conditioned targets flip that: the easy decile is expected to verify almost always, the hard decile almost never, and management attention goes to the winnable middle.</p>
+    <p>That 16× spread is also the business story. Today’s UTV rate treats cases with radically different odds as though they were equally winnable. Difficulty-adjusted measures separate the easy, hard, and recoverable middle so management can aim effort and judge outcomes more fairly.</p>
 
     <h2>A high score still cannot break a rule</h2>
 
@@ -570,7 +561,7 @@ a{color:inherit}
 
     <h2>What the live record teaches next</h2>
 
-    <p>The engine today solves three foundational problems: it reads the case, decides what is allowed, and recommends the next move. Each layer that follows expands what a “move” contains — and each becomes possible because the one below it already exists. Nearest first: the July cycle matures June’s never-verify labels — the most promising lever for the one target that keeps rejecting challengers — while the remaining pre-integration checks either approve the identity-bearing champions for action-facing use or keep the fallbacks in place. Then the record starts compounding:</p>
+    <p>The live outcome record is the next engineering dependency. It will connect each recommendation to the person’s choice or override, the channel and timing used, the message delivered, the reply received, and the final outcome. That record starts the next handoff:</p>
 
     <ul>
       <li><strong>The live record captures the complete chain:</strong> the recommendation shown, the action taken or the override reason, channel, timing, message, delivery, reply, and final outcome. That complete chain — not the final outcome alone — is what teaches the system which play worked.</li>
@@ -582,7 +573,7 @@ a{color:inherit}
 
     <p>Each layer receives its inputs and its boundaries from the layer before it. The resolver supplies the state; the rules supply the permission; the live record supplies the evidence. The language model writes only after the operation knows what should be written — and how the result will be judged.</p>
 
-    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. That discipline is what lets the architecture become more powerful without becoming less trustworthy. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the Case Control Engine turns it into work the operation can trust today and routine decisions it can automate as the evidence earns it. <span class="endmark">◆</span></p>
+    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every component can change; the handoff persists. Evidence enters. Models predict. Rules permit. A person decides. Outcomes teach. The Case Control Engine turns that sequence into work the operation can trust today — and routine decisions it can automate as the evidence earns it. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">

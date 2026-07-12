@@ -160,11 +160,13 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>Operational casework looks made for end-to-end AI: large caseloads, daily decisions, hard compliance constraints, delayed and noisy outcomes, and human operators accountable for the result. It is also where naive autonomy fails fastest. Policy is not a weighted preference, historical actions are not experiments, and a plausible recommendation is not evidence that an action should be allowed. Verification work is our instance; collections, claims, and outreach operations all share the shape.</p>
+    <p>Give an AI a verification case and the tempting instruction is simple: decide, act, and learn.</p>
+
+    <p>In regulated casework, that shortcut fails in three places. Policy cannot be traded against probability. Historical actions are not experiments. And a plausible recommendation is not permission to act. The challenge is therefore not merely to build a capable model. It is to build a system that can increase its authority without outrunning its evidence.</p>
 
     <p>Our current verification bot is the live companion example: fast at execution, weak wherever the work requires state, sequence, or judgment — <a href="murphy-brown.html">the field report</a> measures it.</p>
 
-    <p>So I built the opposite of an end-to-end agent — because in this class of work, the fastest route to useful autonomy begins by refusing it. The interesting part isn’t the system; it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
+    <p>So I built the system in the opposite order: forecast first, permission second, action last. The fastest route to useful autonomy begins by refusing authority the evidence has not earned. The interesting part isn’t the system; it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
 
     <h2>1. Split the decision</h2>
 
@@ -238,18 +240,18 @@ a{color:inherit}
 
     <p>The second rule is about sequencing: the first machine-learned product should be a <em>forecast</em>, not an action. Forecasts create value before they receive authority — for triage, for early warning, and for what turned out to matter most to the business: <strong>fixing the metric itself</strong>. The first product was not an automated action but a fairer view of difficulty.</p>
 
-    <p>An aggregate failure rate blames operators for cases that were structurally dead on arrival. A difficulty model unblinds that: the easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
+    <p>An aggregate failure rate treats cases with radically different odds as though they were equally winnable. A difficulty model reveals that difference: the easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 300" role="img" aria-label="Two scoreboards compared. The old scoreboard: one blended number, 20.3 percent unable to verify, winnable and impossible cases mixed, misses blamed evenly. The difficulty-adjusted scoreboard: easiest tenth expected around 3 percent, the middle is the fight where effort changes outcomes, hardest tenth expected around 48 percent, misses measured against what was possible.">
+      <svg viewBox="0 0 880 300" role="img" aria-label="Two scoreboards compared. The old scoreboard uses one department-wide unable-to-verify rate for cases with radically different odds. The difficulty-adjusted scoreboard shows the easiest tenth near 3 percent, the recoverable middle where effort can change outcomes, and the hardest tenth near 48 percent.">
         <g>
           <rect x="24" y="36" width="402" height="224" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
           <text x="48" y="70" class="s-title">The old scoreboard</text>
           <text x="225" y="152" text-anchor="middle" class="s-title" style="font-size:44px;letter-spacing:-0.02em">20.3%</text>
-          <text x="225" y="188" text-anchor="middle" class="s-sub">one blended number — winnable and</text>
-          <text x="225" y="206" text-anchor="middle" class="s-sub">impossible cases mixed together</text>
-          <text x="48" y="240" class="s-tag" fill="#8A8578">MISSES BLAMED EVENLY, EVERYWHERE</text>
+          <text x="225" y="188" text-anchor="middle" class="s-sub">one department-wide rate — cases with</text>
+          <text x="225" y="206" text-anchor="middle" class="s-sub">radically different odds treated alike</text>
+          <text x="48" y="240" class="s-tag" fill="#8A8578">SAME EXPECTATION, EVERY CASE</text>
         </g>
         <g>
           <rect x="454" y="36" width="402" height="224" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
@@ -270,7 +272,7 @@ a{color:inherit}
         </g>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 2</span>Same cases, two scoreboards. The blended number can only go up or down; the difficulty-adjusted one says where to spend effort and whom to stop blaming. This reframe — not any single prediction — is the business product of the forecast layer.</figcaption>
+      <figcaption><span class="figno">Figure 2</span>Same cases, two scoreboards. The single rate can only go up or down; the difficulty-adjusted one shows where expectations and effort should differ. This reframe — not any single prediction — is the business product of the forecast layer.</figcaption>
     </figure>
 
     <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on — strictly as-of features, automated leakage audits, calibration checks — while the stakes are still just a number on a validation report. If the first product were an acting agent instead of a forecast, a data problem would arrive as behavior in production; in a forecast layer it arrives as a number you can catch and fix before anything acts on it.</p>
@@ -334,9 +336,11 @@ a{color:inherit}
 
     <p>The final rule turns the other three into a trajectory. Authority is granted in stages, each stage gated on evidence the previous stage was designed to produce — and every gate defaults to closed.</p>
 
+    <p>The pilot records what the system recommended, what the person chose or changed, and what happened afterward. That record earns the next increase in authority: first better recommendations, then automated decisions inside narrow and proven lanes, and only then controlled execution.</p>
+
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage autonomy ladder: shadow (system watches, humans work), assist (recommendations with overrides logged), explore (randomization among near-ties with each option’s odds recorded), act (system chooses the play), compose (system writes the message). Gates between stages: pilot begins; operators accept and logging is complete; recorded odds suffice; causal evidence for language. A you-are-here marker sits under shadow.">
+      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage authority ladder: shadow, where the system watches while people work; assist, where it recommends and records overrides; learn, where it measures the complete decision and outcome; decide, where it automates proven routine decisions; and execute, where it acts inside narrow proven lanes. A you-are-here marker sits under shadow.">
         <defs>
           <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
@@ -364,32 +368,32 @@ a{color:inherit}
         </g>
         <g>
           <rect x="368" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="447" y="80" text-anchor="middle" class="s-title">Explore</text>
-          <text x="447" y="100" text-anchor="middle" class="s-sub">randomize near-ties, log odds</text>
-          <text x="447" y="150" text-anchor="middle" class="s-mono">gate: operators accept +</text>
-          <text x="447" y="166" text-anchor="middle" class="s-mono">logging chain complete</text>
+          <text x="447" y="80" text-anchor="middle" class="s-title">Learn</text>
+          <text x="447" y="100" text-anchor="middle" class="s-sub">measure the complete play</text>
+          <text x="447" y="150" text-anchor="middle" class="s-mono">gate: complete decision +</text>
+          <text x="447" y="166" text-anchor="middle" class="s-mono">outcome record</text>
         </g>
         <g>
           <rect x="540" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="619" y="80" text-anchor="middle" class="s-title">Act</text>
-          <text x="619" y="100" text-anchor="middle" class="s-sub">system picks the play</text>
-          <text x="619" y="150" text-anchor="middle" class="s-mono">gate: recorded odds</text>
-          <text x="619" y="166" text-anchor="middle" class="s-mono">suffices for a policy</text>
+          <text x="619" y="80" text-anchor="middle" class="s-title">Decide</text>
+          <text x="619" y="100" text-anchor="middle" class="s-sub">automate a proven routine move</text>
+          <text x="619" y="150" text-anchor="middle" class="s-mono">gate: stable results in a</text>
+          <text x="619" y="166" text-anchor="middle" class="s-mono">narrow lane</text>
         </g>
         <g>
           <rect x="712" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="791" y="80" text-anchor="middle" class="s-title">Compose</text>
-          <text x="791" y="100" text-anchor="middle" class="s-sub">system writes the message</text>
-          <text x="791" y="150" text-anchor="middle" class="s-mono">gate: causal evidence</text>
-          <text x="791" y="166" text-anchor="middle" class="s-mono">for language effects</text>
+          <text x="791" y="80" text-anchor="middle" class="s-title">Execute</text>
+          <text x="791" y="100" text-anchor="middle" class="s-sub">act inside the proven lane</text>
+          <text x="791" y="150" text-anchor="middle" class="s-mono">gate: safe, stable,</text>
+          <text x="791" y="166" text-anchor="middle" class="s-mono">effective outcomes</text>
         </g>
-        <text x="440" y="228" text-anchor="middle" class="s-sub" font-style="italic">every gate defaults to closed — in our config, literally: exploration_enabled = false, NOT_APPROVED_FOR_EXPLORATION</text>
+        <text x="440" y="228" text-anchor="middle" class="s-sub" font-style="italic">every gate stays closed until the evidence opens it</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage exists to generate the evidence the next stage needs: the pilot logs overrides, overrides calibrate trust, exploration records each option’s odds of being offered, and those recorded odds make a learned policy honest. Skipping a rung doesn’t accelerate the system — it caps how far it can ever be trusted to go.</figcaption>
+      <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage generates the evidence the next stage needs. Skipping a rung does not accelerate the system; it removes the evidence needed to trust the next one.</figcaption>
     </figure>
 
-    <p>This is why the system’s most capable component is the one that doesn’t exist yet. The most capable layers sit highest because they are hardest to grade. The roadmap names the destination; evidence decides the pace.</p>
+    <p>The most powerful capability — automated case decisions — comes last because it is the hardest to grade. The roadmap names the destination; evidence decides the pace.</p>
 
     <h2>What restraint buys</h2>
 
@@ -406,7 +410,7 @@ a{color:inherit}
         </div>
         <div class="side buys">
           <h4>What it buys</h4>
-          <p>Deployability from day one — a system that provably cannot violate policy can enter a regulated workflow while still learning to be useful.</p>
+          <p>A safer path to deployment — policy boundaries are enforced outside the models, so live use does not depend on perfect predictions.</p>
           <p>Failures that are cheap and legible — a wrong model means a suboptimal ordering, not an incident with a name on it.</p>
           <p>A metric the business can act on — difficulty-adjusted targets outlive any particular model version.</p>
           <p>Credibility that compounds — every recorded “no” is what makes the eventual “yes” believable.</p>
@@ -420,9 +424,11 @@ a{color:inherit}
       <p>The full apparatus is overkill where its costs buy nothing: actions that are cheap and reversible, no compliance surface, outcomes observable within minutes, no human in the loop to protect. Ranking a newsletter’s subject lines needs an A/B test, not an evidence-state resolver. The pattern earns its weight precisely where mistakes are expensive, constraints are regulatory rather than aesthetic, and trust — of operators and regulators — is the scarce resource.</p>
     </aside>
 
-    <h2>The boring version, on purpose</h2>
+    <h2>The authority the evidence earns</h2>
 
-    <p>The pattern is one idea applied four ways: rules own permission, models own likelihood, claims stop where instrumentation stops, and every increase in the system’s authority must be purchased with evidence. Today the Case Control Engine produces recommendations for human review. Tomorrow it can learn the complete play, support contact repair and drafted outreach, and then automate routine decisions and controlled execution inside narrow lanes — only after logged evidence proves each lane safe, stable, and effective. The path is ambitious <em>because</em> the gates are real. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
+    <p>Today the Case Control Engine recommends under human review. The live record teaches the complete play. That evidence can then support repaired contact paths, drafted outreach, automated routine decisions, and controlled execution — while exceptions and uncertain cases remain with people.</p>
+
+    <p>Each increase in authority is earned by the evidence produced by the stage before it. Autonomy is not a capability we install. It is permission the system earns. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
