@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>How machine learning becomes the next best move</title>
+<title>How machine learning runs the case journey</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -207,26 +207,26 @@ a{color:inherit}
 
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
-    <h1>How machine learning becomes the next best move</h1>
-    <p class="dek">Every open verification search presents a different decision: work it now, wait for a response, try another path, escalate it, or stop. Specialist machine-learning models estimate where each search is heading. The Case Control Engine combines those forecasts with the current evidence to produce the next best move — and is built to execute routine decisions automatically as each lane proves itself.</p>
+    <h1>How machine learning runs the case journey</h1>
+<p class="dek">The current models tell us where a case is heading. The product being built goes further: after every material event, it reconstructs the case, values every available play by its expected contribution to eventual accepted verification, selects one, dispatches it, observes what happened, and runs the decision again.</p>
   </header>
 
   <article class="prose">
-    <p>Most automation starts with an action: send an email, place a call, move the case. The Verifications Decision Engine starts earlier, with the decision that determines whether any action makes sense.</p>
+    <p>Most automation starts with an action: send an email, place a call, move the case. The Verifications Decision Engine starts with the complete journey and the decision that determines which action contributes most to its terminal outcome.</p>
 
-    <p>Each morning, the specialist model fleet reads every open search and estimates its likely path. The Case Control Engine names the case’s current state, removes moves that no longer fit, uses the forecasts to rank what remains, and produces one next move. When the evidence changes, the plan changes with it.</p>
+    <p>The historical replay reads one morning snapshot per open case and estimates its likely path. The event-driven runtime being built derives state from the complete event history, removes plays that no longer fit, values what remains, selects one, and dispatches it. When the evidence changes, the system recomputes immediately.</p>
 
-    <p>Historical replay tested that complete handoff across 2.75 million case-days. It produced zero do-not-contact and hard-policy violations. It also found roughly 400,000 case-days when a response was already on record but another outreach attempt remained available. The important discovery was not simply that a rule could stop an unnecessary touch. It was that the operation needed a system capable of recognizing what had changed before choosing what should happen next.</p>
+    <p>Historical replay tested the prognosis, state reduction, hard-constraint filtering, and bootstrap ordering across 2.75 million case-days. It produced zero do-not-contact and hard-policy violations. It also found roughly 400,000 case-days when a response was already on record but another outreach attempt remained available. The replay did not execute the event-driven runtime; it proved the foundation that runtime will use.</p>
 
     <p>The same discipline applies to the models. Three proposed improvements raised average accuracy but weakened the first page of the worklist, where the ranking matters most. The promotion gate rejected all three. A model is not better merely because its overall score improves. It must improve the part of the operation where its ranking will actually be used.</p>
 
-    <h2>From evidence to execution in five steps</h2>
+    <h2>From event to execution — and back again</h2>
 
-    <p>The architecture has five layers, and the arrows matter more than the boxes.</p>
+    <p>The architecture is a loop, and the return arrow matters more than any individual box.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds specialist machine-learning models and an evidence-state resolver; both feed an action scorer that ranks the moves that fit the current case; the resulting case plan records the next move and outcome; logged outcomes feed back into the learning loop.">
+      <svg viewBox="0 0 880 470" role="img" aria-label="Autonomous orchestration loop: a canonical event stream feeds the deterministic state reducer and hard constraints; the derived state feeds prognosis models; the prognosis and available plays feed a journey-value policy that selects one; the executor acts, observations return to the event stream, and every active case recomputes.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -234,27 +234,26 @@ a{color:inherit}
         </defs>
         <!-- connectors -->
         <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
-          <path d="M216 186 H260 V107 H292" marker-end="url(#arr)"/>
           <path d="M216 234 H260 V345 H292" marker-end="url(#arr)"/>
+          <path d="M426 286 V166" marker-end="url(#arr)"/>
           <path d="M552 107 H596 V204 H628" marker-end="url(#arr)"/>
-          <path d="M552 345 H596 V248 H628" marker-end="url(#arr)"/>
           <path d="M746 285 V348" marker-end="url(#arr)"/>
           <path d="M636 420 H120 V280" marker-end="url(#arr)" stroke-dasharray="5 5"/>
         </g>
-        <!-- evidence ledger -->
+        <!-- event stream -->
         <g>
           <rect x="24" y="150" width="192" height="120" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="40" y="180" class="s-title">Evidence ledger</text>
-          <text x="40" y="204" class="s-sub">contacts · client policy · DNC</text>
-          <text x="40" y="222" class="s-sub">vendor events · attempt history</text>
-          <text x="40" y="240" class="s-sub">as-of: only what was known</text>
-          <text x="40" y="258" class="s-sub">at snapshot time</text>
+          <text x="40" y="180" class="s-title">Canonical event stream</text>
+          <text x="40" y="204" class="s-sub">opening · decision · execution</text>
+          <text x="40" y="222" class="s-sub">delivery · reply · document · failure</text>
+          <text x="40" y="240" class="s-sub">override · WAIT wake · terminal outcome</text>
+          <text x="40" y="258" class="s-sub">ordered, replayable, idempotent</text>
         </g>
         <!-- difficulty models -->
         <g>
           <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
-          <text x="316" y="99" class="s-title">Difficulty models</text>
+          <text x="316" y="99" class="s-title">Prognosis models</text>
           <text x="316" y="122" class="s-sub">P(verify ≤2d) · P(verify ≤5d) · P(never)</text>
           <text x="316" y="140" class="s-sub">gradient-boosted trees, calibrated</text>
           <text x="316" y="158" class="s-sub">nearly 3M case-day snapshots</text>
@@ -263,42 +262,42 @@ a{color:inherit}
         <g>
           <rect x="300" y="286" width="252" height="118" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
           <text x="316" y="314" class="s-tag" fill="#141413">DETERMINISTIC — FILTERS</text>
-          <text x="316" y="337" class="s-title">Evidence-state resolver</text>
-          <text x="316" y="360" class="s-sub">13 work states · DNC, policy, cooldown,</text>
-          <text x="316" y="378" class="s-sub">inbound-response checks</text>
-          <text x="316" y="396" class="s-sub">keeps only moves that fit the case</text>
+          <text x="316" y="337" class="s-title">State reducer + constraints</text>
+          <text x="316" y="360" class="s-sub">derives current state from events ·</text>
+          <text x="316" y="378" class="s-sub">DNC, policy, cadence, channel checks</text>
+          <text x="316" y="396" class="s-sub">keeps only registered plays that fit</text>
         </g>
         <!-- scorer -->
         <g>
           <rect x="636" y="167" width="220" height="118" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="652" y="195" class="s-title">Action scorer</text>
-          <text x="652" y="218" class="s-sub">6 candidate actions per case-day:</text>
+          <text x="652" y="195" class="s-title">Journey-value policy</text>
+          <text x="652" y="218" class="s-sub">available registered plays:</text>
           <text x="652" y="236" class="s-sub">email · fax · call · vendor ·</text>
-          <text x="652" y="254" class="s-sub">wait · escalate — filtered, then</text>
-          <text x="652" y="272" class="s-sub">ranked by model priority</text>
+          <text x="652" y="254" class="s-sub">wait · escalate — value each, then</text>
+          <text x="652" y="272" class="s-sub">select one play and its executor</text>
         </g>
-        <!-- pilot -->
+        <!-- execution -->
         <g>
           <rect x="636" y="352" width="220" height="82" rx="4" fill="#FAF9F5" stroke="#6E6A5F" stroke-width="1.5"/>
-          <text x="652" y="380" class="s-title">Case plan + outcome record</text>
-          <text x="652" y="402" class="s-sub">next move · action · delivery/reply ·</text>
-          <text x="652" y="420" class="s-sub">final outcome, all connected</text>
+          <text x="652" y="380" class="s-title">Executor + observation</text>
+          <text x="652" y="402" class="s-sub">machine action or human task · result</text>
+          <text x="652" y="420" class="s-sub">returns as the next material event</text>
         </g>
-        <text x="380" y="452" class="s-sub" font-style="italic">outcomes feed back — learning loop (build-out)</text>
+        <text x="380" y="452" class="s-sub" font-style="italic">every material event recomputes the next play while the case remains active</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The decision path. The model fleet forecasts the case. The resolver removes moves that do not fit its current state. The scorer ranks what remains. The dashed loop — learning from logged outcomes — is the build-out, not the current system.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The closed loop being built. Events derive state; hard constraints remove plays; prognosis models forecast; the journey policy selects one; an executor acts; and the observation starts the loop again. Historical replay proves the read-and-filter foundation, not live autonomous effect.</figcaption>
     </figure>
 
-    <p>The load-bearing rule sits in the middle: <strong>the resolver alone defines which actions exist. Models rank only the actions that survive.</strong> A blocked action is removed, not penalized, so no level of model confidence can restore it.</p>
+    <p>The load-bearing rule sits in the middle: <strong>the registered play library defines what can exist, and deterministic constraints remove what does not fit.</strong> The prognosis models supply forecasts. The journey policy values and selects from the plays that remain. A blocked play is removed, not penalized, so no forecast can restore it.</p>
 
-    <p>The resolver, action scorer, router, and outcome record together form the <strong>Case Control Engine</strong>. It turns the model fleet&rsquo;s forecasts into an ordered case plan and is built to automate routine decisions one proven lane at a time.</p>
+    <p>The state reducer, journey policy, router, executors, and event record together form the <strong>Case Control Engine</strong>. The current prognosis-plus-prior score is its bootstrap policy. The target policy learns state-action journey value against eventual accepted verification.</p>
 
-    <h2>One case-day, from evidence to action</h2>
+    <h2>One material event, from state to execution</h2>
 
-    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case has not reached that point. The scorer ranks the four remaining moves and places email first. The Case Control Engine produces email as the next best move and connects it to the eventual outcome.</p>
+    <p>Use the illustrated guide&rsquo;s fictional case 4127. A scheduled WAIT expires on day three and enters as a material event. The reducer derives the current state. The prognosis models estimate the likely path. Fax disappears because no fax number exists; escalation disappears because the case has not reached that point. The bootstrap policy selects email from the registered plays that remain, records why it outranked the alternatives, and dispatches it to the email executor. Delivery becomes the next event.</p>
 
-    <p>The models never rank a flat menu of actions. The Case Control Engine first removes the moves that do not fit the case, then uses the model scores to order what remains. That is the same sequence built to move from recommendation to automatic execution as each routine lane proves itself.</p>
+    <p>The policy never ranks a flat menu of actions. Hard constraints remove the plays that do not fit; the policy values what remains. A model or SLM cannot invent an unregistered play, and low predicted success alone cannot stop an unresolved case while an available play remains.</p>
 
     <h2>What the specialist model fleet sees</h2>
 
@@ -392,7 +391,7 @@ a{color:inherit}
 
     <h2>A high score still cannot break a rule</h2>
 
-    <p>The models estimate what is likely. The resolver identifies what has already happened, what is blocked, and which moves still fit the case. The two jobs stay separate because they fail differently: a bad ranking wastes effort; a bad filter can create an incident. The resolver classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and builds the set of viable moves from the state, never from a score. Here is where the 2.75 million snapshots actually sit:</p>
+    <p>The models estimate what is likely. The resolver identifies what has already happened, what is blocked, and which moves still fit the case. The two jobs stay separate because they fail differently: a poor forecast can waste effort; a broken filter can create an incident. The resolver classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and builds the set of viable moves from the state, never from a score. Here is where the 2.75 million snapshots actually sit:</p>
 
     <figure>
       <div class="statebar" role="img" aria-label="Distribution of 2.75 million case snapshots across resolver states: outreach ready 34.1%, review due 24.4%, inbound review required 20.2%, policy review 12.7%, outreach prohibited 4.9%, cooldown 3.7%, paths exhausted 0.2%.">
@@ -418,9 +417,9 @@ a{color:inherit}
 
     <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver stops those already-responded case-days from advancing to another touch. No model was needed — only the definition, written down. (The signal is a vendor receipt, not parsed reply content, and it does not exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
 
-    <p>The same rule also shows why the safety result holds under pressure. Suppose a model strongly favors another call on one of those cases. The resolver sees that a reply is already on record, so call is removed before the final ranking. The model’s confidence cannot restore it. That is why the replay produced zero do-not-contact and hard-policy violations: the rule checks run before the ranking, outside the models.</p>
+    <p>The same rule also shows why the safety result holds under pressure. Suppose the forecasts make another call look attractive on one of those cases. The resolver sees that a reply is already on record, so call is removed before the journey policy values the remaining plays. No forecast can restore it. That is why the replay produced zero do-not-contact and hard-policy violations: the rule checks run before selection, outside the models.</p>
 
-    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — removes the moves that do not fit the current state, and ranks the rest by their calibrated scores. Across the full replay, that produced 16.5 million candidate actions.</p>
+    <p>In historical replay, the bootstrap scorer built six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — removed the moves that did not fit the current state, and ordered the rest with calibrated model scores and explicit priors. Across the full replay, that produced 16.5 million candidate actions. The product target replaces that bootstrap ordering with the learned journey-value policy.</p>
 
     <p>A seven-stage pipeline validates every handoff from candidates through the final queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. In the completed run, no prohibited action reached rank one, every case group kept an available move, and the final queue passed end to end.</p>
 
@@ -430,7 +429,7 @@ a{color:inherit}
 
     <h2>The system rejected three of my improvements</h2>
 
-    <p>Model improvements are promoted per target — there is no single “champion model,” there are three — and promotion is mechanical. A challenger must clear every criterion against the sitting incumbent; a single checked-in champion config is the source of truth, and rejections are machine-recorded in the champion manifest.</p>
+    <p>Model improvements are promoted per target — there is no single “champion model,” there are three — and promotion is mechanical. A challenger must clear every criterion against the sitting incumbent; a single checked-in champion config is the source of truth, and rejections are machine-recorded in the champion manifest. The target autonomous lifecycle will extend that discipline: a qualifying action or content release will promote automatically, continuous monitoring will remain active, and rollback will restore the prior version and lineage.</p>
 
     <div class="gates">
       <div class="g"><b>ROC-AUC</b><span>at least <em>+0.002</em> over the incumbent, with bootstrap confidence intervals excluding zero</span></div>
@@ -552,81 +551,83 @@ a{color:inherit}
     <ul>
       <li><strong>Historical replay is not live performance.</strong> The replay establishes that the system can read, route, and structure the work at scale. Live execution, cycle time, and operational outcomes remain to be measured.</li>
       <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational. Causal language stays banned until the live record connects the next move, action, template version, delivery or reply, and final outcome. The logging structure is built; the evidence is not yet collected.</li>
-      <li><strong>Nothing auto-sends today.</strong> Contact research, message drafting, automated routine decisions, and controlled execution remain future capabilities. Each advances only on its own logged results.</li>
+      <li><strong>Nothing auto-sends today.</strong> The event runtime, machine executors, journey-value policy, bounded exploration, generated content, and automatic release lifecycle are product capabilities being built now, not current production behavior.</li>
     </ul>
 
-    <h2>From prediction to automated decisions</h2>
+    <h2>The autonomous loop being built</h2>
 
-    <p>Historical replay can show which cases look harder and whether the Case Control Engine produces a workable next move. It cannot prove that one channel, message, or follow-up caused a better outcome. That requires a live record connecting the case, the next move, the action, and the outcome.</p>
+    <p>Historical replay can show which cases look harder and whether the bootstrap policy produces a workable next play. It cannot prove that one channel, message, or follow-up caused a better terminal outcome. That requires propensity-logged decisions, executed actions, observations, and matured journeys.</p>
 
-    <p>The system advances through one repeatable sequence: read the case, build the plan, learn from live outcomes, automate the routine decision, then connect that decision to execution.</p>
+    <p>The runtime follows one repeatable sequence: record the event, derive state, remove blocked plays, forecast likely outcomes, select one registered play, dispatch the executor, and return the result as the next event while the case remains active.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 250" role="img" aria-label="Five-stage operating sequence: Read, where specialist models forecast each search; Plan, where the Case Control Engine selects the next move; Learn, where the live record connects decisions to outcomes; Automate, where proven routine decisions run automatically; and Execute, where the system acts inside proven lanes. Read and Plan are built in historical replay; live integration begins Learn.">
+      <svg viewBox="0 0 880 300" role="img" aria-label="Closed autonomous runtime loop: Event records what changed; State derives the current case from ordered history; Filter removes blocked plays; Forecast estimates likely outcomes; Select chooses one registered play by expected journey value; Execute routes the play to a machine or human task; the result returns to Event while the case remains active.">
         <defs>
           <marker id="arrNext" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
           </marker>
         </defs>
         <g fill="none" stroke="#8A8578" stroke-width="1.25">
-          <line x1="182" y1="86" x2="204" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="354" y1="86" x2="376" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="526" y1="86" x2="548" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="698" y1="86" x2="720" y2="86" marker-end="url(#arrNext)"/>
+          <line x1="146" y1="86" x2="164" y2="86" marker-end="url(#arrNext)"/>
+          <line x1="290" y1="86" x2="308" y2="86" marker-end="url(#arrNext)"/>
+          <line x1="434" y1="86" x2="452" y2="86" marker-end="url(#arrNext)"/>
+          <line x1="578" y1="86" x2="596" y2="86" marker-end="url(#arrNext)"/>
+          <line x1="722" y1="86" x2="740" y2="86" marker-end="url(#arrNext)"/>
+          <path d="M803 120 C803 220 83 220 83 120" marker-end="url(#arrNext)"/>
         </g>
         <g>
-          <rect x="24" y="52" width="158" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="103" y="80" text-anchor="middle" class="s-title">Read</text>
-          <text x="103" y="100" text-anchor="middle" class="s-sub">models forecast each search</text>
-          <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#436B8E">BUILT IN REPLAY</text>
-          <text x="103" y="166" text-anchor="middle" class="s-sub">2.75 million case-days</text>
+          <rect x="20" y="52" width="126" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="83" y="80" text-anchor="middle" class="s-title">Event</text>
+          <text x="83" y="100" text-anchor="middle" class="s-sub">record the change</text>
+          <text x="83" y="150" text-anchor="middle" class="s-mono">ordered history</text>
+
+          <rect x="164" y="52" width="126" height="68" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="227" y="80" text-anchor="middle" class="s-title">State</text>
+          <text x="227" y="100" text-anchor="middle" class="s-sub">derive current facts</text>
+          <text x="227" y="150" text-anchor="middle" class="s-mono">deterministic</text>
+
+          <rect x="308" y="52" width="126" height="68" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="371" y="80" text-anchor="middle" class="s-title">Filter</text>
+          <text x="371" y="100" text-anchor="middle" class="s-sub">remove blocked plays</text>
+          <text x="371" y="150" text-anchor="middle" class="s-mono">hard constraints</text>
+
+          <rect x="452" y="52" width="126" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="515" y="80" text-anchor="middle" class="s-title">Forecast</text>
+          <text x="515" y="100" text-anchor="middle" class="s-sub">estimate outcomes</text>
+          <text x="515" y="150" text-anchor="middle" class="s-mono">specialist ML</text>
+
+          <rect x="596" y="52" width="126" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="659" y="80" text-anchor="middle" class="s-title">Select</text>
+          <text x="659" y="100" text-anchor="middle" class="s-sub">choose one play</text>
+          <text x="659" y="150" text-anchor="middle" class="s-mono">journey value</text>
+
+          <rect x="740" y="52" width="126" height="68" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="803" y="80" text-anchor="middle" class="s-title">Execute</text>
+          <text x="803" y="100" text-anchor="middle" class="s-sub">machine or task</text>
+          <text x="803" y="150" text-anchor="middle" class="s-mono">return the result</text>
         </g>
-        <g>
-          <rect x="196" y="52" width="158" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="275" y="80" text-anchor="middle" class="s-title">Plan</text>
-          <text x="275" y="100" text-anchor="middle" class="s-sub">engine selects the next move</text>
-          <text x="275" y="150" text-anchor="middle" class="s-mono">replay held end to end</text>
-        </g>
-        <g>
-          <rect x="368" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="447" y="80" text-anchor="middle" class="s-title">Learn</text>
-          <text x="447" y="100" text-anchor="middle" class="s-sub">measure the complete play</text>
-          <text x="447" y="150" text-anchor="middle" class="s-mono">next: live outcome record</text>
-        </g>
-        <g>
-          <rect x="540" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="619" y="80" text-anchor="middle" class="s-title">Automate</text>
-          <text x="619" y="100" text-anchor="middle" class="s-sub">run the proven decision</text>
-          <text x="619" y="150" text-anchor="middle" class="s-mono">stable results by lane</text>
-        </g>
-        <g>
-          <rect x="712" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="791" y="80" text-anchor="middle" class="s-title">Execute</text>
-          <text x="791" y="100" text-anchor="middle" class="s-sub">act inside the proven lane</text>
-          <text x="791" y="150" text-anchor="middle" class="s-mono">measured outcomes continue</text>
-        </g>
-        <text x="440" y="220" text-anchor="middle" class="s-sub" font-style="italic">results from one stage unlock the next</text>
+        <text x="440" y="250" text-anchor="middle" class="s-sub" font-style="italic">the result returns as the next event; the loop continues while the case remains active</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 6</span>The operating sequence. Read and Plan are built in historical replay. Live integration creates the outcome record. That record identifies the first routine decisions ready for automation and controlled execution.</figcaption>
+      <figcaption><span class="figno">Figure 6</span>The runtime sequence being built. Historical replay proves the prognosis and filtering foundation. The event stream, executors, journey-value selection, and immediate recomputation close the autonomous loop.</figcaption>
     </figure>
 
-    <p>The live outcome record is the next engineering dependency. It connects each next move to the action taken, the channel and timing used, the message delivered, the reply received, and the final outcome. That record starts the next handoff:</p>
+    <p>The canonical event stream is the next engineering dependency. It connects every decision to its action, executor, observation, override, and terminal outcome. That record supports both immediate orchestration and the slower learning cycle:</p>
 
     <ul>
-      <li><strong>The live record captures the complete chain:</strong> next move, action taken, channel, timing, message, delivery, reply, and final outcome. That complete chain — not the final outcome alone — is what teaches the system which play worked.</li>
-      <li><strong>The play engine learns the complete play:</strong> channel, timing, message family, follow-up, and fallback — from pilot data that records which options were offered, not just which was taken.</li>
-      <li><strong>The contact researcher repairs the inputs:</strong> fresh, verified emails, fax numbers, and phone numbers enter as new evidence, so unworkable cases can become workable before attempts are wasted.</li>
-      <li><strong>The SLM drafts the outreach</strong> — last, because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</li>
-      <li><strong>The Case Control Engine automates what proves itself:</strong> a narrow lane moves first to automated routine decisions and then to controlled execution only on its own logged record — one lane at a time, never from a roadmap date.</li>
+      <li><strong>The action policy learns journey value:</strong> each available play is evaluated by its expected contribution to eventual accepted verification, including downstream actions and delayed outcomes.</li>
+      <li><strong>Bounded exploration creates valid evidence:</strong> near-best available plays can be explored with exact propensities, without selecting a blocked play or creating a human-review lane for uncertainty.</li>
+      <li><strong>The content model learns separately:</strong> the action policy chooses what to do; the SLM renders the structured explanation and generates the email, fax, or call script for the play already selected.</li>
+      <li><strong>Executors close the operational loop:</strong> digital plays run through idempotent machine adapters; calls and true exceptions enter a portfolio-ranked human task view.</li>
+      <li><strong>The release lifecycle closes the learning loop:</strong> matured journeys train monthly challengers, qualifying releases promote automatically, and continuous monitoring can roll back to the prior version.</li>
     </ul>
 
     <p>The architecture can extend to new customers, but the learning stays customer-aware. The same evidence structure, specialist-model design, and promotion process can be reused while predictions, policies, cadence, and language are recalibrated against each customer&rsquo;s own outcomes. Learning should cross customer boundaries only where the evidence shows that the behavior transfers reliably.</p>
 
-    <p>Each layer receives its inputs from the layer before it. The resolver supplies the state. The model fleet supplies the forecast. The Case Control Engine builds the plan. The live record supplies the evidence needed to improve and automate the next decision.</p>
+    <p>Each component has one job. Events preserve what happened. The reducer derives what is true. Prognosis models estimate where the case is heading. The journey policy selects what to do. Executors act. Observations trigger the next decision. Completed journeys improve the action and content policies.</p>
 
-    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic checks, mechanical promotion gates, and a written list of things I refuse to say. Every component can change; the sequence persists. Evidence enters. Models forecast. The Case Control Engine builds the plan and selects the next move. Outcomes teach. Today that move is a recommendation. As each lane proves itself, the same sequence can execute routine decisions automatically. Starting narrow is how the automation becomes reliable enough to expand. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
+    <p>The measured system today remains the disciplined foundation: calibrated prognosis, deterministic checks, mechanical model gates, and 2.75 million replayed case-days. The product being built closes the rest of the loop without changing the evidence standard. Events record. State derives. Constraints remove. Models forecast. The policy selects. Executors act. Outcomes trigger recomputation and teach the next release. Restraint is still the launch mechanism, not the destination. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
