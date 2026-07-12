@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Earned autonomy: a pattern for ML in high-stakes casework</title>
+<title>From prediction to automated decisions</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -151,8 +151,8 @@ a{color:inherit}
 
   <header class="masthead">
     <div class="eyebrow">Perspectives</div>
-    <h1>Earned autonomy: a pattern for machine learning in high-stakes casework</h1>
-    <p class="dek">Underneath our verifications decision engine is a design that has nothing to do with verifications: rules own what’s allowed, models own what’s likely, and every increase in the system’s authority is purchased with evidence. Notes on the pattern, one level above the pipeline.</p>
+    <h1>From prediction to automated decisions</h1>
+    <p class="dek">Useful AI is not one model doing everything. Specialist machine-learning models forecast the case. The Case Control Engine turns those forecasts into a plan. Live outcomes show which routine decisions can run automatically. Each stage builds the evidence needed for the next.</p>
     <div class="byline">
       <span><b>Published</b> July 3, 2026</span>
       <span><b>Companion</b> the engineering deep dive covers the pipeline itself</span>
@@ -160,21 +160,21 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>Give an AI a verification case and the tempting instruction is simple: decide, act, and learn.</p>
+    <p>An end-to-end AI agent sounds efficient: read the case, choose an action, send the message, and learn from the result. In verification work, that shortcut bundles together jobs that require different evidence.</p>
 
-    <p>In regulated casework, that shortcut fails in three places. Policy cannot be traded against probability. Historical actions are not experiments. And a plausible recommendation is not permission to act. The challenge is therefore not merely to build a capable model. It is to build a system that can increase its authority without outrunning its evidence.</p>
+    <p>A model can recognize patterns across millions of historical case snapshots. Historical logs cannot prove that one message caused a reply, or that a routine decision will remain stable when it runs automatically. Those questions require a complete live record connecting the case, the next move, the action, and the outcome.</p>
 
-    <p>Our current verification bot is the live companion example: fast at execution, weak wherever the work requires state, sequence, or judgment — <a href="murphy-brown.html">the field report</a> measures it.</p>
+    <p><a href="murphy-brown.html">Murphy Brown</a> shows why the sequence matters: fast execution without a case plan simply automates the script. The Verifications Decision Engine starts earlier. It forecasts the case, builds the plan, measures the result, and expands automation from what the results prove.</p>
 
-    <p>So I built the system in the opposite order: forecast first, permission second, action last. The fastest route to useful autonomy begins by refusing authority the evidence has not earned. The interesting part isn’t the system; it’s the discipline. Four rules, in increasing order of how much they cost us.</p>
+    <p>The design follows four rules.</p>
 
-    <h2>1. Split the decision</h2>
+    <h2>1. Separate forecasting from execution</h2>
 
-    <p>Every “what should we do next?” question decomposes into two questions with different failure tolerances. <em>What is permitted?</em> has a tolerance of zero: getting it wrong is an incident, and the answer must be explainable after the fact, case by case. <em>What is preferred?</em> has a tolerance of “be usefully better than the status quo”: getting it wrong wastes effort. The pattern’s first rule is to never let one component answer both.</p>
+    <p>Every next move contains two jobs. The specialist models estimate where the case is heading. The Case Control Engine reads the current state, removes moves that no longer fit, and uses the forecasts to rank what remains. The components work together, but they do not duplicate each other.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 440" role="img" aria-label="Concept diagram: case evidence forks into two lanes — a probabilistic models lane answering what is likely, and a deterministic rules lane answering what is allowed. Both feed the decision: the highest-priority allowed move. A dashed arrow from the models lane to the rules lane is struck out and labeled never: models cannot change what is allowed.">
+      <svg viewBox="0 0 880 440" role="img" aria-label="Case evidence feeds two connected components. Specialist machine-learning models forecast difficulty, time to resolution, and early warning. The Case Control Engine identifies the current state and removes moves that do not fit. Together they produce the next best move. A model score cannot restore a move removed from the case plan.">
         <defs>
           <marker id="arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -195,8 +195,8 @@ a{color:inherit}
           <circle cx="436" cy="227" r="14" fill="#FAF9F5" stroke="#2C4A66" stroke-width="1.5"/>
           <line x1="427" y1="218" x2="445" y2="236" stroke="#2C4A66" stroke-width="1.5"/>
           <line x1="445" y1="218" x2="427" y2="236" stroke="#2C4A66" stroke-width="1.5"/>
-          <text x="436" y="266" text-anchor="middle" class="s-tag" fill="#2C4A66">NEVER: A SCORE CANNOT</text>
-          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#2C4A66">CHANGE WHAT IS ALLOWED</text>
+          <text x="436" y="266" text-anchor="middle" class="s-tag" fill="#2C4A66">A SCORE CANNOT RESTORE</text>
+          <text x="436" y="280" text-anchor="middle" class="s-tag" fill="#2C4A66">A MOVE REMOVED FROM THE PLAN</text>
         </g>
         <!-- evidence -->
         <g>
@@ -207,38 +207,38 @@ a{color:inherit}
         <!-- models lane -->
         <g>
           <rect x="80" y="148" width="292" height="158" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="100" y="178" class="s-tag" fill="#436B8E">WHAT’S LIKELY — MODELS</text>
+          <text x="100" y="178" class="s-tag" fill="#436B8E">FORECAST — SPECIALIST MODELS</text>
           <text x="100" y="204" class="s-title">Probabilistic, calibrated</text>
           <text x="100" y="228" class="s-sub">difficulty · time-to-resolve · early warning</text>
           <text x="100" y="246" class="s-sub">wrong = wasted effort</text>
-          <text x="100" y="272" class="s-mono">output: a priority for every allowed move</text>
+          <text x="100" y="272" class="s-mono">output: a score for every candidate move</text>
         </g>
         <!-- rules lane -->
         <g>
           <rect x="508" y="148" width="292" height="158" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="528" y="178" class="s-tag" fill="#141413">WHAT’S ALLOWED — RULES</text>
-          <text x="528" y="204" class="s-title">Deterministic, auditable</text>
+          <text x="528" y="178" class="s-tag" fill="#141413">CASE STATE — CONTROL ENGINE</text>
+          <text x="528" y="204" class="s-title">Deterministic, repeatable</text>
           <text x="528" y="228" class="s-sub">policy · do-not-contact · cooldowns ·</text>
           <text x="528" y="246" class="s-sub">already-responded — wrong = incident</text>
-          <text x="528" y="272" class="s-mono">output: the set of admissible moves</text>
+          <text x="528" y="272" class="s-mono">output: the moves that still fit the case</text>
         </g>
         <!-- decision -->
         <g>
           <rect x="286" y="330" width="308" height="56" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="440" y="354" text-anchor="middle" class="s-title">Next move</text>
-          <text x="440" y="374" text-anchor="middle" class="s-sub">the highest-priority move among the allowed ones</text>
+          <text x="440" y="354" text-anchor="middle" class="s-title">Next best move</text>
+          <text x="440" y="374" text-anchor="middle" class="s-sub">the highest-scoring move that fits the current state</text>
         </g>
-        <text x="440" y="420" text-anchor="middle" class="s-sub" font-style="italic">eligibility is a filter, not a score penalty — no confidence level outvotes a rule</text>
+        <text x="440" y="420" text-anchor="middle" class="s-sub" font-style="italic">the Case Control Engine removes first; the models rank what remains</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The split. Both lanes read the same evidence, but only the deterministic lane can say no. In this system the rules lane resolved a full year of case-days into thirteen work states with zero do-not-contact and zero hard-policy violations — an unremarkable number, which is the point: the models never had the opportunity to create one.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The handoff. The model fleet forecasts the case. The Case Control Engine turns the forecast and current evidence into the next best move. Across 2.75 million replayed case-days, that sequence produced zero do-not-contact and hard-policy violations.</figcaption>
     </figure>
 
     <p>The split also produced the cheapest large win in the project, and it came from the <em>rules</em> lane: recognizing, deterministically, that a reply was already on record before another contact could occur. No model, no training run — just a definition, applied consistently at scale.</p>
 
-    <h2>2. Forecast first, act later</h2>
+    <h2>2. Forecast before automating</h2>
 
-    <p>The second rule is about sequencing: the first machine-learned product should be a <em>forecast</em>, not an action. Forecasts create value before they receive authority — for triage, for early warning, and for what turned out to matter most to the business: <strong>fixing the metric itself</strong>. The first product was not an automated action but a fairer view of difficulty.</p>
+    <p>The first machine-learned product should be a <em>forecast</em>, not an automated action. Forecasts improve triage, expose early warning, and fix the metric before the system executes anything. The first product was a fairer view of difficulty.</p>
 
     <p>An aggregate failure rate treats cases with radically different odds as though they were equally winnable. A difficulty model reveals that difference: the easiest predicted decile fails 3% of the time, the hardest 48%. Once you can condition on difficulty, “how are we doing?” becomes “how are we doing <em>against what was achievable?</em>” — a fair scoreboard, and a fundamentally different management conversation. The model changed what the organization measures before it changed anything the organization does.</p>
 
@@ -277,15 +277,15 @@ a{color:inherit}
 
     <p>Forecast-first has a quiet second benefit: it forces the data discipline that everything later depends on — strictly as-of features, automated leakage audits, calibration checks — while the stakes are still just a number on a validation report. If the first product were an acting agent instead of a forecast, a data problem would arrive as behavior in production; in a forecast layer it arrives as a number you can catch and fix before anything acts on it.</p>
 
-    <p>Restraint, to be clear, is not absence. Inside this pattern, a specialist model fleet reads every case-day under the same as-of and promotion discipline. The discipline is not a substitute for the machine learning — it is what makes that much machine learning safe to run.</p>
+    <p>This is not less machine learning. A specialist model fleet reads every case-day under the same as-of and promotion discipline. That discipline turns model output into something the operation can use now and automate later.</p>
 
-    <h2>3. Price every claim</h2>
+    <h2>3. Measure the whole decision</h2>
 
-    <p>Most ML systems fail socially before they fail technically: they say more than they know, someone believes it, and the credibility never recovers. The third rule is to treat claims as things with a price — and to refuse to make any claim whose instrumentation you haven’t built.</p>
+    <p>Historical replay can show which cases look harder. It cannot prove that one channel, message, or follow-up caused a better outcome. That requires a live record connecting what the system saw, which move it produced, what happened next, and how the case ended.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 360" role="img" aria-label="Ascending four-step ladder of claims: describe (what happened, priced in historical data), predict (what this case will do, priced in as-of features and out-of-time validation), attribute (what an action causes, priced in a fully logged decision chain), decide (what the system should choose, priced in propensity-logged decisions with exploration). Current status: first two steps shipped, third instrumented but awaiting evidence, fourth off by default.">
+      <svg viewBox="0 0 880 360" role="img" aria-label="Four levels of evidence: observe what happened using historical cases; forecast where a case is heading using as-of historical replay; learn which complete play works using the live decision and outcome record; automate stable routine decisions using proven lane results. Historical observation and forecasting exist today; live learning and automation follow integration.">
         <!-- steps -->
         <g>
           <rect x="36" y="216" width="188" height="88" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
@@ -294,53 +294,51 @@ a{color:inherit}
           <rect x="672" y="36" width="188" height="268" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
         </g>
         <g>
-          <text x="56" y="244" class="s-title">Describe</text>
+          <text x="56" y="244" class="s-title">Observe</text>
           <text x="56" y="264" class="s-sub">“email-first cases resolved</text>
           <text x="56" y="280" class="s-sub">more often” — observational</text>
-          <text x="130" y="330" text-anchor="middle" class="s-mono">price: historical data</text>
+          <text x="130" y="330" text-anchor="middle" class="s-mono">evidence: historical cases</text>
         </g>
         <g>
-          <text x="268" y="184" class="s-title">Predict</text>
+          <text x="268" y="184" class="s-title">Forecast</text>
           <text x="268" y="204" class="s-sub">“this case is 48% likely</text>
           <text x="268" y="220" class="s-sub">to never verify”</text>
-          <text x="268" y="244" class="s-tag" fill="#436B8E">SHIPPED</text>
-          <text x="342" y="330" text-anchor="middle" class="s-mono">price: as-of features ·</text>
-          <text x="342" y="346" text-anchor="middle" class="s-mono">leakage audit · OOT month</text>
+          <text x="268" y="244" class="s-tag" fill="#436B8E">PROVEN IN REPLAY</text>
+          <text x="342" y="330" text-anchor="middle" class="s-mono">evidence: as-of replay ·</text>
+          <text x="342" y="346" text-anchor="middle" class="s-mono">leakage audit · future month</text>
         </g>
         <g>
-          <text x="480" y="124" class="s-title">Attribute</text>
-          <text x="480" y="144" class="s-sub">“this template causes</text>
-          <text x="480" y="160" class="s-sub">more replies”</text>
-          <text x="480" y="184" class="s-tag" fill="#6E6A5F">INSTRUMENTED, NO EVIDENCE YET</text>
-          <text x="554" y="330" text-anchor="middle" class="s-mono">price: logged chain — shown ·</text>
-          <text x="554" y="346" text-anchor="middle" class="s-mono">taken/override · delivery · outcome</text>
+          <text x="480" y="124" class="s-title">Learn</text>
+          <text x="480" y="144" class="s-sub">“this complete play works</text>
+          <text x="480" y="160" class="s-sub">better in this lane”</text>
+          <text x="480" y="184" class="s-tag" fill="#6E6A5F">LIVE RECORD NEXT</text>
+          <text x="554" y="330" text-anchor="middle" class="s-mono">evidence: next move · action ·</text>
+          <text x="554" y="346" text-anchor="middle" class="s-mono">delivery · reply · outcome</text>
         </g>
         <g>
-          <text x="692" y="64" class="s-title">Decide</text>
-          <text x="692" y="84" class="s-sub">“the system chooses the</text>
-          <text x="692" y="100" class="s-sub">channel, timing, message”</text>
-          <text x="692" y="124" class="s-tag" fill="#8A8578">OFF BY DEFAULT</text>
-          <text x="766" y="330" text-anchor="middle" class="s-mono">price: odds recorded</text>
-          <text x="766" y="346" text-anchor="middle" class="s-mono">decisions + exploration</text>
+          <text x="692" y="64" class="s-title">Automate</text>
+          <text x="692" y="84" class="s-sub">“this routine decision can</text>
+          <text x="692" y="100" class="s-sub">run automatically”</text>
+          <text x="692" y="124" class="s-tag" fill="#8A8578">FUTURE</text>
+          <text x="766" y="330" text-anchor="middle" class="s-mono">evidence: stable results</text>
+          <text x="766" y="346" text-anchor="middle" class="s-mono">inside a narrow lane</text>
         </g>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 3</span>The ladder of claims. Each rung is priced in instrumentation, and the price is paid before the claim is made, not after. I hold the line publicly at rung two: correlations like “email-first resolves more often” are reported as observation, never as advice, because selection effects — not wording — may be doing all the work.</figcaption>
+      <figcaption><span class="figno">Figure 3</span>Four different questions require four different records. Historical replay supports observation and forecasting. Live outcomes teach which complete plays work. Stable lane results show which routine decisions can run automatically.</figcaption>
     </figure>
 
-    <p>Two artifacts make this rule real rather than aspirational. The first is a written <strong>disallowed-claims list</strong> in the architecture record — no causal channel or template claims, no calling the router an autonomous policy, no training a “learned policy” on historical logs and pretending the logs were experiments. The second is a <strong>mechanical promotion gate</strong> for the models themselves. Three challengers improved the average and weakened the first page operators actually work, so all three were rejected. The written “no” is part of the product.</p>
+    <p>Two mechanisms enforce the distinction. The claims boundary prevents historical correlations from being presented as causes. The mechanical promotion gate prevents a higher average model score from hiding a weaker first page. Three challengers improved the average and weakened the top of the worklist, so all three were rejected.</p>
 
-    <blockquote class="pull">Autonomy is not a capability you install. It is a permission the evidence grants — and the default answer is no.</blockquote>
+    <blockquote class="pull">A model score can rank a case. Only outcomes can prove that a decision should run automatically.</blockquote>
 
-    <h2>4. Let the system earn its next layer</h2>
+    <h2>4. Automate one lane at a time</h2>
 
-    <p>The final rule turns the other three into a trajectory. Authority is granted in stages, each stage gated on evidence the previous stage was designed to produce — and every gate defaults to closed.</p>
-
-    <p>The pilot records what the system recommended, what the person chose or changed, and what happened afterward. That record earns the next increase in authority: first better recommendations, then automated decisions inside narrow and proven lanes, and only then controlled execution.</p>
+    <p>The system should not jump from a historical forecast to full execution. Every lane follows the same progression: read the case, build the plan, learn from live outcomes, automate the routine decision, then connect that decision to execution.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage authority ladder: shadow, where the system watches while people work; assist, where it recommends and records overrides; learn, where it measures the complete decision and outcome; decide, where it automates proven routine decisions; and execute, where it acts inside narrow proven lanes. A you-are-here marker sits under shadow.">
+      <svg viewBox="0 0 880 260" role="img" aria-label="Five-stage operating sequence: read, where specialist models forecast each search; plan, where the Case Control Engine selects the next move; learn, where the live record connects decisions to outcomes; automate, where proven routine decisions run automatically; and execute, where the system acts inside proven lanes. Read and plan are built in historical replay; live integration begins the learning stage.">
         <defs>
           <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
@@ -354,29 +352,29 @@ a{color:inherit}
         </g>
         <g>
           <rect x="24" y="52" width="158" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="103" y="80" text-anchor="middle" class="s-title">Shadow</text>
-          <text x="103" y="100" text-anchor="middle" class="s-sub">system watches, humans work</text>
+          <text x="103" y="80" text-anchor="middle" class="s-title">Read</text>
+          <text x="103" y="100" text-anchor="middle" class="s-sub">models forecast each search</text>
           <path d="M95 132 L103 122 L111 132 Z" fill="#436B8E"/>
-          <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#436B8E">YOU ARE HERE</text>
-          <text x="103" y="166" text-anchor="middle" class="s-sub">backtested on a year of case-days</text>
+          <text x="103" y="150" text-anchor="middle" class="s-tag" fill="#436B8E">BUILT IN REPLAY</text>
+          <text x="103" y="166" text-anchor="middle" class="s-sub">2.75 million case-days</text>
         </g>
         <g>
           <rect x="196" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="275" y="80" text-anchor="middle" class="s-title">Assist</text>
-          <text x="275" y="100" text-anchor="middle" class="s-sub">recommend; log overrides</text>
-          <text x="275" y="150" text-anchor="middle" class="s-mono">gate: pilot begins</text>
+          <text x="275" y="80" text-anchor="middle" class="s-title">Plan</text>
+          <text x="275" y="100" text-anchor="middle" class="s-sub">engine selects the next move</text>
+          <text x="275" y="150" text-anchor="middle" class="s-mono">gate: replay holds</text>
         </g>
         <g>
           <rect x="368" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
           <text x="447" y="80" text-anchor="middle" class="s-title">Learn</text>
           <text x="447" y="100" text-anchor="middle" class="s-sub">measure the complete play</text>
-          <text x="447" y="150" text-anchor="middle" class="s-mono">gate: complete decision +</text>
+          <text x="447" y="150" text-anchor="middle" class="s-mono">gate: live decision +</text>
           <text x="447" y="166" text-anchor="middle" class="s-mono">outcome record</text>
         </g>
         <g>
           <rect x="540" y="52" width="158" height="68" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5" stroke-dasharray="6 5"/>
-          <text x="619" y="80" text-anchor="middle" class="s-title">Decide</text>
-          <text x="619" y="100" text-anchor="middle" class="s-sub">automate a proven routine move</text>
+          <text x="619" y="80" text-anchor="middle" class="s-title">Automate</text>
+          <text x="619" y="100" text-anchor="middle" class="s-sub">run the proven routine decision</text>
           <text x="619" y="150" text-anchor="middle" class="s-mono">gate: stable results in a</text>
           <text x="619" y="166" text-anchor="middle" class="s-mono">narrow lane</text>
         </g>
@@ -387,15 +385,15 @@ a{color:inherit}
           <text x="791" y="150" text-anchor="middle" class="s-mono">gate: safe, stable,</text>
           <text x="791" y="166" text-anchor="middle" class="s-mono">effective outcomes</text>
         </g>
-        <text x="440" y="228" text-anchor="middle" class="s-sub" font-style="italic">every gate stays closed until the evidence opens it</text>
+        <text x="440" y="228" text-anchor="middle" class="s-sub" font-style="italic">results from one stage unlock the next</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 4</span>The autonomy ladder. Each stage generates the evidence the next stage needs. Skipping a rung does not accelerate the system; it removes the evidence needed to trust the next one.</figcaption>
+      <figcaption><span class="figno">Figure 4</span>The operating sequence. Read and Plan are built in historical replay. Live integration creates the outcome record. That record identifies the first routine decisions ready for automation and controlled execution.</figcaption>
     </figure>
 
-    <p>The most powerful capability — automated case decisions — comes last because it is the hardest to grade. The roadmap names the destination; evidence decides the pace.</p>
+    <p>The destination is not a smarter recommendation. It is a system that can run routine case decisions, learn which complete plays work, and expand automation from measured results.</p>
 
-    <h2>What restraint buys</h2>
+    <h2>What the sequence buys</h2>
 
     <p>The pattern has real costs, and it pays for them. The ledger, honestly kept:</p>
 
@@ -403,32 +401,32 @@ a{color:inherit}
       <div class="ledger">
         <div class="side costs">
           <h4>What it costs</h4>
-          <p>Slower headline progress — the gate rejects your own improvements, and rejections don’t make launch announcements.</p>
-          <p>Boring demos — “calibrated forecast plus rules” never wows a room.</p>
-          <p>Unglamorous work first — logging schemas, leakage audits, and manifests before any intelligence.</p>
-          <p>Self-correction on the record — every gate rejection and validation miss is written down, forever.</p>
+          <p>More work before integration — the forecast, case plan, and outcome record must connect cleanly.</p>
+          <p>Failed experiments stay visible — a higher average score does not erase a weaker worklist.</p>
+          <p>Live logging must be complete — the next move, action, message, reply, and outcome belong in one chain.</p>
+          <p>Each lane must prove itself separately — one successful path does not validate every decision.</p>
         </div>
         <div class="side buys">
           <h4>What it buys</h4>
-          <p>A safer path to deployment — policy boundaries are enforced outside the models, so live use does not depend on perfect predictions.</p>
-          <p>Failures that are cheap and legible — a wrong model means a suboptimal ordering, not an incident with a name on it.</p>
-          <p>A metric the business can act on — difficulty-adjusted targets outlive any particular model version.</p>
-          <p>Credibility that compounds — every recorded “no” is what makes the eventual “yes” believable.</p>
+          <p>Model errors stay ranking errors — the Case Control Engine still builds the case plan from current evidence.</p>
+          <p>The operation gets a fairer measure — difficulty-adjusted results separate easy, hard, and recoverable cases.</p>
+          <p>Routine decisions automate from their own results — not from a general promise about AI.</p>
+          <p>The system can expand without being rebuilt — each proven lane uses the same Read, Plan, Learn, Automate, Execute sequence.</p>
         </div>
       </div>
-      <figcaption><span class="figno">Figure 5</span>The trade, side by side. Everything on the left is real and annoying; everything on the right is why the pattern survives contact with a regulated business.</figcaption>
+      <figcaption><span class="figno">Figure 5</span>The trade. More measurement comes first; reusable automation follows.</figcaption>
     </figure>
 
     <aside class="note">
       <span class="kicker">When not to use this pattern</span>
-      <p>The full apparatus is overkill where its costs buy nothing: actions that are cheap and reversible, no compliance surface, outcomes observable within minutes, no human in the loop to protect. Ranking a newsletter’s subject lines needs an A/B test, not an evidence-state resolver. The pattern earns its weight precisely where mistakes are expensive, constraints are regulatory rather than aesthetic, and trust — of operators and regulators — is the scarce resource.</p>
+      <p>The full sequence is unnecessary when actions are cheap and reversible, outcomes appear within minutes, and an A/B test can answer the question directly. Ranking newsletter subject lines does not need a Case Control Engine. Verification does because case state, contact history, timing, and downstream outcomes all change the next move.</p>
     </aside>
 
-    <h2>The authority the evidence earns</h2>
+    <h2>The destination is automated decisions</h2>
 
-    <p>Today the Case Control Engine recommends under human review. The live record teaches the complete play. That evidence can then support repaired contact paths, drafted outreach, automated routine decisions, and controlled execution — while exceptions and uncertain cases remain with people.</p>
+    <p>Today the Case Control Engine produces the next move in historical replay. Live integration connects that move to the action and outcome. The resulting record teaches the complete play, supports repaired contact paths and drafted outreach, and identifies the first routine decisions the engine can select and execute automatically.</p>
 
-    <p>Each increase in authority is earned by the evidence produced by the stage before it. Autonomy is not a capability we install. It is permission the system earns. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
+    <p>Each stage generates the evidence needed for the next. Starting narrow is not the destination; it is how the automation becomes reliable enough to expand. Restraint is the launch mechanism, not the destination. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
