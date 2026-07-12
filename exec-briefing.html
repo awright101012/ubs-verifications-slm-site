@@ -233,7 +233,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The Verifications Decision Engine</h1>
-    <p class="dek">Specialist machine-learning models read where each open search is heading. The Decision Engine turns those forecasts into a case-by-case plan for verification specialists: what to work first, when to change paths, and when to stop.</p>
+    <p class="dek">Specialist machine-learning models read where each open search is heading. The Case Control Engine turns those forecasts into a case-by-case plan for verification specialists: what to work first, when to change paths, and when to stop.</p>
   </header>
 
   <article class="prose">
@@ -254,7 +254,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing layer. Manual lane: people working queues — judgment, but no encoded plan or priority. Automation lane: automation executing touches — speed, but no orchestration or case fit. Both converge on the Decision Engine: shared case state, priority, a safe next move, and an outcome record.">
+      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing system. Manual lane: people working queues — judgment, but no encoded plan or priority. Automation lane: automation executing touches — speed, but no case plan or course correction. Both converge on the Decision Engine: shared case state, priority, a safe next move, and an outcome record.">
         <defs>
           <marker id="arC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -274,7 +274,7 @@ a{color:inherit}
           <rect x="24" y="140" width="276" height="72" rx="4" fill="#F0EEE6" stroke="#8A8578" stroke-width="1.5"/>
           <text x="42" y="162" class="s-tag" fill="#8A8578">AUTOMATION LANE</text>
           <text x="42" y="185" class="s-title">Automation executing touches</text>
-          <text x="42" y="203" class="s-sub">speed, but no orchestration or case fit</text>
+          <text x="42" y="203" class="s-sub">speed, but no case plan or course correction</text>
         </g>
         <g>
           <rect x="560" y="62" width="296" height="116" rx="4" fill="#FDFCFA" stroke="#141413" stroke-width="1.5"/>
@@ -296,7 +296,7 @@ a{color:inherit}
 
     <p>So I started one layer below the language model: build the decision and evidence system that makes the language layer viable.</p>
 
-    <p><strong>The specialist prediction models used by the current engine are not the future SLM.</strong> They are the decision layer that tells the future SLM when to act, what evidence it may use, and how its work will be judged. The first specialist forecasts were working within one week. That demonstrates how quickly useful machine learning can be built on our casework; the language layer remains the next phase.</p>
+    <p><strong>The specialist prediction models used by the current engine are not the future SLM.</strong> They are the predictive intelligence inside the Decision Engine. The Case Control Engine uses their forecasts to determine when the future SLM should draft, what evidence it may use, and how its work will be judged. The first specialist forecasts were working within one week. That demonstrates how quickly useful machine learning can be built on our casework; the language layer remains the next phase.</p>
 
     <h2>What we built: intelligence plus control</h2>
 
@@ -309,13 +309,13 @@ a{color:inherit}
           <p>The models do not authorize actions. They provide an informed read of where the case is heading and which eligible move deserves attention first.</p>
         </div>
         <div class="col eng">
-          <h4>The operating layer</h4>
+          <h4>The Case Control Engine</h4>
           <div class="sub">rules name state and remove · model scores order · a person decides</div>
-          <p>It names the case&rsquo;s current state, removes actions that are prohibited or no longer relevant, uses the model scores to order what remains, and presents one recommendation to a person.</p>
-          <p>The models answer what is likely. The operating layer answers what is true and what is allowed. A person decides what happens now.</p>
+          <p>The Case Control Engine turns those forecasts into a working case plan. It names the case&rsquo;s current state, determines which moves fit, uses the model scores to order the choices, and presents one recommendation to a verification specialist.</p>
+          <p>The models answer what is likely. The Case Control Engine determines how that intelligence becomes a workable plan. A verification specialist decides what happens now.</p>
         </div>
       </div>
-      <figcaption>Intelligence without the operating layer produces recommendations the operation cannot safely use. Rules without intelligence produce safe but indiscriminate workflows. The value comes from the handoff between them.</figcaption>
+      <figcaption>Intelligence without the Case Control Engine produces forecasts the operation cannot consistently use. Control without intelligence produces safe but indiscriminate workflows. The value comes from the handoff between them.</figcaption>
     </figure>
 
     <h2>Every case follows the same handoff</h2>
@@ -331,7 +331,7 @@ a{color:inherit}
       </div>
       <div class="lever">
         <h4>3 · Rules name the state<span>what is true now</span></h4>
-        <p>The operating layer decides what is true now — replied, blocked, cooling down, workable.</p>
+        <p>The Case Control Engine decides what is true now — replied, blocked, cooling down, workable.</p>
       </div>
       <div class="lever">
         <h4>4 · Rules remove; models rank<span>eligible moves, ordered</span></h4>
@@ -389,7 +389,7 @@ a{color:inherit}
       <figcaption><span class="figno">Chart 3</span>Observed never-verify rate by predicted difficulty band (May 2026 holdout): the easiest tenth 3.0%, the hardest 48.2% — the 16-fold spread that makes a difficulty-adjusted scoreboard possible.</figcaption>
     </figure>
 
-    <p><strong>A simple rule found substantial avoidable work.</strong> On roughly 400,000 replayed case-days, a response was already on record while the existing flow would have continued contacting the party. The operating layer routes those cases to review before another touch can occur. At an illustrative three minutes per avoided touch, that measured count represents about 20,000 hours, or ten operator-years, of motion. The touch count is measured; the three-minute assumption is not. Live logs replace the assumption with actual handle time.</p>
+    <p><strong>A simple rule found substantial avoidable work.</strong> On roughly 400,000 replayed case-days, a response was already on record while the existing flow would have continued contacting the party. The Case Control Engine routes those cases to review before another touch can occur. At an illustrative three minutes per avoided touch, that measured count represents about 20,000 hours, or ten operator-years, of motion. The touch count is measured; the three-minute assumption is not. Live logs replace the assumption with actual handle time.</p>
 
     <p><strong>The two-part design held its safety boundary.</strong> Across 2.75 million historical case-days, the replay produced zero do-not-contact and hard-policy violations. That result did not depend on the models being perfect. The models never received authority to override the rules.</p>
 
@@ -417,6 +417,8 @@ a{color:inherit}
     <p>Once the live record connects each recommendation to the action, message, delivery, reply, and final outcome, the operation can begin learning the complete play &mdash; not merely which case looks difficult, but which channel, timing, contact path, and message should be used next.</p>
 
     <p>That record unlocks the rest of the original ask. An AI contact researcher repairs weak contact paths, and a small language model drafts the outreach &mdash; emails, faxes, notes, call scripts. People approve the work first. Narrow, stable lanes earn controlled auto-send only from their own logged results.</p>
+
+    <p>The Case Control Engine is also designed to automate more of the decision itself over time. It starts by recommending every move for human review. As narrow, stable lanes build their own logged record, it can make and route routine decisions automatically while uncertain, exceptional, and higher-risk cases stay with verification specialists.</p>
 
     <p>The long-term product is not a model or a bot. It is a verification operation that improves after every completed case.</p>
 
@@ -472,7 +474,7 @@ a{color:inherit}
       <li><strong>Use the resulting evidence to sequence the larger AI build.</strong> Contact research, SLM drafting, and controlled automation advance only from the record produced by live casework.</li>
     </ul>
 
-    <p>The immediate decision is not whether to let AI run verifications autonomously. It is whether to put the decision and evidence layer into the workflow so the operation can improve now &mdash; and so the larger AI ambition can be built on proof rather than promise.</p>
+    <p>The immediate decision is not whether to let AI run verifications autonomously. It is whether to put the Case Control Engine and outcome record into the workflow so the operation can improve now &mdash; and so routine decisions can earn automation from proof rather than promise.</p>
 
     <p>That is how the original SLM ambition becomes viable: not language first, but a system that knows what it is automating and whether it worked. <span class="endmark">&#9670;</span></p>
   </article>

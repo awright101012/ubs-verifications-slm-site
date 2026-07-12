@@ -208,7 +208,7 @@ a{color:inherit}
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
     <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">The hard part was not training models to predict which cases would fail. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models reads every open case; deterministic rules decide which moves exist; a person decides what happens next. How 2.75 million case-days became one governed recommendation — and why the promotion gate rejected three of my own model improvements.</p>
+    <p class="dek">The hard part was not training models to predict which cases would fail. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models reads every open case; the Case Control Engine turns those forecasts into an ordered case plan; a person decides what happens next. How 2.75 million case-days became one governed recommendation, why the gate rejected three of my own improvements, and how the same architecture is built to automate routine decisions without surrendering control.</p>
     <div class="byline">
       <span><b>Evidence</b> 2.75 million replayed case-days</span>
       <span><b>AI/ML fleet</b> six specialist models</span>
@@ -229,7 +229,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds difficulty models (ML, predicts) and an evidence-state resolver (deterministic, permits); both feed an orchestration scorer that ranks allowed actions; recommendations flow to a pilot queue with human review, and logged outcomes feed back to the models as a build-out learning loop.">
+      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds difficulty models (ML, predicts) and an evidence-state resolver (deterministic, permits); both feed an action scorer that ranks allowed actions; recommendations flow to a pilot queue with human review, and logged outcomes feed back to the models as a build-out learning loop.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -274,7 +274,7 @@ a{color:inherit}
         <!-- scorer -->
         <g>
           <rect x="636" y="167" width="220" height="118" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="652" y="195" class="s-title">Orchestration scorer</text>
+          <text x="652" y="195" class="s-title">Action scorer</text>
           <text x="652" y="218" class="s-sub">6 candidate actions per case-day:</text>
           <text x="652" y="236" class="s-sub">email · fax · call · vendor ·</text>
           <text x="652" y="254" class="s-sub">wait · escalate — filtered, then</text>
@@ -295,11 +295,13 @@ a{color:inherit}
 
     <p>The load-bearing rule sits in the middle: <strong>the resolver alone defines which actions exist. Models rank only the actions that survive.</strong> A blocked action is removed, not penalized, so no level of model confidence can restore it.</p>
 
+    <p>The resolver, action scorer, router, and logging contracts together form the <strong>Case Control Engine</strong>. It turns the model fleet&rsquo;s forecasts into an ordered case plan. It is also the part designed to automate routine decisions lane by lane as live evidence earns that authority.</p>
+
     <h2>One case-day, from evidence to action</h2>
 
     <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
 
-    <p>The models never see six equally available actions. The operating system first decides which actions are real.</p>
+    <p>The models never see six equally available actions. The Case Control Engine first decides which actions are real.</p>
 
     <h2>What the specialist model fleet sees</h2>
 
@@ -575,12 +577,12 @@ a{color:inherit}
       <li><strong>The play engine learns the complete play:</strong> channel, timing, message family, follow-up, and fallback — from pilot data that records which options were offered, not just which was taken.</li>
       <li><strong>The contact researcher repairs the inputs:</strong> fresh, verified emails, fax numbers, and phone numbers enter as candidates for the rules to admit, so unworkable cases turn workable before attempts are wasted.</li>
       <li><strong>The SLM drafts the outreach</strong> — last, because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</li>
-      <li><strong>Controlled automation executes what earns it:</strong> every lane starts with human review, and a narrow lane moves to auto-send only on its own logged record — one lane at a time, never from a roadmap date.</li>
+      <li><strong>The Case Control Engine automates what earns it:</strong> every lane starts with human review. A narrow lane moves first to automated routine decisions and then to controlled execution only on its own logged record — one lane at a time, never from a roadmap date.</li>
     </ul>
 
     <p>Each layer receives its inputs and its boundaries from the layer before it. The resolver supplies the state; the rules supply the permission; the live record supplies the evidence. The language model writes only after the operation knows what should be written — and how the result will be judged.</p>
 
-    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. That discipline is what lets the architecture become more powerful without becoming less trustworthy. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the operating system turns it into work the operation can trust. <span class="endmark">◆</span></p>
+    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. That discipline is what lets the architecture become more powerful without becoming less trustworthy. Every part of it is replaceable — the models get retrained, the rules will evolve, the contact researcher and the language model still have to earn their place. What persists is the handoff: evidence enters, machine learning predicts, rules permit, a person decides, and the outcome becomes the next case’s evidence. The models provide the intelligence; the Case Control Engine turns it into work the operation can trust today and routine decisions it can automate as the evidence earns it. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
