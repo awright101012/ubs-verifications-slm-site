@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Building a decision engine for verification casework</title>
+<title>How machine learning becomes the next best move</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -207,29 +207,26 @@ a{color:inherit}
 
   <header class="masthead">
     <div class="eyebrow">Engineering</div>
-    <h1>Building a decision engine for verification casework</h1>
-    <p class="dek">The hard part was not training models to predict. It was deciding what those predictions were allowed to change. A fleet of specialist machine-learning models estimates where each case is heading. The Case Control Engine turns those forecasts into an ordered case plan, and a person decides. Its promotion gate has already rejected three of my own improvements. The same architecture is built to automate routine decisions only as live evidence earns it.</p>
-    <div class="byline">
-      <span><b>Evidence</b> 2.75 million replayed case-days</span>
-      <span><b>AI/ML fleet</b> six specialist models</span>
-      <span><b>Result</b> zero DNC and hard-policy violations in replay</span>
-    </div>
+    <h1>How machine learning becomes the next best move</h1>
+    <p class="dek">Every open verification search presents a different decision: work it now, wait for a response, try another path, escalate it, or stop. Specialist machine-learning models estimate where each search is heading. The Case Control Engine combines those forecasts with the current evidence to produce the next best move — and is built to execute routine decisions automatically as each lane proves itself.</p>
   </header>
 
   <article class="prose">
-    <p>The largest finding in 2.75 million replayed case-days did not come from a better model. It came from writing down, in rules, what “already responded” means: on roughly 400,000 of those case-days — about one in seven — a response was already on record while the existing flow remained eligible for another touch.</p>
+    <p>Most automation starts with an action: send an email, place a call, move the case. The Verifications Decision Engine starts earlier, with the decision that determines whether any action makes sense.</p>
 
-    <p>The most revealing model result was also a refusal. Three changes improved average accuracy but weakened the first page of the ranked worklist — the page people actually work — so the promotion gate rejected all three.</p>
+    <p>Each morning, the specialist model fleet reads every open search and estimates its likely path. The Case Control Engine names the case’s current state, removes moves that no longer fit, uses the forecasts to rank what remains, and produces one next move. When the evidence changes, the plan changes with it.</p>
 
-    <p>Those two findings define the architecture. Machine learning estimates where the case is heading. Deterministic rules establish what is true and what is allowed. A person decides what happens now. And the outcome becomes evidence for the next decision. This post explains how the pieces fit, what the evaluation discipline looks like, and the places the discipline said no.</p>
+    <p>Historical replay tested that complete handoff across 2.75 million case-days. It produced zero do-not-contact and hard-policy violations. It also found roughly 400,000 case-days when a response was already on record but another outreach attempt remained available. The important discovery was not simply that a rule could stop an unnecessary touch. It was that the operation needed a system capable of recognizing what had changed before choosing what should happen next.</p>
 
-    <h2>Control changes hands five times</h2>
+    <p>The same discipline applies to the models. Three proposed improvements raised average accuracy but weakened the first page of the worklist, where the ranking matters most. The promotion gate rejected all three. A model is not better merely because its overall score improves. It must improve the part of the operation where its ranking will actually be used.</p>
 
-    <p>The architecture is five layers, and the arrows matter more than the boxes.</p>
+    <h2>From evidence to execution in five steps</h2>
+
+    <p>The architecture has five layers, and the arrows matter more than the boxes.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds difficulty models (ML, predicts) and an evidence-state resolver (deterministic, permits); both feed an action scorer that ranks allowed actions; recommendations flow to a pilot queue with human review, and logged outcomes feed back to the models as a build-out learning loop.">
+      <svg viewBox="0 0 880 470" role="img" aria-label="System architecture: an evidence ledger feeds specialist machine-learning models and an evidence-state resolver; both feed an action scorer that ranks the moves that fit the current case; the resulting case plan records the next move and outcome; logged outcomes feed back into the learning loop.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -265,11 +262,11 @@ a{color:inherit}
         <!-- resolver -->
         <g>
           <rect x="300" y="286" width="252" height="118" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="316" y="314" class="s-tag" fill="#141413">DETERMINISTIC — PERMITS</text>
+          <text x="316" y="314" class="s-tag" fill="#141413">DETERMINISTIC — FILTERS</text>
           <text x="316" y="337" class="s-title">Evidence-state resolver</text>
           <text x="316" y="360" class="s-sub">13 work states · DNC, policy, cooldown,</text>
           <text x="316" y="378" class="s-sub">inbound-response checks</text>
-          <text x="316" y="396" class="s-sub">emits admissible actions only</text>
+          <text x="316" y="396" class="s-sub">keeps only moves that fit the case</text>
         </g>
         <!-- scorer -->
         <g>
@@ -283,25 +280,25 @@ a{color:inherit}
         <!-- pilot -->
         <g>
           <rect x="636" y="352" width="220" height="82" rx="4" fill="#FAF9F5" stroke="#6E6A5F" stroke-width="1.5"/>
-          <text x="652" y="380" class="s-title">Pilot queue + human review</text>
-          <text x="652" y="402" class="s-sub">recommendation · override ·</text>
-          <text x="652" y="420" class="s-sub">delivery/reply · outcome, all logged</text>
+          <text x="652" y="380" class="s-title">Case plan + outcome record</text>
+          <text x="652" y="402" class="s-sub">next move · action · delivery/reply ·</text>
+          <text x="652" y="420" class="s-sub">final outcome, all connected</text>
         </g>
         <text x="380" y="452" class="s-sub" font-style="italic">outcomes feed back — learning loop (build-out)</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The decision path. Both halves read the same as-of evidence; only the resolver decides what is allowed. The dashed loop — learning from logged outcomes — is the build-out, not the current system.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The decision path. The model fleet forecasts the case. The resolver removes moves that do not fit its current state. The scorer ranks what remains. The dashed loop — learning from logged outcomes — is the build-out, not the current system.</figcaption>
     </figure>
 
     <p>The load-bearing rule sits in the middle: <strong>the resolver alone defines which actions exist. Models rank only the actions that survive.</strong> A blocked action is removed, not penalized, so no level of model confidence can restore it.</p>
 
-    <p>The resolver, action scorer, router, and logging contracts together form the <strong>Case Control Engine</strong>. It turns the model fleet&rsquo;s forecasts into an ordered case plan. It is also the part designed to automate routine decisions lane by lane as live evidence earns that authority.</p>
+    <p>The resolver, action scorer, router, and outcome record together form the <strong>Case Control Engine</strong>. It turns the model fleet&rsquo;s forecasts into an ordered case plan and is built to automate routine decisions one proven lane at a time.</p>
 
     <h2>One case-day, from evidence to action</h2>
 
-    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case hasn’t reached that rung. The scorer ranks the four surviving moves and places email first. A person approves the recommendation, and the log records the whole chain, recommendation to final outcome.</p>
+    <p>Here is the whole handoff on a single day, using the illustrated guide’s fictional case 4127. On day three, the case enters as a morning snapshot. The machine-learning models estimate its likely path. The resolver names it outreach-ready. The rules remove fax, because no fax number exists, and remove escalation, because the case has not reached that point. The scorer ranks the four remaining moves and places email first. The Case Control Engine produces email as the next best move and connects it to the eventual outcome.</p>
 
-    <p>The models never see six equally available actions. The Case Control Engine first determines which actions are available. It removes blocked or irrelevant moves, uses the model scores to order what remains, and presents one recommendation. A person decides what happens now.</p>
+    <p>The models never rank a flat menu of actions. The Case Control Engine first removes the moves that do not fit the case, then uses the model scores to order what remains. That is the same sequence built to move from recommendation to automatic execution as each routine lane proves itself.</p>
 
     <h2>What the specialist model fleet sees</h2>
 
@@ -395,7 +392,7 @@ a{color:inherit}
 
     <h2>A high score still cannot break a rule</h2>
 
-    <p>The models answer “what is likely?” The resolver answers “what is true, what is blocked, and what may happen next?” The questions stay separate because they fail differently: a bad ranking wastes effort; a bad permission creates an incident. The deterministic half is an evidence-state resolver that classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and derives the set of admissible actions from the state, never from a score. Here is where the 2.75M snapshots actually sit:</p>
+    <p>The models estimate what is likely. The resolver identifies what has already happened, what is blocked, and which moves still fit the case. The two jobs stay separate because they fail differently: a bad ranking wastes effort; a bad filter can create an incident. The resolver classifies every case-day into one of thirteen work states — terminal, already-responded, policy-blocked, awaiting response, cooldown, review-due, research-needed, digital-paths-exhausted, standard-paths-exhausted, outreach-ready, and so on — and builds the set of viable moves from the state, never from a score. Here is where the 2.75 million snapshots actually sit:</p>
 
     <figure>
       <div class="statebar" role="img" aria-label="Distribution of 2.75 million case snapshots across resolver states: outreach ready 34.1%, review due 24.4%, inbound review required 20.2%, policy review 12.7%, outreach prohibited 4.9%, cooldown 3.7%, paths exhausted 0.2%.">
@@ -419,11 +416,11 @@ a{color:inherit}
       <figcaption style="margin-top:18px"><span class="figno">Figure 3</span>Resolver state mix across nearly three million snapshots. The interesting segment is the third one: cases where a vendor response is already on record but the legacy flow would have kept contacting.</figcaption>
     </figure>
 
-    <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver routes every one of those already-responded case-days to review-first instead of another touch. No model was needed — only the definition, written down. (The signal is a vendor receipt, not parsed reply content, and it doesn’t exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
+    <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver stops those already-responded case-days from advancing to another touch. No model was needed — only the definition, written down. (The signal is a vendor receipt, not parsed reply content, and it does not exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
 
-    <p>The same rule also shows why the safety claim holds under pressure. Suppose a model strongly favors another call on one of those cases. The resolver sees that a reply is already on record, so call is removed before the final ranking — the model’s confidence cannot restore it, and the person never even sees it as a recommendation. That is why the replay produced zero do-not-contact and hard-policy violations: safety does not depend on the model remembering every rule. The model never receives the authority to break one.</p>
+    <p>The same rule also shows why the safety result holds under pressure. Suppose a model strongly favors another call on one of those cases. The resolver sees that a reply is already on record, so call is removed before the final ranking. The model’s confidence cannot restore it. That is why the replay produced zero do-not-contact and hard-policy violations: the rule checks run before the ranking, outside the models.</p>
 
-    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — filters them through eligibility, and ranks the survivors by their calibrated scores. Across the full replay, that produced 16.5 million candidate actions.</p>
+    <p>Downstream of the resolver, the scorer builds six candidate actions per case-day — email, fax, call, online vendor, wait, escalate — removes the moves that do not fit the current state, and ranks the rest by their calibrated scores. Across the full replay, that produced 16.5 million candidate actions.</p>
 
     <p>A seven-stage pipeline validates every handoff from candidates through the final queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. In the completed run, no prohibited action reached rank one, every case group kept an available move, and the final queue passed end to end.</p>
 
@@ -438,13 +435,13 @@ a{color:inherit}
     <div class="gates">
       <div class="g"><b>ROC-AUC</b><span>at least <em>+0.002</em> over the incumbent, with bootstrap confidence intervals excluding zero</span></div>
       <div class="g"><b>Brier score</b><span>no worse than the incumbent — calibration is not negotiable</span></div>
-      <div class="g"><b>Top-decile lift</b><span><em>zero</em> drop tolerated — the top of the queue is what operators actually work</span></div>
+      <div class="g"><b>Top-decile lift</b><span><em>zero</em> drop tolerated — the first page is where the ranking matters most</span></div>
       <div class="g"><b>Capture at top 10%</b><span><em>zero</em> drop tolerated</span></div>
       <div class="g"><b>Slice gate</b><span>per-product and per-day slices, zero-tolerance with a reviewed, unit-tested allowlist for false positives</span></div>
       <div class="g"><b>Out-of-time replication</b><span>the win must survive a never-seen month scored with frozen bundles</span></div>
     </div>
 
-    <p>The gate earns its keep on what it rejects. Three times this year I tried to improve the never-verify model — a settings-tuning pass, a guarded version of the same sweep, and this cycle’s note-reading variant — and the gate turned all three away <strong>for the same reason</strong>: each won on average, and lost where operators actually work — the top of the ranked worklist, the first page, where accuracy is worth the most. One rejection is bad luck; three identical ones is a message. For this target, average accuracy and top-of-list sharpness genuinely pull against each other, so the next attempt changes the training data itself — June’s outcomes finish maturing in the July pull — rather than pushing a fourth model variant.</p>
+    <p>The gate earns its keep on what it rejects. Three times this year I tried to improve the never-verify model — a settings-tuning pass, a guarded version of the same sweep, and this cycle’s note-reading variant — and the gate turned all three away <strong>for the same reason</strong>: each won on average and weakened the top of the ranked worklist, where accuracy is worth the most. One rejection is bad luck; three identical ones is a message. For this target, average accuracy and top-of-list sharpness genuinely pull against each other, so the next attempt changes the training data itself rather than pushing a fourth model variant.</p>
 
     <figure>
       <div class="panel">
@@ -492,7 +489,7 @@ a{color:inherit}
           <rect x="682" y="210" width="106" height="24" rx="12" fill="#5F7A4A"/>
           <text x="696" y="226" class="s-tag" style="fill:#FAF9F5">✓ RETAINED</text>
         </g>
-        <text x="440" y="284" class="s-sub" text-anchor="middle" font-style="italic">the gate zero-tolerates any drop at the top of the worklist — the first page is what operators actually work</text>
+        <text x="440" y="284" class="s-sub" text-anchor="middle" font-style="italic">the gate rejects any drop at the top of the worklist — where the ranking matters most</text>
       </svg>
       </div>
       <figcaption><span class="figno">Figure 4</span>The gate at work on the never-verify target: three challengers, three different levers, one identical failure mode. Each verdict is machine-recorded — the rejections are as documented as the promotions.</figcaption>
@@ -500,13 +497,13 @@ a{color:inherit}
 
     <h2>Reading the notes without keeping them</h2>
 
-    <p>The biggest accuracy gain this cycle came from the data source I had been most careful to avoid: the free-text notes operators and vendors leave on case history (“left a voicemail”; “reached HR, call back Tuesday”). Notes are where the richest signal lives — and where the risk lives twice over: outcome language (“verified via…”) leaks answers into training, and raw text carries the privacy exposure, so persisting it into training artifacts was never on the table.</p>
+    <p>The biggest accuracy gain this cycle came from the data source I had been most careful to avoid: the free-text notes attached to case history (“left a voicemail”; “reached HR, call back Tuesday”). Notes are where the richest signal lives — and where the risk lives twice over: outcome language (“verified via…”) leaks answers into training, and raw text carries the privacy exposure, so persisting it into training artifacts was never on the table.</p>
 
     <p>The design that threads the needle: <strong>a deterministic reading layer classifies each note the moment it streams past — then throws the text away</strong>. Every note is sorted into eleven kinds of operational signal (contact made, voicemail left, callback promised, redirected to a third party, …), and only the signal survives: which kinds of events a case has seen, how recently, how often. Deterministic matters here — the same note always produces the same labels, so the privacy boundary has no black box in it and the whole layer can be audited and replayed. That turns 17.9 million unreadable notes into 30 new machine-usable signals per case-day for the learned models, computed under the same no-peeking time discipline as everything else; about 28% of case-days carry at least one.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 240" role="img" aria-label="Text pipeline: operator notes are classified in flight by an 11-class deterministic reader during export; only signal flags are persisted; the raw note text never lands in any artifact; downstream, 30 as-of features per snapshot.">
+      <svg viewBox="0 0 880 240" role="img" aria-label="Text pipeline: case notes are classified in flight by an 11-class deterministic reader during export; only signal flags are persisted; the raw note text never lands in any artifact; downstream, 30 as-of features per snapshot.">
         <defs>
           <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -518,7 +515,7 @@ a{color:inherit}
         </g>
         <g>
           <rect x="24" y="60" width="210" height="104" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="40" y="90" class="s-title">Operator note</text>
+          <text x="40" y="90" class="s-title">Case note</text>
           <text x="40" y="112" class="s-sub">free text, warehouse-side</text>
           <text x="40" y="134" class="s-mono">17.9M events · 872K searches</text>
           <text x="40" y="152" class="s-mono">13 monthly partitions</text>
@@ -553,27 +550,26 @@ a{color:inherit}
     <p>The layers ahead are ambitious, which makes the boundary between built, ready, and not-yet-proved more important — not less. The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
 
     <ul>
-      <li><strong>Historical replay is not live-pilot performance.</strong> The replay establishes that the system can read, route, and constrain the work at scale. Acceptance, overrides, and cycle-time effects are live questions — exactly what the pilot instrumentation exists to measure.</li>
-      <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational — selection effects all the way down. Causal language stays banned until the pilot logs the full chain for each case: recommendation shown, action taken or override reason, template version, delivery/reply, final outcome. The logging schema for exactly those five event types is built and validated; the evidence is not yet collected.</li>
-      <li><strong>Not “identity-free,” only “direct identifiers stripped.”</strong> Action-facing use stays behind the remaining pre-integration checks: direct agent and team identifiers are excluded, behavioral attributes remain, and the resolver applies no-direct-identity fallbacks automatically until those checks clear.</li>
-      <li><strong>Nothing auto-sends today.</strong> Contact research, message drafting, and controlled auto-send remain evidence-gated future capabilities; each begins with human review and advances only on its own logged outcomes. The router is shadow-review metadata, not an autonomous policy — and I won’t train a “learned policy” on historical action logs and pretend the logs were experiments.</li>
+      <li><strong>Historical replay is not live performance.</strong> The replay establishes that the system can read, route, and structure the work at scale. Live execution, cycle time, and operational outcomes remain to be measured.</li>
+      <li><strong>No causal claims about channel, wording, or templates.</strong> Historical patterns like “email-first cases verified more often than call-first cases” are observational. Causal language stays banned until the live record connects the next move, action, template version, delivery or reply, and final outcome. The logging structure is built; the evidence is not yet collected.</li>
+      <li><strong>Nothing auto-sends today.</strong> Contact research, message drafting, automated routine decisions, and controlled execution remain future capabilities. Each advances only on its own logged results.</li>
     </ul>
 
     <h2>What the live record teaches next</h2>
 
-    <p>The live outcome record is the next engineering dependency. It will connect each recommendation to the person’s choice or override, the channel and timing used, the message delivered, the reply received, and the final outcome. That record starts the next handoff:</p>
+    <p>The live outcome record is the next engineering dependency. It will connect each next move to the action taken, the channel and timing used, the message delivered, the reply received, and the final outcome. That record starts the next handoff:</p>
 
     <ul>
-      <li><strong>The live record captures the complete chain:</strong> the recommendation shown, the action taken or the override reason, channel, timing, message, delivery, reply, and final outcome. That complete chain — not the final outcome alone — is what teaches the system which play worked.</li>
+      <li><strong>The live record captures the complete chain:</strong> next move, action taken, channel, timing, message, delivery, reply, and final outcome. That complete chain — not the final outcome alone — is what teaches the system which play worked.</li>
       <li><strong>The play engine learns the complete play:</strong> channel, timing, message family, follow-up, and fallback — from pilot data that records which options were offered, not just which was taken.</li>
-      <li><strong>The contact researcher repairs the inputs:</strong> fresh, verified emails, fax numbers, and phone numbers enter as candidates for the rules to admit, so unworkable cases turn workable before attempts are wasted.</li>
+      <li><strong>The contact researcher repairs the inputs:</strong> fresh, verified emails, fax numbers, and phone numbers enter as new evidence, so unworkable cases can become workable before attempts are wasted.</li>
       <li><strong>The SLM drafts the outreach</strong> — last, because it is graded last: only the pilot’s causal instrumentation can tell a well-worded email from a lucky one.</li>
-      <li><strong>The Case Control Engine automates what earns it:</strong> every lane starts with human review. A narrow lane moves first to automated routine decisions and then to controlled execution only on its own logged record — one lane at a time, never from a roadmap date.</li>
+      <li><strong>The Case Control Engine automates what proves itself:</strong> a narrow lane moves first to automated routine decisions and then to controlled execution only on its own logged record — one lane at a time, never from a roadmap date.</li>
     </ul>
 
-    <p>Each layer receives its inputs and its boundaries from the layer before it. The resolver supplies the state; the rules supply the permission; the live record supplies the evidence. The language model writes only after the operation knows what should be written — and how the result will be judged.</p>
+    <p>Each layer receives its inputs from the layer before it. The resolver supplies the state. The model fleet supplies the forecast. The Case Control Engine builds the plan. The live record supplies the evidence needed to improve and automate the next decision.</p>
 
-    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic guardrails, mechanical promotion gates, and a written list of things I refuse to say. Every component can change; the handoff persists. Evidence enters. Models predict. Rules permit. A person decides. Outcomes teach. The Case Control Engine turns that sequence into work the operation can trust today — and routine decisions it can automate as the evidence earns it. <span class="endmark">◆</span></p>
+    <p>The system today is deliberately disciplined: calibrated probabilities, deterministic checks, mechanical promotion gates, and a written list of things I refuse to say. Every component can change; the sequence persists. Evidence enters. Models forecast. The Case Control Engine builds the plan and selects the next move. Outcomes teach. Today that move is a recommendation. As each lane proves itself, the same sequence can execute routine decisions automatically. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
