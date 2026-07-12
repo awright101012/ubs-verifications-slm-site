@@ -226,67 +226,59 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 470" role="img" aria-label="Autonomous orchestration loop: a canonical event stream feeds the deterministic state reducer and hard constraints; the derived state feeds prognosis models; the prognosis and available plays feed a journey-value policy that selects one; the executor acts, observations return to the event stream, and every active case recomputes.">
+      <svg viewBox="0 0 880 330" role="img" aria-label="The case loop in five moves: something changes; the system rebuilds the case and removes blocked plays; specialist machine-learning models forecast likely outcomes; the journey policy chooses one play; an executor acts and records the result; the result becomes the next event and the loop starts again.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
           </marker>
         </defs>
-        <!-- connectors -->
         <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
-          <path d="M216 234 H260 V345 H292" marker-end="url(#arr)"/>
-          <path d="M426 286 V166" marker-end="url(#arr)"/>
-          <path d="M552 107 H596 V204 H628" marker-end="url(#arr)"/>
-          <path d="M746 285 V348" marker-end="url(#arr)"/>
-          <path d="M636 420 H120 V280" marker-end="url(#arr)" stroke-dasharray="5 5"/>
+          <line x1="166" y1="120" x2="190" y2="120" marker-end="url(#arr)"/>
+          <line x1="336" y1="120" x2="360" y2="120" marker-end="url(#arr)"/>
+          <line x1="506" y1="120" x2="530" y2="120" marker-end="url(#arr)"/>
+          <line x1="676" y1="120" x2="700" y2="120" marker-end="url(#arr)"/>
+          <path d="M770 182 C770 252 96 252 96 182" marker-end="url(#arr)"/>
         </g>
-        <!-- event stream -->
         <g>
-          <rect x="24" y="150" width="192" height="120" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="40" y="180" class="s-title">Canonical event stream</text>
-          <text x="40" y="204" class="s-sub">opening · decision · execution</text>
-          <text x="40" y="222" class="s-sub">delivery · reply · document · failure</text>
-          <text x="40" y="240" class="s-sub">override · WAIT wake · terminal outcome</text>
-          <text x="40" y="258" class="s-sub">ordered, replayable, idempotent</text>
+          <rect x="26" y="58" width="140" height="124" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="42" y="84" class="s-tag" fill="#436B8E">1 · EVENT</text>
+          <text x="42" y="106" class="s-title">Something</text>
+          <text x="42" y="124" class="s-title">changed</text>
+          <text x="42" y="148" class="s-sub">reply · delivery · wake</text>
+          <text x="42" y="166" class="s-sub">document · failure</text>
+
+          <rect x="196" y="58" width="140" height="124" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="212" y="84" class="s-tag" fill="#141413">2 · REBUILD</text>
+          <text x="212" y="106" class="s-title">What is true</text>
+          <text x="212" y="124" class="s-title">now?</text>
+          <text x="212" y="148" class="s-sub">derive state · remove</text>
+          <text x="212" y="166" class="s-sub">plays that do not fit</text>
+
+          <rect x="366" y="58" width="140" height="124" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="382" y="84" class="s-tag" fill="#436B8E">3 · FORECAST</text>
+          <text x="382" y="106" class="s-title">Where is it</text>
+          <text x="382" y="124" class="s-title">heading?</text>
+          <text x="382" y="148" class="s-sub">specialist ML estimates</text>
+          <text x="382" y="166" class="s-sub">likely outcomes</text>
+
+          <rect x="536" y="58" width="140" height="124" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="552" y="84" class="s-tag" fill="#436B8E">4 · CHOOSE</text>
+          <text x="552" y="108" class="s-title">One best play</text>
+          <text x="552" y="132" class="s-sub">policy values what</text>
+          <text x="552" y="150" class="s-sub">remains and selects one</text>
+
+          <rect x="706" y="58" width="148" height="124" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="722" y="84" class="s-tag" fill="#5F7A4A">5 · ACT</text>
+          <text x="722" y="106" class="s-title">Execute</text>
+          <text x="722" y="124" class="s-title">and watch</text>
+          <text x="722" y="148" class="s-sub">machine action or call</text>
+          <text x="722" y="166" class="s-sub">task · record the result</text>
         </g>
-        <!-- difficulty models -->
-        <g>
-          <rect x="300" y="48" width="252" height="118" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="316" y="76" class="s-tag" fill="#436B8E">ML — PREDICTS</text>
-          <text x="316" y="99" class="s-title">Prognosis models</text>
-          <text x="316" y="122" class="s-sub">P(verify ≤2d) · P(verify ≤5d) · P(never)</text>
-          <text x="316" y="140" class="s-sub">gradient-boosted trees, calibrated</text>
-          <text x="316" y="158" class="s-sub">nearly 3M case-day snapshots</text>
-        </g>
-        <!-- resolver -->
-        <g>
-          <rect x="300" y="286" width="252" height="118" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="316" y="314" class="s-tag" fill="#141413">DETERMINISTIC — FILTERS</text>
-          <text x="316" y="337" class="s-title">State reducer + constraints</text>
-          <text x="316" y="360" class="s-sub">derives current state from events ·</text>
-          <text x="316" y="378" class="s-sub">DNC, policy, cadence, channel checks</text>
-          <text x="316" y="396" class="s-sub">keeps only registered plays that fit</text>
-        </g>
-        <!-- scorer -->
-        <g>
-          <rect x="636" y="167" width="220" height="118" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="652" y="195" class="s-title">Journey-value policy</text>
-          <text x="652" y="218" class="s-sub">available registered plays:</text>
-          <text x="652" y="236" class="s-sub">email · fax · call · vendor ·</text>
-          <text x="652" y="254" class="s-sub">wait · escalate — value each, then</text>
-          <text x="652" y="272" class="s-sub">select one play and its executor</text>
-        </g>
-        <!-- execution -->
-        <g>
-          <rect x="636" y="352" width="220" height="82" rx="4" fill="#FAF9F5" stroke="#6E6A5F" stroke-width="1.5"/>
-          <text x="652" y="380" class="s-title">Executor + observation</text>
-          <text x="652" y="402" class="s-sub">machine action or human task · result</text>
-          <text x="652" y="420" class="s-sub">returns as the next material event</text>
-        </g>
-        <text x="380" y="452" class="s-sub" font-style="italic">every material event recomputes the next play while the case remains active</text>
+        <text x="440" y="276" text-anchor="middle" class="s-title">The result becomes the next event.</text>
+        <text x="440" y="298" text-anchor="middle" class="s-sub">No fixed journey is chosen at intake. The case plan changes when the evidence changes.</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 1</span>The closed loop being built. Events derive state; hard constraints remove plays; prognosis models forecast; the journey policy selects one; an executor acts; and the observation starts the loop again. Historical replay proves the read-and-filter foundation, not live autonomous effect.</figcaption>
+      <figcaption><span class="figno">Figure 1</span>The architecture from the case&rsquo;s point of view. One event produces one fresh decision. Digital plays execute through machines; calls and true exceptions become human tasks. Every result returns to the same loop.</figcaption>
     </figure>
 
     <p>The load-bearing rule sits in the middle: <strong>the registered play library defines what can exist, and deterministic constraints remove what does not fit.</strong> The prognosis models supply forecasts. The journey policy values and selects from the plays that remain. A blocked play is removed, not penalized, so no forecast can restore it.</p>
@@ -298,6 +290,68 @@ a{color:inherit}
     <p>Use the illustrated guide&rsquo;s fictional case 4127. A scheduled WAIT expires on day three and enters as a material event. The reducer derives the current state. The prognosis models estimate the likely path. Fax disappears because no fax number exists; escalation disappears because the case has not reached that point. The bootstrap policy selects email from the registered plays that remain, records why it outranked the alternatives, and dispatches it to the email executor. Delivery becomes the next event.</p>
 
     <p>The policy never ranks a flat menu of actions. Hard constraints remove the plays that do not fit; the policy values what remains. A model or SLM cannot invent an unregistered play, and low predicted success alone cannot stop an unresolved case while an available play remains.</p>
+
+    <h2 id="selected-play">What the engine actually chooses</h2>
+
+    <p>A play is not merely &ldquo;send an email.&rdquo; It is a complete, executable instruction: the objective, contact path, timing, content boundaries, executor, and the event that will bring the case back into the loop. The policy chooses that package; the SLM may write inside it, but it does not change the package.</p>
+
+    <figure>
+      <div class="panel">
+      <svg viewBox="0 0 880 380" role="img" aria-label="An exploded selected-play contract. In the center is EMAIL NOW. Six connected fields define it: the goal is accepted verification; the target is a verified employer HR inbox; timing is now after cooldown; the content model writes within approved facts and content boundaries; the machine email adapter executes; delivery, reply, failure, or a scheduled wake returns the case to the event loop.">
+        <defs>
+          <marker id="playArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
+          </marker>
+        </defs>
+        <g fill="none" stroke="#8A8578" stroke-width="1.25">
+          <line x1="260" y1="72" x2="320" y2="150" marker-end="url(#playArrow)"/>
+          <line x1="260" y1="182" x2="320" y2="190" marker-end="url(#playArrow)"/>
+          <line x1="260" y1="292" x2="320" y2="230" marker-end="url(#playArrow)"/>
+          <line x1="620" y1="72" x2="560" y2="150" marker-end="url(#playArrow)"/>
+          <line x1="620" y1="182" x2="560" y2="190" marker-end="url(#playArrow)"/>
+          <line x1="620" y1="292" x2="560" y2="230" marker-end="url(#playArrow)"/>
+        </g>
+        <g>
+          <rect x="20" y="30" width="240" height="84" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.25"/>
+          <text x="38" y="58" class="s-tag" fill="#436B8E">GOAL</text>
+          <text x="38" y="82" class="s-title">Accepted verification</text>
+          <text x="38" y="101" class="s-sub">optimize the complete journey</text>
+
+          <rect x="20" y="140" width="240" height="84" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.25"/>
+          <text x="38" y="168" class="s-tag" fill="#436B8E">TARGET</text>
+          <text x="38" y="192" class="s-title">Verified employer HR inbox</text>
+          <text x="38" y="211" class="s-sub">one specific contact path</text>
+
+          <rect x="20" y="250" width="240" height="84" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.25"/>
+          <text x="38" y="278" class="s-tag" fill="#141413">TIMING</text>
+          <text x="38" y="302" class="s-title">Now · cooldown clear</text>
+          <text x="38" y="321" class="s-sub">not a precommitted sequence</text>
+
+          <rect x="320" y="112" width="240" height="156" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="2"/>
+          <text x="440" y="144" text-anchor="middle" class="s-tag" fill="#436B8E">SELECTED PLAY</text>
+          <text x="440" y="180" text-anchor="middle" class="s-num" style="font-size:27px">EMAIL NOW</text>
+          <text x="440" y="210" text-anchor="middle" class="s-title">one executable contract</text>
+          <text x="440" y="235" text-anchor="middle" class="s-sub">reason and alternatives recorded</text>
+
+          <rect x="620" y="30" width="240" height="84" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.25"/>
+          <text x="638" y="58" class="s-tag" fill="#436B8E">CONTENT BOUNDS</text>
+          <text x="638" y="82" class="s-title">Approved facts and purpose</text>
+          <text x="638" y="101" class="s-sub">SLM writes inside the play</text>
+
+          <rect x="620" y="140" width="240" height="84" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.25"/>
+          <text x="638" y="168" class="s-tag" fill="#5F7A4A">EXECUTOR</text>
+          <text x="638" y="192" class="s-title">Machine email adapter</text>
+          <text x="638" y="211" class="s-sub">one idempotent dispatch</text>
+
+          <rect x="620" y="250" width="240" height="84" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.25"/>
+          <text x="638" y="278" class="s-tag" fill="#436B8E">RETURN EVENT</text>
+          <text x="638" y="302" class="s-title">Delivery · reply · failure · wake</text>
+          <text x="638" y="321" class="s-sub">the next decision starts here</text>
+        </g>
+      </svg>
+      </div>
+      <figcaption><span class="figno">Figure 2</span>A selected play is the smallest complete unit the system can execute and later evaluate. Channel alone is not a strategy; the contract preserves why this action, for this target, at this time, with these boundaries.</figcaption>
+    </figure>
 
     <h2>What the specialist model fleet sees</h2>
 
@@ -384,7 +438,7 @@ a{color:inherit}
         <text x="802.6" y="166" class="s-sub" text-anchor="middle">hardest predicted decile</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 2</span>Observed unable-to-verify rate by predicted-risk decile, May 2026 holdout. The model separates cases that fail 3% of the time from cases that fail 48% of the time. That spread is what makes a <em>fair</em> UTV metric possible: misses can finally be measured against what was actually winnable.</figcaption>
+      <figcaption><span class="figno">Figure 3</span>Observed unable-to-verify rate by predicted-risk decile, May 2026 holdout. The model separates cases that fail 3% of the time from cases that fail 48% of the time. That spread is what makes a <em>fair</em> UTV metric possible: misses can finally be measured against what was actually winnable.</figcaption>
     </figure>
 
     <p>That 16× spread is also the business story. Today’s UTV rate treats cases with radically different odds as though they were equally winnable. Difficulty-adjusted measures separate the easy, hard, and recoverable middle so management can aim effort and judge outcomes more fairly.</p>
@@ -412,10 +466,10 @@ a{color:inherit}
         <div class="k"><span class="sw" style="background:#E5DFD1"></span>Cooldown active<span class="v">3.7%</span></div>
         <div class="k"><span class="sw" style="background:#6E6A5F"></span>Digital / standard paths exhausted<span class="v">0.2%</span></div>
       </div>
-      <figcaption style="margin-top:18px"><span class="figno">Figure 3</span>Resolver state mix across nearly three million snapshots. The interesting segment is the third one: cases where a vendor response is already on record but the legacy flow would have kept contacting.</figcaption>
+      <figcaption style="margin-top:18px"><span class="figno">Figure 4</span>Resolver state mix across nearly three million snapshots. The interesting segment is the third one: cases where a vendor response is already on record but the legacy flow would have kept contacting.</figcaption>
     </figure>
 
-    <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver stops those already-responded case-days from advancing to another touch. No model was needed — only the definition, written down. (The signal is a vendor receipt, not parsed reply content, and it does not exist for every product — the honest version of this number lives in the repo docs alongside its caveats.)</p>
+    <p>I expected the next win here to come from a better model. It came from a rule — the <strong>400,000-case-day finding</strong> this post opened with, hiding in that third segment. The resolver stops those already-responded case-days from advancing to another touch. No model was needed — only the definition, written down. The signal is a vendor receipt, not parsed reply content, and it is not available for every product; the count should be read within that boundary.</p>
 
     <p>The same rule also shows why the safety result holds under pressure. Suppose the forecasts make another call look attractive on one of those cases. The resolver sees that a reply is already on record, so call is removed before the journey policy values the remaining plays. No forecast can restore it. That is why the replay produced zero do-not-contact and hard-policy violations: the rule checks run before selection, outside the models.</p>
 
@@ -429,7 +483,7 @@ a{color:inherit}
 
     <h2>The system rejected three of my improvements</h2>
 
-    <p>Model improvements are promoted per target — there is no single “champion model,” there are three — and promotion is mechanical. A challenger must clear every criterion against the sitting incumbent; a single checked-in champion config is the source of truth, and rejections are machine-recorded in the champion manifest. The target autonomous lifecycle will extend that discipline: a qualifying action or content release will promote automatically, continuous monitoring will remain active, and rollback will restore the prior version and lineage.</p>
+    <p>Each prediction target keeps its own incumbent model. A challenger must clear every criterion against that incumbent; the comparison and verdict are versioned, and a failed challenger stays out. The target autonomous lifecycle will extend that discipline: a qualifying action or content release will promote automatically, continuous monitoring will remain active, and rollback will restore the prior version.</p>
 
     <div class="gates">
       <div class="g"><b>ROC-AUC</b><span>at least <em>+0.002</em> over the incumbent, with bootstrap confidence intervals excluding zero</span></div>
@@ -491,7 +545,7 @@ a{color:inherit}
         <text x="440" y="284" class="s-sub" text-anchor="middle" font-style="italic">the gate rejects any drop at the top of the worklist — where the ranking matters most</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 4</span>The gate at work on the never-verify target: three challengers, three different levers, one identical failure mode. Each verdict is machine-recorded — the rejections are as documented as the promotions.</figcaption>
+      <figcaption><span class="figno">Figure 5</span>The gate at work on the never-verify target: three challengers, three different levers, one identical failure mode. Each verdict is machine-recorded — the rejections are as documented as the promotions.</figcaption>
     </figure>
 
     <h2>Reading the notes without keeping them</h2>
@@ -537,16 +591,16 @@ a{color:inherit}
         <text x="437" y="226" class="s-mono" text-anchor="middle">every export manifest certifies: no raw note text persisted</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 5</span>The inbound text layer. Signal crosses the boundary; text does not.</figcaption>
+      <figcaption><span class="figno">Figure 6</span>The inbound text layer. Signal crosses the boundary; text does not.</figcaption>
     </figure>
 
     <p>The same new evidence improved the two success forecasts but weakened the top of the never-verify worklist. Two challengers advanced; the third was rejected.</p>
 
-    <p>One operational note survives from that build: a routine row-count check against the export manifests caught a corrupted export <em>before anything consumed it</em>. Cheap invariant checks between pipeline stages are the highest-ROI code in the system.</p>
+    <p>One operational note survives from that build: a routine row-count check caught a corrupted data pull <em>before any model consumed it</em>. Cheap checks between stages are some of the highest-value code in the system.</p>
 
     <h2>What the evidence still will not let me say</h2>
 
-    <p>The layers ahead are ambitious, which makes the boundary between built, ready, and not-yet-proved more important — not less. The repo maintains an explicit disallowed-claims list, and it does more for the project’s credibility than any AUC. The current lines:</p>
+    <p>The layers ahead are ambitious, which makes the boundary between built, ready, and not-yet-proved more important — not less. Three lines keep the story honest:</p>
 
     <ul>
       <li><strong>Historical replay is not live performance.</strong> The replay establishes that the system can read, route, and structure the work at scale. Live execution, cycle time, and operational outcomes remain to be measured.</li>
@@ -554,7 +608,7 @@ a{color:inherit}
       <li><strong>Nothing auto-sends today.</strong> The event runtime, machine executors, journey-value policy, bounded exploration, generated content, and automatic release lifecycle are product capabilities being built now, not current production behavior.</li>
     </ul>
 
-    <h2>The autonomous loop being built</h2>
+    <h2 id="autonomous-loop">The autonomous loop being built</h2>
 
     <p>Historical replay can show which cases look harder and whether the bootstrap policy produces a workable next play. It cannot prove that one channel, message, or follow-up caused a better terminal outcome. That requires propensity-logged decisions, executed actions, observations, and matured journeys.</p>
 
@@ -562,55 +616,67 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 300" role="img" aria-label="Closed autonomous runtime loop: Event records what changed; State derives the current case from ordered history; Filter removes blocked plays; Forecast estimates likely outcomes; Select chooses one registered play by expected journey value; Execute routes the play to a machine or human task; the result returns to Event while the case remains active.">
+      <svg viewBox="0 0 880 390" role="img" aria-label="Two connected clocks. The fast case loop runs after every material event: record the event, derive state and remove blocked plays, forecast likely outcomes, select one play, execute, and return the result as the next event. The slower learning loop runs after outcomes mature: collect completed journeys, train challengers, release or retain automatically, monitor and roll back, then update the journey policy.">
         <defs>
           <marker id="arrNext" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
           </marker>
         </defs>
         <g fill="none" stroke="#8A8578" stroke-width="1.25">
-          <line x1="146" y1="86" x2="164" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="290" y1="86" x2="308" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="434" y1="86" x2="452" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="578" y1="86" x2="596" y2="86" marker-end="url(#arrNext)"/>
-          <line x1="722" y1="86" x2="740" y2="86" marker-end="url(#arrNext)"/>
-          <path d="M803 120 C803 220 83 220 83 120" marker-end="url(#arrNext)"/>
+          <line x1="150" y1="91" x2="170" y2="91" marker-end="url(#arrNext)"/>
+          <line x1="350" y1="91" x2="370" y2="91" marker-end="url(#arrNext)"/>
+          <line x1="520" y1="91" x2="540" y2="91" marker-end="url(#arrNext)"/>
+          <line x1="690" y1="91" x2="710" y2="91" marker-end="url(#arrNext)"/>
+          <path d="M785 132 C785 190 85 190 85 132" marker-end="url(#arrNext)"/>
+          <line x1="250" y1="302" x2="290" y2="302" marker-end="url(#arrNext)"/>
+          <line x1="460" y1="302" x2="500" y2="302" marker-end="url(#arrNext)"/>
+          <line x1="670" y1="302" x2="710" y2="302" marker-end="url(#arrNext)"/>
+          <path d="M440 190 C440 220 175 220 175 260" marker-end="url(#arrNext)" stroke-dasharray="5 5"/>
+          <path d="M785 260 C785 210 615 210 615 132" marker-end="url(#arrNext)" stroke-dasharray="5 5"/>
         </g>
         <g>
-          <rect x="20" y="52" width="126" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="83" y="80" text-anchor="middle" class="s-title">Event</text>
-          <text x="83" y="100" text-anchor="middle" class="s-sub">record the change</text>
-          <text x="83" y="150" text-anchor="middle" class="s-mono">ordered history</text>
+          <text x="20" y="25" class="s-tag" fill="#436B8E">FAST CLOCK · AFTER EVERY MATERIAL EVENT</text>
+          <rect x="20" y="50" width="130" height="82" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="85" y="80" text-anchor="middle" class="s-title">Event</text>
+          <text x="85" y="103" text-anchor="middle" class="s-sub">record the change</text>
 
-          <rect x="164" y="52" width="126" height="68" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="227" y="80" text-anchor="middle" class="s-title">State</text>
-          <text x="227" y="100" text-anchor="middle" class="s-sub">derive current facts</text>
-          <text x="227" y="150" text-anchor="middle" class="s-mono">deterministic</text>
+          <rect x="170" y="50" width="180" height="82" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="260" y="80" text-anchor="middle" class="s-title">State + constraints</text>
+          <text x="260" y="103" text-anchor="middle" class="s-sub">derive · remove blocked plays</text>
 
-          <rect x="308" y="52" width="126" height="68" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="371" y="80" text-anchor="middle" class="s-title">Filter</text>
-          <text x="371" y="100" text-anchor="middle" class="s-sub">remove blocked plays</text>
-          <text x="371" y="150" text-anchor="middle" class="s-mono">hard constraints</text>
+          <rect x="370" y="50" width="150" height="82" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="445" y="80" text-anchor="middle" class="s-title">Prognosis</text>
+          <text x="445" y="103" text-anchor="middle" class="s-sub">forecast outcomes</text>
 
-          <rect x="452" y="52" width="126" height="68" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="515" y="80" text-anchor="middle" class="s-title">Forecast</text>
-          <text x="515" y="100" text-anchor="middle" class="s-sub">estimate outcomes</text>
-          <text x="515" y="150" text-anchor="middle" class="s-mono">specialist ML</text>
+          <rect x="540" y="50" width="150" height="82" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="615" y="80" text-anchor="middle" class="s-title">Journey policy</text>
+          <text x="615" y="103" text-anchor="middle" class="s-sub">select one play</text>
 
-          <rect x="596" y="52" width="126" height="68" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="659" y="80" text-anchor="middle" class="s-title">Select</text>
-          <text x="659" y="100" text-anchor="middle" class="s-sub">choose one play</text>
-          <text x="659" y="150" text-anchor="middle" class="s-mono">journey value</text>
+          <rect x="710" y="50" width="150" height="82" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
+          <text x="785" y="80" text-anchor="middle" class="s-title">Executor</text>
+          <text x="785" y="103" text-anchor="middle" class="s-sub">act · return result</text>
 
-          <rect x="740" y="52" width="126" height="68" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
-          <text x="803" y="80" text-anchor="middle" class="s-title">Execute</text>
-          <text x="803" y="100" text-anchor="middle" class="s-sub">machine or task</text>
-          <text x="803" y="150" text-anchor="middle" class="s-mono">return the result</text>
+          <text x="20" y="235" class="s-tag" fill="#5F7A4A">SLOW CLOCK · AFTER OUTCOMES MATURE</text>
+          <rect x="80" y="260" width="170" height="84" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
+          <text x="165" y="290" text-anchor="middle" class="s-title">Completed journeys</text>
+          <text x="165" y="315" text-anchor="middle" class="s-sub">actions through outcome</text>
+
+          <rect x="290" y="260" width="170" height="84" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
+          <text x="375" y="290" text-anchor="middle" class="s-title">Train challengers</text>
+          <text x="375" y="315" text-anchor="middle" class="s-sub">action + content models</text>
+
+          <rect x="500" y="260" width="170" height="84" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
+          <text x="585" y="290" text-anchor="middle" class="s-title">Release or retain</text>
+          <text x="585" y="315" text-anchor="middle" class="s-sub">automatic · versioned</text>
+
+          <rect x="710" y="260" width="150" height="84" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5"/>
+          <text x="785" y="290" text-anchor="middle" class="s-title">Monitor</text>
+          <text x="785" y="315" text-anchor="middle" class="s-sub">guardrail · roll back</text>
         </g>
-        <text x="440" y="250" text-anchor="middle" class="s-sub" font-style="italic">the result returns as the next event; the loop continues while the case remains active</text>
+        <text x="440" y="374" text-anchor="middle" class="s-sub" font-style="italic">the fast clock runs the case; the slow clock improves the policy that runs the next one</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 6</span>The runtime sequence being built. Historical replay proves the prognosis and filtering foundation. The event stream, executors, journey-value selection, and immediate recomputation close the autonomous loop.</figcaption>
+      <figcaption><span class="figno">Figure 7</span>Two clocks, one system. In the product being built, the event loop changes the plan immediately when the case changes. The learning loop waits for mature outcomes, compares challengers, updates the journey policy when a release qualifies, and keeps rollback available.</figcaption>
     </figure>
 
     <p>The canonical event stream is the next engineering dependency. It connects every decision to its action, executor, observation, override, and terminal outcome. That record supports both immediate orchestration and the slower learning cycle:</p>
