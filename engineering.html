@@ -212,7 +212,7 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>Most automation starts with an action: send an email, place a call, move the case. The Verifications Decision Engine starts with the complete journey and the decision that determines which action contributes most to its terminal outcome.</p>
+    <p>Most automation starts with an action: send an email, place a call, move the case. The Decision Engine learns from how completed cases unfold and uses that evidence to choose the strongest next move for each open case.</p>
 
     <p>The historical replay reads one morning snapshot per open case and estimates its likely path. The event-driven runtime being built derives state from the complete event history, removes plays that no longer fit, values what remains, selects one, and dispatches it. When the evidence changes, the system recomputes immediately.</p>
 
@@ -283,7 +283,7 @@ a{color:inherit}
 
     <p>The load-bearing rule sits in the middle: <strong>the registered play library defines what can exist, and deterministic constraints remove what does not fit.</strong> The prognosis models supply forecasts. The journey policy values and selects from the plays that remain. A blocked play is removed, not penalized, so no forecast can restore it.</p>
 
-    <p>The state reducer, journey policy, router, executors, and event record together form the <strong>Case Control Engine</strong>. The current prognosis-plus-prior score is its bootstrap policy. The target policy learns state-action journey value against eventual accepted verification.</p>
+    <p>The <strong>Case Control Engine</strong> connects the case record, machine-learning forecasts, decision logic, and execution. It begins with patterns proven in historical replay. As completed cases accumulate, it learns which sequences produce the strongest results.</p>
 
     <h2>One material event, from state to execution</h2>
 
@@ -610,7 +610,7 @@ a{color:inherit}
 
     <h2 id="autonomous-loop">The autonomous loop being built</h2>
 
-    <p>Historical replay can show which cases look harder and whether the bootstrap policy produces a workable next play. It cannot prove that one channel, message, or follow-up caused a better terminal outcome. That requires propensity-logged decisions, executed actions, observations, and matured journeys.</p>
+    <p>Historical replay cannot prove that a particular channel, message, or follow-up caused a better result. That proof requires live records connecting each decision to the action taken and how the case ultimately ended.</p>
 
     <p>The runtime follows one repeatable sequence: record the event, derive state, remove blocked plays, forecast likely outcomes, select one registered play, dispatch the executor, and return the result as the next event while the case remains active.</p>
 
@@ -679,10 +679,10 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 7</span>Two clocks, one system. In the product being built, the event loop changes the plan immediately when the case changes. The learning loop waits for mature outcomes, compares challengers, updates the journey policy when a release qualifies, and keeps rollback available.</figcaption>
     </figure>
 
-    <p>The canonical event stream is the next engineering dependency. It connects every decision to its action, executor, observation, override, and terminal outcome. That record supports both immediate orchestration and the slower learning cycle:</p>
+    <p>The next engineering requirement is a complete case record connecting every decision to the action taken and the result that followed. That record allows the engine to run the case now and learn how to run the next one better.</p>
 
     <ul>
-      <li><strong>The action policy learns journey value:</strong> each available play is evaluated by its expected contribution to eventual accepted verification, including downstream actions and delayed outcomes.</li>
+      <li><strong>The engine learns from the full case:</strong> it learns which next move produces the strongest full-case result—including effects that may not become visible until later.</li>
       <li><strong>Bounded exploration creates valid evidence:</strong> near-best available plays can be explored with exact propensities, without selecting a blocked play or creating a human-review lane for uncertainty.</li>
       <li><strong>The content model learns separately:</strong> the action policy chooses what to do; the SLM renders the structured explanation and generates the email, fax, or call script for the play already selected.</li>
       <li><strong>Executors close the operational loop:</strong> digital plays run through idempotent machine adapters; calls and true exceptions enter a portfolio-ranked human task view.</li>

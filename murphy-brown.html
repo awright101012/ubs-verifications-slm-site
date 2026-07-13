@@ -431,7 +431,7 @@ a{color:inherit}
 <figcaption style="margin-top:14px"><span class="figno">Figure 4</span>One list does both jobs: the deep-dive’s measured gaps mapped to the Decision Engine’s controls, with the owner of each. The replay-tested controls form the foundation; the bot-side changes and structured event payload connect execution to the complete case loop.</figcaption>
     </figure>
 
-    <p>So the proposal is not “turn Murphy Brown off.” It is: <strong>Murphy Brown becomes one registered executor inside the Decision Engine.</strong> After each material event, the state reducer rebuilds the case, hard constraints remove plays that do not fit, and the journey policy selects from what remains. When it selects a digital touch, Murphy Brown executes it once; delivery, failure, reply, or completion returns as an event and triggers a fresh decision. A terminal state stops the journey. The historical top-60–70% fit analysis remains useful bootstrap evidence, but the target policy learns complete-journey value rather than turning that score into a permanent gate.</p>
+    <p>Inside the Decision Engine, Murphy Brown becomes the digital execution arm. The engine reassesses the case whenever something changes, chooses the next move, and sends digital work to the bot. Every delivery, failure, reply, and result returns to the engine so it can continue, change course, or close the case. Historical results provide the starting point; completed cases teach the system which paths work best.</p>
 
     <h2>What I’m careful not to claim</h2>
 
@@ -461,7 +461,7 @@ a{color:inherit}
       <figcaption style="margin-top:14px"><span class="figno">Figure 5</span>The same five behaviors in two operating systems. The left column is the measured present. The right shows Murphy Brown as an event-driven executor inside the closed loop being built.</figcaption>
     </figure>
 
-    <p>Inside the engine, the orchestration policy selects the play. Murphy Brown executes the digital touch. Delivery, failure, reply, and outcome return as events that determine what happens next. Murphy Brown is not the decision system; it is an executor inside one. The engine owns the journey, and the bot becomes its fastest pair of hands. <span class="endmark">◆</span></p>
+    <p>The Decision Engine chooses the next move; Murphy Brown carries out the digital work. Every delivery, failure, reply, and result returns to the engine and shapes what happens next. The bot becomes the fastest pair of hands inside a system that can actually run the case. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
