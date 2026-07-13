@@ -212,11 +212,11 @@ a{color:inherit}
   </header>
 
   <article class="prose">
-    <p>Most automation starts with an action: send an email, place a call, move the case. The Decision Engine learns from how completed cases unfold and uses that evidence to choose the strongest next move for each open case.</p>
+    <p>Most automation starts with an action: send an email, place a call, move the case. The Decision Engine starts with the case. It reads the complete history, forecasts where the case is heading, removes moves that no longer fit, compares what remains, chooses one, and sends it to execution. When the evidence changes, it decides again.</p>
 
-    <p>The historical replay reads one morning snapshot per open case and estimates its likely path. The event-driven runtime being built reads the complete case history, determines where the case stands, removes moves that no longer fit, compares what remains, selects one, and dispatches it. When the evidence changes, the system reassesses the case immediately.</p>
+    <p>The complete runtime being built performs that loop whenever a case changes. The measured foundation behind it is simpler: one morning snapshot for every open case, scored for where the case is likely heading.</p>
 
-    <p>Historical replay tested four parts across 2.75 million case-days: the forecasts, the logic that reads each case, the rules that remove blocked moves, and the initial ranking of what remains. That ranking combines calibrated model scores with fixed, human-set priorities. The replay produced zero do-not-contact and hard-policy violations. It also found roughly 400,000 case-days when a response was already on record but another outreach attempt remained available. It did not execute the event-driven runtime; it tested the foundation that runtime will use.</p>
+    <p>That foundation was tested across 2.75 million case-days of real casework: the forecasts, the state logic that reads each case, the hard rules that remove blocked moves, and the initial ranking of what remains. The ranking combines calibrated model scores with fixed, human-set priorities. The test produced zero do-not-contact and hard-policy violations. It also surfaced roughly 400,000 case-days when a response was already on record but another outreach attempt remained available. It did not execute the complete runtime; it tested the foundation that runtime will use.</p>
 
     <p>The same discipline applies to the models. Three proposed improvements raised average accuracy but weakened the first page of the worklist, where the ranking matters most. The promotion gate rejected all three. A model is not better merely because its overall score improves. It must improve the part of the operation where its ranking will actually be used.</p>
 
@@ -226,7 +226,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 330" role="img" aria-label="The case loop in five moves: something changes; the system rebuilds the case and removes blocked plays; specialist machine-learning models forecast likely outcomes; the decision policy chooses one play; execution records the result; the result becomes the next change and the loop starts again.">
+      <svg viewBox="0 0 880 330" role="img" aria-label="The case loop in five moves: something changes; the system rebuilds the case and removes blocked plays; specialist machine-learning models forecast likely outcomes; the journey policy chooses one play; execution records the result; the result becomes the next change and the loop starts again.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -281,19 +281,19 @@ a{color:inherit}
       <figcaption><span class="figno">Figure 1</span>The architecture from the case&rsquo;s point of view. One event produces one fresh decision. Digital plays execute through machines; calls and true exceptions become human tasks. Every result returns to the same loop.</figcaption>
     </figure>
 
-    <p>The load-bearing rule sits in the middle: <strong>the registered play library defines what can exist, and deterministic constraints remove what does not fit.</strong> The prognosis models supply forecasts. The journey policy compares the remaining moves and selects one. A blocked play is removed, not penalized, so no forecast can restore it.</p>
+    <p>The load-bearing rule sits in the middle: <strong>the registered play library defines what can exist, and deterministic constraints remove what does not fit.</strong> The specialist models supply forecasts. The journey policy compares the remaining moves and selects one. A blocked play is removed, not penalized, so no forecast can restore it.</p>
 
-    <p>The <strong>Case Control Engine</strong> connects the case record, machine-learning forecasts, decision logic, and execution. It begins with patterns tested in historical replay. As completed cases accumulate, it learns which sequences produce the strongest results.</p>
+    <p>The <strong>Case Control Engine</strong> is the decision-and-execution core of the product. The case record preserves every change. The state reducer determines where the case stands. Hard rules remove moves that do not fit. The journey policy chooses among what remains. The router sends the selected play to execution, and the result returns to the case record. It begins with the forecasts, rules, and initial ranking tested across the historical cases; as completed cases accumulate, it learns which sequences produce the strongest final results.</p>
 
     <h2>When the case changes, the plan changes</h2>
 
-    <p>Use the illustrated guide&rsquo;s fictional case 4127. A scheduled WAIT expires on day three and enters the case record. The state reducer rebuilds the current state. The prognosis models estimate the likely path. Fax disappears because no fax number exists; escalation disappears because the case has not reached that point. The initial policy selects email from the registered plays that remain, records why it outranked the alternatives, and dispatches it to the email system. Delivery becomes the next event.</p>
+    <p>Use the illustrated guide&rsquo;s fictional case 4127. A scheduled WAIT expires on day three and enters the case record. The state reducer rebuilds the current state. The specialist models estimate the likely path. Fax disappears because no fax number exists; escalation disappears because the case has not reached that point. The initial policy selects email from the registered plays that remain, records why it outranked the alternatives, and dispatches it to the email system. Delivery becomes the next event.</p>
 
     <p>The policy never ranks a flat menu of actions. Hard constraints remove the plays that do not fit; the policy compares what remains. A model or SLM cannot invent an unregistered play, and low predicted success alone cannot stop an unresolved case while an available play remains.</p>
 
     <h2 id="selected-play">What the engine actually chooses</h2>
 
-    <p>A play is not merely &ldquo;send an email.&rdquo; It is a complete, executable instruction: the objective, contact path, timing, content boundaries, executor, and the event that will bring the case back into the loop. The policy chooses that package; the SLM may write inside it, but it does not change the package.</p>
+    <p>A play is not merely &ldquo;send an email.&rdquo; It is a complete, executable instruction: the objective, contact path, timing, content boundaries, execution method, and the event that will bring the case back into the loop. The policy chooses that package; the SLM may write inside it, but it does not change the package.</p>
 
     <figure>
       <div class="panel">
@@ -339,7 +339,7 @@ a{color:inherit}
           <text x="638" y="101" class="s-sub">SLM writes inside the play</text>
 
           <rect x="620" y="140" width="240" height="84" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.25"/>
-          <text x="638" y="168" class="s-tag" fill="#5F7A4A">EXECUTOR</text>
+          <text x="638" y="168" class="s-tag" fill="#5F7A4A">EXECUTION</text>
           <text x="638" y="192" class="s-title">Machine email adapter</text>
           <text x="638" y="211" class="s-sub">retries do not send twice</text>
 
@@ -473,7 +473,7 @@ a{color:inherit}
 
     <p>The same rule also shows why the safety result holds under pressure. Suppose the forecasts make another call look attractive on one of those cases. The state reducer sees that a reply is already on record, so call is removed before the journey policy compares the remaining moves. No forecast can restore it. That is why the replay produced zero do-not-contact and hard-policy violations: the rule checks run before selection, outside the models.</p>
 
-    <p>In historical replay, the system considered six possible actions per case-day — email, fax, call, online vendor, wait, escalate — removed the moves that did not fit the current state, and ordered the rest with calibrated model scores and fixed priorities. Across the full replay, that produced 16.5 million candidate actions. The product target replaces that initial ranking with the learned journey policy.</p>
+    <p>In historical replay, the system considered six possible actions per case-day — email, fax, call, online vendor, wait, escalate — removed the moves that did not fit the current state, and ordered the rest with calibrated model scores and fixed priorities. Across the full replay, that produced 16.5 million candidate actions. The version being built replaces that initial ranking with a journey policy learned from completed cases.</p>
 
     <p>A seven-stage pipeline validates every handoff from candidates through the final queue; every stage checks its own output and halts the run on any failure, and a strict contract validator signs off at the end. In the completed run, no prohibited action reached rank one, every case group kept an available move, and the final queue passed end to end.</p>
 
@@ -616,7 +616,7 @@ a{color:inherit}
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 390" role="img" aria-label="Two connected loops. The case loop runs whenever the case changes: record the change, update the case and remove blocked moves, forecast likely outcomes, choose one play, execute it, and use the result to reassess the case. The learning loop waits until results have settled: collect completed cases, train challengers, release or retain automatically, monitor and roll back, then update the decision policy.">
+      <svg viewBox="0 0 880 390" role="img" aria-label="Two connected loops. The case loop runs whenever the case changes: record the change, update the case and remove blocked moves, forecast likely outcomes, choose one play, execute it, and use the result to reassess the case. The learning loop waits until results have settled: collect completed cases, train challengers, release or retain automatically, monitor and roll back, then update the journey policy.">
         <defs>
           <marker id="arrNext" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#8A8578"/>
@@ -649,7 +649,7 @@ a{color:inherit}
           <text x="445" y="103" text-anchor="middle" class="s-sub">forecast outcomes</text>
 
           <rect x="540" y="50" width="150" height="82" rx="4" fill="#FAF9F5" stroke="#141413" stroke-width="1.5"/>
-          <text x="615" y="80" text-anchor="middle" class="s-title">Decision policy</text>
+          <text x="615" y="80" text-anchor="middle" class="s-title">Journey policy</text>
           <text x="615" y="103" text-anchor="middle" class="s-sub">choose one play</text>
 
           <rect x="710" y="50" width="150" height="82" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
@@ -676,24 +676,24 @@ a{color:inherit}
         <text x="440" y="374" text-anchor="middle" class="s-sub" font-style="italic">the case loop runs the work; the learning loop improves the next decision</text>
       </svg>
       </div>
-      <figcaption><span class="figno">Figure 7</span>Two loops, one system. The case loop changes the plan whenever the case changes. The learning loop waits for stable results, compares challengers, updates the decision policy when a release qualifies, and keeps rollback available.</figcaption>
+      <figcaption><span class="figno">Figure 7</span>Two loops, one system. The case loop changes the plan whenever the case changes. The learning loop waits for stable results, compares challengers, updates the journey policy when a release qualifies, and keeps rollback available.</figcaption>
     </figure>
 
-    <p>The next engineering requirement is a complete case record connecting every decision to the action taken and the result that followed. That record allows the engine to run the case now and learn how to run the next one better.</p>
+    <p>The load-bearing requirement is a complete case record connecting every decision to the action taken and the result that followed. That record allows the engine to run the case now and learn how to run the next one better.</p>
 
     <ul>
       <li><strong>The engine learns from the full case:</strong> it learns which next move produces the strongest final result, including effects that become visible only later.</li>
-      <li><strong>Controlled exploration is designed to create better evidence:</strong> the system can occasionally test a close alternative and record how likely each option was to be chosen — without ever testing a blocked move.</li>
+      <li><strong>Controlled exploration is designed to create better evidence:</strong> the system can occasionally test a close alternative and record exactly how likely each option was to be chosen — never a blocked move, and never by turning uncertain cases into a routine human-review lane.</li>
       <li><strong>The content model learns separately:</strong> the journey policy chooses what to do; the SLM renders the structured explanation and generates the email, fax, or call script for the play already selected.</li>
-      <li><strong>Execution closes the operational loop:</strong> digital plays run through machine adapters designed to prevent duplicate sends; calls and true exceptions enter one task list ranked across the entire caseload.</li>
+      <li><strong>Execution closes the operational loop:</strong> digital plays run through machine adapters designed so retries cannot double-send; calls and true exceptions enter one task list ranked across the entire caseload.</li>
       <li><strong>The release process closes the learning loop:</strong> completed cases train monthly challengers after outcomes have settled, qualifying releases promote automatically, and continuous monitoring can roll back to the prior version.</li>
     </ul>
 
     <p>The architecture can extend to new customers, but the learning stays customer-aware. The same evidence structure, specialist-model design, and promotion process can be reused while predictions, policies, cadence, and language are recalibrated against each customer&rsquo;s own outcomes. Learning should cross customer boundaries only where the evidence shows that the behavior transfers reliably.</p>
 
-    <p>Each component has one job. The case record preserves what happened. The state reducer updates what is true. Specialist models estimate where the case is heading. The decision policy chooses what to do. Execution acts and records the result. Completed cases improve the action and content policies.</p>
+    <p>Each component has one job. The case record preserves what happened. The state reducer updates what is true. Specialist models estimate where the case is heading. The journey policy chooses what to do. Execution acts and records the result. Completed cases improve the action and content policies.</p>
 
-    <p>The measured system today remains the disciplined foundation: calibrated prognosis, deterministic checks, mechanical model gates, and 2.75 million replayed case-days. The product being built closes the rest of the loop without changing the evidence standard. Events record. State updates. Constraints remove. Models forecast. The policy selects. Actions execute. Outcomes trigger a new decision and teach the next release. Restraint is still the launch mechanism, not the destination. <span class="endmark">◆</span></p>
+    <p>The measured system today remains the disciplined foundation: calibrated forecasts, deterministic checks, mechanical model gates, and 2.75 million replayed case-days. The product being built closes the rest of the loop without changing the evidence standard. Events record. State updates. Constraints remove. Models forecast. The policy selects. Actions execute. Outcomes trigger a new decision and teach the next release. Restraint is still the launch mechanism, not the destination. <span class="endmark">◆</span></p>
   </article>
 
   <footer class="colophon">
