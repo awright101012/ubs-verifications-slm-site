@@ -233,28 +233,46 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
   <header class="masthead">
     <div class="eyebrow">Executive briefing</div>
     <h1>The Verifications Decision Engine</h1>
-<p class="dek">Every open case should have a strategy, not just a place in the queue. The Decision Engine combines specialist machine-learning forecasts with the full case record to direct what happens next—and is built to turn every result into evidence for the decisions that follow.</p>
+<p class="dek">The Decision Engine turns verification from a queue of disconnected attempts into an intelligent operation. It sees difficulty early, directs the strongest next move, executes the digital work, and learns from how every case ends.</p>
   </header>
+
+  <div class="statband" aria-label="Four results measured against twelve months of completed verification casework">
+    <div class="stat">
+      <div class="n">81%</div>
+      <div class="l">Difficulty visible at intake</div>
+      <div class="s">Ranks the future failure as harder when compared with a future success.</div>
+    </div>
+    <div class="stat">
+      <div class="n">16×</div>
+      <div class="l">Difference hidden inside one failure rate</div>
+      <div class="s">The easiest tenth fails 3%; the hardest tenth fails 48%.</div>
+    </div>
+    <div class="stat">
+      <div class="n">~400K</div>
+      <div class="l">Daily case records with an answer already on file</div>
+      <div class="s">Another outreach action still remained available in the existing flow.</div>
+    </div>
+    <div class="stat">
+      <div class="n">0</div>
+      <div class="l">DNC or hard-policy violations</div>
+      <div class="s">Across 2.75 million case-days of testing.</div>
+    </div>
+  </div>
+  <p class="evidence">Every figure above comes from testing the engine against twelve months of our own completed casework. Live operation measures the effect on cycle time, work, and final outcomes.</p>
 
   <article class="prose">
 
-    <h2>The operation has two lanes — and one missing layer</h2>
+    <h2>Today, nobody owns the whole case</h2>
 
-    <p>Verifications currently operates through two lanes: people working queues and automation executing individual touches. Both produce real work. Neither is supported by a common decision system that reads the case, explains what matters, and governs what should happen next.</p>
+    <p>Verifications runs through two lanes, and neither carries a strategy across the full journey. People receive a queue. The queue does not consistently show which cases are recoverable, which are beginning to stall, what has already changed, or why one case deserves attention before another. Specialists compensate by rebuilding the plan case by case.</p>
 
-    <p>In the manual lane, people receive a queue &mdash; not a strategy. The worklist does not consistently tell them which cases are most recoverable, which are beginning to stall, which have already received a reply, or why one case should be worked before another. Agents bring their own experience and judgment, but the system makes them reconstruct the plan case by case. The operation therefore depends on people to supply what the workflow does not: which case to work first, what has already been tried, and when to change course.</p>
+    <p>Automation has the opposite strength and the same blind spot. It sends a fixed sequence of canned emails and faxes quickly, but it does not reconsider the case when the evidence changes. When the script ends, the unresolved case returns to a person to reconstruct. <a href="murphy-brown.html"><em>The ceiling of scripted automation</em></a> documents that pattern in detail.</p>
 
-    <p>The automation lane does not work the case; it fires the script. Give it a contact plan and it sends a fixed sequence of canned emails and faxes without checking whether the case changed, whether the last touch accomplished anything, or whether a different path now makes more sense. It makes outreach faster, not smarter. When the sequence ends, the unresolved case returns to a person to reconstruct. <a href="murphy-brown.html"><em>The ceiling of scripted automation</em></a>, the Murphy Brown field report, documents that pattern in detail.</p>
-
-    <p>Today, one in five worked cases ends &ldquo;unable to verify.&rdquo; But that single rate combines very different cases: some were unlikely to verify from the start, some were blocked by missing or weak contact information, and some were recoverable but stalled in the workflow. Because all three disappear into the same number, leadership can see how often verification failed &mdash; but not why, which misses were avoidable, or where a different next move could have changed the outcome.</p>
-
-    <p>The common problem is not a lack of effort or automation. It is that neither lane has a system that reads the whole case, creates the plan, governs the next move, and records what happened. People must supply the plan; automation only executes the script. Neither consistently produces the complete record needed to learn what works.</p>
-
-    <p>That is the problem the Verifications Decision Engine was built to solve.</p>
+    <p>The result is visible in the headline measure. One in five worked cases ends unable to verify, yet that one rate combines cases with radically different odds and different reasons for failing. Leadership can see how often verification fails, but not which misses were avoidable or where a different move could still change the outcome. The missing capability is one system that reads the whole case, carries the plan forward, and learns from the result.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing system. Manual lane: people working queues — judgment, but no encoded plan or priority. Automation lane: automation executing touches — speed, but no case plan or course correction. Both converge on the Decision Engine: shared case state, priority, a safe next move, and an outcome record.">
+      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing system. People working queues bring judgment but receive no shared case plan or priority. Automation brings speed but cannot change course when the case changes. The Decision Engine gives both lanes one complete case read, priority, a next move, and a result the operation can learn from.">
         <defs>
           <marker id="arC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -268,98 +286,59 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
           <rect x="24" y="28" width="276" height="72" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="42" y="50" class="s-tag" fill="#436B8E">MANUAL LANE</text>
           <text x="42" y="73" class="s-title">People working queues</text>
-          <text x="42" y="91" class="s-sub">judgment, but no encoded plan or priority</text>
+          <text x="42" y="91" class="s-sub">judgment, but no shared case plan or priority</text>
         </g>
         <g>
           <rect x="24" y="140" width="276" height="72" rx="4" fill="#F0EEE6" stroke="#8A8578" stroke-width="1.5"/>
           <text x="42" y="162" class="s-tag" fill="#8A8578">AUTOMATION LANE</text>
           <text x="42" y="185" class="s-title">Automation executing touches</text>
-          <text x="42" y="203" class="s-sub">speed, but no case plan or course correction</text>
+          <text x="42" y="203" class="s-sub">speed, but no ability to change course</text>
         </g>
         <g>
           <rect x="560" y="62" width="296" height="116" rx="4" fill="#FDFCFA" stroke="#141413" stroke-width="1.5"/>
           <text x="578" y="88" class="s-tag" fill="#436B8E">THE MISSING LAYER</text>
           <text x="578" y="112" class="s-title">The Decision Engine</text>
-          <text x="578" y="136" class="s-sub">shared case state · priority ·</text>
-          <text x="578" y="154" class="s-sub">safe next move · outcome record</text>
+          <text x="578" y="136" class="s-sub">complete case read · priority ·</text>
+          <text x="578" y="154" class="s-sub">strongest next move · result</text>
         </g>
       </svg>
       </div>
       <figcaption>Two lanes. One missing layer.</figcaption>
     </figure>
 
-    <h2>The product ambition was a learning operation, not just a model</h2>
+    <h2>One system runs the complete journey</h2>
 
-    <p>The original brief contained two connected ambitions: identify early which searches are likely to verify within five days or ultimately end unable to verify, and learn the complete contact play &mdash; channel, timing, cadence, and language &mdash; well enough to automate it.</p>
+    <p>The Decision Engine sits above both lanes. It reads everything recorded on the case, uses specialist machine-learning models to anticipate where the case is heading, chooses the strongest available next move, and sends that move to the machine or person that can carry it out. When the case changes, the plan changes with it.</p>
 
-<p>Both depend on the same foundation: a complete record of what the case looked like, which play the system selected, what executed, what came back, and how the case ended.</p>
+    <p>The original ambition was larger than predicting which cases would verify. It was to learn the complete contact strategy&mdash;channel, timing, cadence, and language&mdash;well enough to automate it. The Decision Engine is the system that makes that ambition executable. In the product being built, the models forecast. The engine decides. Digital actions run automatically. The SLM writes the explanation and communication inside the selected action. The result returns to the case record and becomes evidence for later decisions.</p>
 
-    <p>Historical replay tested the forecasting and decision foundation across a full year of casework. The product being built connects that intelligence to execution, captures every result, and uses completed cases to improve future decisions and communications.</p>
+    <p>The first specialist forecasts were working within one week. The larger achievement is not the speed of one model; it is the complete system around the models that can turn prediction into action and action into learning.</p>
 
-    <p><strong>The specialist prediction models and the SLM have different jobs.</strong> The prediction fleet estimates where each search is heading. The Decision Engine uses those forecasts to choose the action. The SLM creates the explanation and communication inside that decision; it does not choose the action. The first specialist forecasts were working within one week, demonstrating how quickly useful machine learning can be built on our own casework.</p>
-
-    <h2>The replay-tested foundation and the complete product</h2>
+    <h2>Four jobs make the system easy to understand</h2>
 
     <figure>
       <div class="duo">
         <div class="col ai">
-          <h4>Machine-learned intelligence</h4>
-          <div class="sub">tested in historical replay · a fleet of specialist machine-learning models</div>
-          <p>Different specialists estimate different parts of the case&rsquo;s path: whether it is likely to resolve quickly, whether it is beginning to stall, and whether it is likely to verify at all.</p>
-          <p>The models do not choose actions. They provide an informed read of where the case is heading; the Decision Engine combines those forecasts with the case record when it compares the possible next moves.</p>
+          <h4>1 · Predict &nbsp; 2 · Decide</h4>
+          <div class="sub">specialist ML forecasts · one case-level decision</div>
+          <p>Specialist models estimate how difficult the case is, whether it is stalling, and where it is likely to end.</p>
+          <p>The Decision Engine combines those forecasts with the complete case record and chooses the strongest next move.</p>
         </div>
         <div class="col eng">
-          <h4>The Case Control Engine</h4>
-          <div class="sub">being built · state updates · rules remove · system chooses · execution acts</div>
-          <p>It reads what has happened, determines where the case stands, removes moves that no longer fit, and uses the machine-learning forecasts to choose what happens next.</p>
-          <p>Digital work runs automatically. Calls and true exceptions become human tasks. If a specialist changes the plan, the engine records the change and reassesses the case.</p>
+          <h4>3 · Execute &nbsp; 4 · Learn</h4>
+          <div class="sub">digital work runs · every result becomes evidence</div>
+          <p>Email, fax, online-vendor work, waiting, and routing execute automatically. Calls and true exceptions become ranked human tasks.</p>
+          <p>The result returns to the case record. Completed cases improve later forecasts, decisions, timing, and language.</p>
         </div>
       </div>
-      <div class="case-read" aria-label="Illustrative system read for fictional case 4127: 68 percent probability of verification within five days, 14 percent final unable-to-verify risk, and email selected now with a scheduled wake that will trigger a fresh decision if no reply arrives.">
-        <div><h4>What the forecasts look like</h4><div class="case-name">Case 4127 <span style="font-family:var(--mono);font-size:.68rem;color:var(--warm)">ILLUSTRATIVE</span></div></div>
-        <p><strong>68% chance of verification within five days</strong> &middot; 14% final-UTV risk &middot; selected play: email now &middot; next event if no reply: scheduled wake and a fresh decision.</p>
-      </div>
-      <figcaption>The Verifications Decision Engine is the whole system. It combines the case history, machine-learning forecasts, rules, and execution to produce one next move and preserve what happens afterward. Case 4127 shows the form of that output; its details are illustrative.</figcaption>
+      <figcaption>Predict, decide, execute, learn. The Decision Engine carries one strategy across the whole case instead of leaving each touch disconnected from the next.</figcaption>
     </figure>
 
-    <h2>Every change starts the loop again</h2>
+    <p>In practice, a case may begin with email, wake later with no reply, shift to a different path, and stop outreach the moment an answer arrives. The engine reassesses the case whenever something important changes. It never commits the operation to a stale sequence.</p>
 
-    <div class="levers">
-      <div class="lever">
-        <h4>1 · The event records<span>what changed</span></h4>
-        <p>An opening, delivery, reply, document, failure, completed action, override, status change, or scheduled wake enters the case record.</p>
-      </div>
-      <div class="lever">
-        <h4>2 · The case is rebuilt<span>what is true now</span></h4>
-        <p>A deterministic reducer rebuilds the current case state from the complete ordered event history.</p>
-      </div>
-      <div class="lever">
-        <h4>3 · Constraints remove<span>what cannot happen</span></h4>
-        <p>Contact limits, unavailable channels, cadence, privacy, client rules, and case-ending facts remove moves explicitly.</p>
-      </div>
-      <div class="lever">
-        <h4>4 · Models forecast<span>where it is heading</span></h4>
-        <p>Specialists estimate five-day success, final UTV risk, stalling, and other likely case outcomes from the derived state.</p>
-      </div>
-      <div class="lever">
-        <h4>5 · The system chooses<span>one next move</span></h4>
-        <p>The system chooses the next move most likely to advance the case toward verification.</p>
-      </div>
-      <div class="lever">
-        <h4>6 · The action runs<span>machine or human task</span></h4>
-        <p>Email, fax, vendor, WAIT, and internal routing execute digitally. Calls and true exceptions dispatch as human tasks.</p>
-      </div>
-      <div class="lever">
-        <h4>7 · The result returns<span>recompute while active</span></h4>
-        <p>The observation becomes the next event. If the case remains active, the system derives state and selects again.</p>
-      </div>
-    </div>
+    <h2>What the engine found in a year of our own cases</h2>
 
-    <p>The system chooses only from moves that remain after the rules run. It cannot invent an action or restore one the rules removed.</p>
-
-    <h2>What 2.75 million historical case-days showed</h2>
-
-    <p>The historical replay evaluated one daily record for every open case on every day it remained open &mdash; 2.75 million case-days across the year. Four findings changed how the operation can be managed.</p>
+    <p>We tested the decision foundation against one daily record for every open case on every day it remained open&mdash;2.75 million case-days across twelve months. The method matters for credibility; the findings matter for the operation.</p>
 
     <p><strong>The operation can see difficulty before spending the effort.</strong> At intake, when the system compares a case that will eventually fail with one that will verify, it ranks the future failure as harder approximately 81% of the time. Its forecasts continue separating harder from easier cases even after the obvious successes leave the queue.</p>
 
@@ -397,38 +376,35 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
       <figcaption><span class="figno">Chart 3</span>Observed never-verify rate by predicted difficulty band (May 2026 holdout): the easiest tenth 3.0%, the hardest 48.2% — the 16-fold spread that makes a difficulty-adjusted scoreboard possible.</figcaption>
     </figure>
 
-    <p><strong>A simple rule found substantial avoidable work.</strong> On roughly 400,000 replayed case-days, a response was already on record while the existing flow would have continued contacting the party. The Case Control Engine routes those cases to review before another touch can occur. At an illustrative three minutes per avoided touch, that measured count represents about 20,000 hours, or ten operator-years, of motion. The touch count is measured; the three-minute assumption is not. Live logs replace the assumption with actual handle time.</p>
+    <p><strong>It exposed a large source of preventable motion.</strong> On roughly 400,000 daily case records, a response was already on file while another outreach action still remained available in the existing flow. The Decision Engine removes that action and routes the case to review. The count sizes the exposure; it does not mean 400,000 touches were actually sent or convert directly into labor hours. Live execution records will measure the touches, time, and rework actually avoided.</p>
 
-    <p><strong>The two-part design held its safety boundary.</strong> Across 2.75 million historical case-days, the replay produced zero do-not-contact and hard-policy violations. That result did not depend on the models being perfect. The models never received authority to override the rules.</p>
+    <p><strong>It kept the rules intact at full scale.</strong> Across all 2.75 million case-days, the test produced zero do-not-contact and hard-policy violations. The result did not depend on perfect forecasts. Rules remove actions before the models compare what remains.</p>
 
-    <p>These are historical replay results, not live-pilot outcomes. They establish that the system can read, route, and constrain the work. Live controlled measurement establishes the operational effect.</p>
+    <p>Together, the results demonstrate that the engine can see meaningful differences early, find workflow exposure at scale, and keep prohibited actions out of the decision. Live measurement establishes how much faster cases close, how much work disappears, and how final verification outcomes change.</p>
 
-    <h2>For the operation, the queue becomes a closed loop</h2>
+    <h2>What changes when the engine runs the operation</h2>
 
-    <p>On the first day of integration:</p>
+    <p>The change is larger than a better worklist. Every active case receives a current plan, one next move, timing, and a structured explanation. Every important change triggers a fresh decision instead of advancing a stale script.</p>
 
     <ul>
-      <li>Every active case has a current state based on everything recorded so far, one selected action, timing, and a structured explanation.</li>
-      <li>Every change triggers a fresh decision instead of advancing a stale script.</li>
-      <li>A reply, delivery failure, new document, completed call, or WAIT expiry immediately changes the case state.</li>
-      <li>Digital plays execute automatically inside explicit machine-readable constraints.</li>
-      <li>Calls and true exceptions enter one task list ranked across the entire caseload.</li>
-      <li>Every decision, action, observation, override, and final result strengthens the case record.</li>
+      <li><strong>Digital work runs automatically.</strong> Email, fax, online-vendor work, waiting, and internal routing execute from the selected plan.</li>
+      <li><strong>Human effort goes where it matters most.</strong> Calls and true exceptions enter one task list ranked across the entire caseload.</li>
+      <li><strong>The operation gains a complete memory.</strong> Every decision, action, result, exception, and final outcome stays connected to the case.</li>
     </ul>
 
-    <h2>Every case should produce two outputs</h2>
+    <h2>Every case improves the next decision</h2>
 
-    <p>The first output is operational: a selected action and the reason it outranked the alternatives. In the live runtime, that decision also carries how and when it should run. The second output is evidence: what was selected, what executed, what came back, and how the complete journey ended.</p>
+    <p>The engine creates two products from every case. The first is immediate: the next action, when it should happen, and why it is the strongest choice. The second compounds: a complete record of what was chosen, what ran, what came back, and how the case ended.</p>
 
-    <p>Today, historical replay supports the selected action, its ranking, and its explanation. The runtime being built adds execution and timing; live integration creates the record required for the evidence output. Once enough completed cases have reached stable results, the system can improve the forecast, the case plan, the timing, and eventually the message. The 10,000th case should not merely be processed faster than the first. After the next validated retraining cycle, it should benefit from what the earlier cases taught the system.</p>
+    <p>That live record is how the operation will improve. Monthly challengers will learn which sequences produce accepted verification and which language produces a response. The Decision Engine will learn what to do; the SLM will learn how to communicate inside the selected action. The 10,000th case will not merely move through the same automation faster. After a validated release, it will benefit from what the earlier cases taught the system.</p>
 
-    <p>Continual learning does not mean the system rewrites itself after every email. Evidence arrives continuously; action and content challengers train monthly, once that month&rsquo;s outcomes have had time to settle. A qualifying release promotes automatically, a non-qualifying release leaves the incumbent untouched, and continuous monitoring can roll the system back to the prior version.</p>
+    <p>Continual learning is controlled, not improvised. Evidence accumulates continuously, but challengers train only after outcomes have settled. A release promotes only when it beats the version already running, and monitoring can restore the prior version. This year, that gate rejected three of my own proposed model improvements because they raised average accuracy but weakened the top of the worklist&mdash;the part the operation would actually use.</p>
 
-    <p>The system learns two different things. It learns which actions and sequences move cases toward verification, and it learns which language produces a response. The Decision Engine chooses the action; the SLM creates the communication inside that decision.</p>
+    <p>That discipline is what turns the product from a one-time automation into an operating asset: it can improve without accepting every apparent improvement.</p>
 
     <figure>
       <div class="panel">
-      <svg viewBox="0 0 880 330" role="img" aria-label="Every case produces two outputs. Across the top, the case record establishes what is true and removes blocked moves; specialist models forecast likely outcomes; the system chooses one action; and execution produces a result. The result flows into a complete training record, challenger training, and automatic release control. A qualified release updates the decision system; monitoring can roll it back.">
+      <svg viewBox="0 0 880 330" role="img" aria-label="Every case produces two outputs. Across the top, the case record establishes what is true; specialist models forecast likely outcomes; the Decision Engine chooses one action; and execution produces a result. The result joins the completed-case record, trains challengers, and returns through comparison and monitoring only when a new release qualifies.">
         <defs>
           <marker id="learnArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
@@ -447,44 +423,44 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
         </g>
         <g>
           <rect x="24" y="52" width="150" height="93" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="42" y="78" class="s-title">State + constraints</text>
-          <text x="42" y="101" class="s-sub">events derive current facts</text>
-          <text x="42" y="122" class="s-mono">blocked plays removed</text>
+          <text x="42" y="78" class="s-title">Case record</text>
+          <text x="42" y="101" class="s-sub">what is true now</text>
+          <text x="42" y="122" class="s-mono">remove blocked moves</text>
         </g>
         <g>
           <rect x="204" y="52" width="160" height="93" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="222" y="78" class="s-title">Specialist forecasts</text>
-          <text x="222" y="101" class="s-sub">five-day · final UTV ·</text>
-          <text x="222" y="119" class="s-sub">stalling · likely outcomes</text>
+          <text x="222" y="78" class="s-title">ML forecasts</text>
+          <text x="222" y="101" class="s-sub">difficulty · stalling</text>
+          <text x="222" y="119" class="s-sub">likely outcome</text>
         </g>
         <g>
           <rect x="394" y="52" width="160" height="93" rx="4" fill="#F0EEE6" stroke="#141413" stroke-width="1.5"/>
-          <text x="412" y="78" class="s-title">Decision system</text>
-          <text x="412" y="101" class="s-sub">compares options · chooses one</text>
-          <text x="412" y="122" class="s-mono">selected by the engine</text>
+          <text x="412" y="78" class="s-title">Decision Engine</text>
+          <text x="412" y="101" class="s-sub">compares options</text>
+          <text x="412" y="122" class="s-mono">chooses one</text>
         </g>
         <g>
           <rect x="584" y="52" width="262" height="93" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
           <text x="602" y="78" class="s-title">Action and outcome</text>
-          <text x="602" y="101" class="s-sub">channel · timing · message ·</text>
+          <text x="602" y="101" class="s-sub">channel · timing · message</text>
           <text x="602" y="119" class="s-sub">delivery · reply · final result</text>
         </g>
         <g>
           <rect x="584" y="218" width="262" height="90" rx="4" fill="#EAEFE2" stroke="#5F7A4A" stroke-width="1.5"/>
-          <text x="602" y="244" class="s-title">Complete training record</text>
-          <text x="602" y="267" class="s-sub">what was offered · what was done ·</text>
-          <text x="602" y="285" class="s-sub">what happened next</text>
+          <text x="602" y="244" class="s-title">Completed cases</text>
+          <text x="602" y="267" class="s-sub">decision · action · result</text>
+          <text x="602" y="285" class="s-sub">final outcome</text>
         </g>
         <g>
           <rect x="394" y="218" width="160" height="90" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5"/>
-          <text x="412" y="244" class="s-title">Journey challenger</text>
-          <text x="412" y="267" class="s-sub">trained on completed paths</text>
-          <text x="412" y="286" class="s-mono">controlled cadence</text>
+          <text x="412" y="244" class="s-title">Train challengers</text>
+          <text x="412" y="267" class="s-sub">learn from results</text>
+          <text x="412" y="286" class="s-mono">after outcomes settle</text>
         </g>
         <g>
           <rect x="204" y="218" width="160" height="90" rx="4" fill="#FAF9F5" stroke="#8A8578" stroke-width="1.5"/>
-          <text x="222" y="244" class="s-title">Release control</text>
-          <text x="222" y="267" class="s-sub">promote · retain</text>
+          <text x="222" y="244" class="s-title">Compare + monitor</text>
+          <text x="222" y="267" class="s-sub">release or retain</text>
           <text x="222" y="286" class="s-mono">monitor · roll back</text>
         </g>
       </svg>
@@ -492,18 +468,17 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
       <figcaption><span class="figno">Chart 4</span>Every case does two jobs. The top row moves the current case. The bottom row turns completed cases into better decisions. Evidence accumulates continuously; qualified releases promote automatically and remain reversible.</figcaption>
     </figure>
 
-    <h2>How the system enters live operation</h2>
+    <h2>Built to automate&mdash;and to prove the improvement</h2>
 
     <ul>
-      <li><strong>The complete case record becomes the system&rsquo;s memory.</strong> Every decision, action, observation, override, and final result enters one replayable record.</li>
-      <li><strong>The autonomous system and incumbent process run side by side as a controlled comparison.</strong> Case-level assignment can range from zero to 100 percent without changing the product&rsquo;s capabilities.</li>
-      <li><strong>Successful verification becomes the goal that unifies every decision.</strong> Replies, documents, delivery, five-day success, and final UTV show whether the case is moving toward or away from that goal.</li>
-      <li><strong>Runtime control stays explicit.</strong> Hard constraints, circuit breakers, versioned rollback, and a kill switch bound execution without inserting routine approval into the path.</li>
+      <li><strong>Live comparison measures the prize.</strong> Case-level assignment can range from zero to 100 percent, allowing the engine and current process to be compared on accepted verification, cycle time, outreach avoided, and human work required.</li>
+      <li><strong>Control remains explicit.</strong> Contact rules, circuit breakers, monitoring, versioned rollback, and a kill switch remain outside the learned models and bound what can execute.</li>
+      <li><strong>The same design extends beyond one customer.</strong> The system can reuse the same decision and learning structure while recalibrating predictions, strategy, cadence, and language against each customer&rsquo;s own outcomes.</li>
     </ul>
 
-    <p>Rollout percentage measures impact and supports rollback; it does not withhold product capability. The complete loop is being built now as one product, starts with the best evidence available, and improves as stable results accumulate.</p>
+    <p>The evidence today shows that the engine can distinguish difficulty early, expose avoidable workflow risk, and keep hard rules intact at scale. The live record will establish the operating improvement and give the system the evidence required to keep getting better.</p>
 
-    <p>The destination is not a smarter queue. It is a verification operation that can run the complete case journey, learn from the final result, and improve without placing a person between every decision and its execution. <span class="endmark">&#9670;</span></p>
+    <p>The destination is not a smarter queue. It is a verification operation that can anticipate where each case is heading, direct and execute the strongest path forward, prove which decisions work, and improve from every completed journey. The models make the case legible. The Decision Engine makes it actionable. The outcomes make the operation better. <span class="endmark">&#9670;</span></p>
   </article>
 
   <footer class="colophon">
