@@ -199,6 +199,35 @@ a{color:inherit}
   .duo p:last-child{border-bottom:none}
   .duo b{font-weight:600;color:var(--ink)}
   .duo .score{font-family:var(--mono);font-size:.75rem;color:var(--clay);white-space:nowrap}
+  /* ------- ML capability showcase ------- */
+  .model-showcase{
+    background:#FDFCFA;border:1px solid var(--hairline);border-radius:4px;
+    padding:22px;font-family:var(--sans);
+  }
+  .model-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .model-card{
+    display:flex;flex-direction:column;min-height:168px;padding:17px 16px 15px;
+    background:var(--clay-tint);border:1px solid #B8CAD9;border-top:3px solid var(--clay);border-radius:4px;
+  }
+  .model-card .horizon{font-size:.65625rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--clay)}
+  .model-card .question{font-family:var(--serif);font-size:.96875rem;line-height:1.38;margin-top:10px;color:var(--ink)}
+  .model-card .score{font-size:2.5rem;font-weight:600;line-height:1;margin-top:auto;padding-top:15px;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums}
+  .model-card .measure{font-size:.6875rem;line-height:1.35;color:var(--warm);margin-top:5px}
+  .model-baseline{
+    display:flex;align-items:center;gap:12px;margin-top:13px;padding:10px 13px;
+    background:var(--oat);border-radius:3px;font-size:.75rem;line-height:1.45;color:var(--warm);
+  }
+  .model-baseline strong{color:var(--ink);white-space:nowrap}
+  .model-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+  .model-proof div{border-left:2px solid var(--clay-soft);padding:4px 10px;font-size:.71875rem;line-height:1.45;color:var(--warm)}
+  .model-proof b{display:block;color:var(--ink);font-size:.75rem;margin-bottom:2px}
+  @media (max-width:720px){
+    .model-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .model-proof{grid-template-columns:1fr}
+    .model-baseline{display:block}
+    .model-baseline strong{display:block;margin-bottom:5px}
+  }
+  @media (max-width:430px){.model-grid{grid-template-columns:1fr}}
   .case-read{margin:16px 0 0;border:1px solid var(--hairline);border-left:4px solid var(--clay);border-radius:4px;background:var(--paper);padding:17px 20px;font-family:var(--sans);display:grid;grid-template-columns:minmax(150px,.8fr) 1.6fr;gap:18px;align-items:start}
   .case-read h4{font-size:.6875rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin:0 0 4px}
   .case-read .case-name{font-family:var(--serif);font-size:1.18rem;color:var(--ink)}
@@ -270,49 +299,59 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
 
     <p>The result is visible in the headline measure. One in five worked cases ends unable to verify, yet that one rate combines cases with radically different odds and different reasons for failing. Leadership can see how often verification fails, but not which misses were avoidable or where a different move could still change the outcome. The missing capability is one system that reads the whole case, carries the plan forward, and learns from the result.</p>
 
-    <figure>
-      <div class="panel">
-      <svg viewBox="0 0 880 240" role="img" aria-label="Two lanes converge on one missing system. People working queues bring judgment but receive no shared case plan or priority. Automation brings speed but cannot change course when the case changes. The Decision Engine gives both lanes one complete case read, priority, a next move, and a result the operation can learn from.">
-        <defs>
-          <marker id="arC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#6E6A5F"/>
-          </marker>
-        </defs>
-        <g fill="none" stroke="#6E6A5F" stroke-width="1.5">
-          <line x1="300" y1="64" x2="552" y2="104" marker-end="url(#arC)"/>
-          <line x1="300" y1="176" x2="552" y2="136" marker-end="url(#arC)"/>
-        </g>
-        <g>
-          <rect x="24" y="28" width="276" height="72" rx="4" fill="#E4EDF4" stroke="#436B8E" stroke-width="1.5"/>
-          <text x="42" y="50" class="s-tag" fill="#436B8E">MANUAL LANE</text>
-          <text x="42" y="73" class="s-title">People working queues</text>
-          <text x="42" y="91" class="s-sub">judgment, but no shared case plan or priority</text>
-        </g>
-        <g>
-          <rect x="24" y="140" width="276" height="72" rx="4" fill="#F0EEE6" stroke="#8A8578" stroke-width="1.5"/>
-          <text x="42" y="162" class="s-tag" fill="#8A8578">AUTOMATION LANE</text>
-          <text x="42" y="185" class="s-title">Automation executing touches</text>
-          <text x="42" y="203" class="s-sub">speed, but no ability to change course</text>
-        </g>
-        <g>
-          <rect x="560" y="62" width="296" height="116" rx="4" fill="#FDFCFA" stroke="#141413" stroke-width="1.5"/>
-          <text x="578" y="88" class="s-tag" fill="#436B8E">THE MISSING LAYER</text>
-          <text x="578" y="112" class="s-title">The Decision Engine</text>
-          <text x="578" y="136" class="s-sub">complete case read · priority ·</text>
-          <text x="578" y="154" class="s-sub">strongest next move · result</text>
-        </g>
-      </svg>
-      </div>
-      <figcaption>Two lanes. One missing layer.</figcaption>
-    </figure>
-
     <h2>One system runs the complete journey</h2>
 
     <p>The Decision Engine sits above both lanes. It reads everything recorded on the case, uses specialist machine-learning models to anticipate where the case is heading, chooses the strongest available next move, and sends that move to the machine or person that can carry it out. When the case changes, the plan changes with it.</p>
 
     <p>The original ambition was larger than predicting which cases would verify. It was to learn the complete contact strategy&mdash;channel, timing, cadence, and language&mdash;well enough to automate it. The Decision Engine is the system that makes that ambition executable. In the product being built, the models forecast. The engine decides. Digital actions run automatically. The SLM writes the explanation and communication inside the selected action. The result returns to the case record and becomes evidence for later decisions.</p>
 
-    <p>The first specialist forecasts were working within one week. The larger achievement is not the speed of one model; it is the complete system around the models that can turn prediction into action and action into learning.</p>
+    <p>The first specialist forecasts were working within one week. We then built a fleet of six specialist models, each trained to read a different part of the case journey. The larger achievement is the complete system around those models: it turns prediction into action and action into learning.</p>
+
+    <h2>The models can see the case before the workflow can</h2>
+
+    <p>Most workflows see a verification as open or closed. The machine-learning fleet sees several possible futures: whether the case will resolve quickly, whether it is beginning to stall, and whether it is likely to end unable to verify. We trained specialists for those different questions instead of asking one general model to answer everything.</p>
+
+    <figure>
+      <div class="model-showcase" role="group" aria-label="Four headline machine-learning results on unseen casework. Intake difficulty correctly orders the harder case 81 percent of the time. The two-day outcome model orders the case that resolves within two days ahead of a non-success 75 percent of the time. The five-day outcome model does the same 72 percent of the time. The final-outcome model orders the future unable-to-verify case as riskier 71 percent of the time. Chance would be 50 percent.">
+        <div class="model-grid">
+          <div class="model-card">
+            <div class="horizon">At intake</div>
+            <div class="question">Which case will be harder?</div>
+            <div class="score">81%</div>
+            <div class="measure">correct ordering on unseen cases</div>
+          </div>
+          <div class="model-card">
+            <div class="horizon">Two-day outcome</div>
+            <div class="question">Which case will resolve within two days?</div>
+            <div class="score">75%</div>
+            <div class="measure">correct ordering on unseen cases</div>
+          </div>
+          <div class="model-card">
+            <div class="horizon">Five-day outcome</div>
+            <div class="question">Which case will resolve within five days?</div>
+            <div class="score">72%</div>
+            <div class="measure">correct ordering on unseen cases</div>
+          </div>
+          <div class="model-card">
+            <div class="horizon">Final outcome</div>
+            <div class="question">Which case is most likely to end unable to verify?</div>
+            <div class="score">71%</div>
+            <div class="measure">correct ordering on unseen cases</div>
+          </div>
+        </div>
+        <div class="model-baseline"><strong>Chance would be 50%.</strong><span>Each score shows how often the specialist put two cases with different outcomes in the right order.</span></div>
+        <div class="model-proof">
+          <div><b>No future information</b>Each forecast uses only facts available at that point in the case.</div>
+          <div><b>Tested twice</b>First on cases the models had never seen, then on a later month with the models frozen.</div>
+          <div><b>Built for decisions</b>Three proposed upgrades were rejected because they weakened the top of the worklist.</div>
+        </div>
+      </div>
+      <figcaption><span class="figno">ML scorecard</span>Four of the fleet's headline reads. These are ranking results on held-out casework, not the percentage of all cases classified correctly and not live operating outcomes.</figcaption>
+    </figure>
+
+    <p>The probabilities reveal an operational difference the current queue cannot see. The easiest predicted tenth of cases fails only 3% of the time; the hardest tenth fails 48%. That sixteen-fold spread means the operation can distinguish routine cases from cases that need a different path before spending the same effort on both.</p>
+
+    <p>The models do not choose the action. Their job is to make the future visible. The Decision Engine combines that view with the complete case record and turns it into the strongest next move.</p>
 
     <h2>Four jobs make the system easy to understand</h2>
 
@@ -340,9 +379,7 @@ figure,.panel,.stat,.val,.note,.statebar,.legend{break-inside:avoid;page-break-i
 
     <p>We tested the decision foundation against one daily record for every open case on every day it remained open&mdash;2.75 million case-days across twelve months. The method matters for credibility; the findings matter for the operation.</p>
 
-    <p><strong>The operation can see difficulty before spending the effort.</strong> At intake, when the system compares a case that will eventually fail with one that will verify, it ranks the future failure as harder approximately 81% of the time. Its forecasts continue separating harder from easier cases even after the obvious successes leave the queue.</p>
-
-    <p><strong>One UTV rate hides cases with radically different odds.</strong> The easiest predicted tenth of cases fails about 3% of the time. The hardest tenth fails about 48% of the time. That 16-fold spread makes a fairer operating measure possible: evaluate outcomes against what was realistically achievable and direct effort toward cases where intervention can still matter.</p>
+    <p><strong>The operation can aim effort before spending it.</strong> The model fleet makes difficulty visible at intake and continues separating harder from easier cases as they age. The 3%-to-48% spread shows why one department-wide UTV rate is not enough: cases enter the same queue with radically different odds. That makes a fairer scoreboard possible and directs effort toward cases where a different move can still matter.</p>
 
     <figure>
       <div class="panel">
